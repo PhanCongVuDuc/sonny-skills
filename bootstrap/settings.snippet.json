@@ -1,0 +1,36 @@
+{
+  "extraKnownMarketplaces": {
+    "revit-skills": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/Nice3point/revit-skills.git"
+      },
+      "autoUpdate": true
+    },
+    "mattpocock": {
+      "source": {
+        "source": "github",
+        "repo": "mattpocock/skills"
+      },
+      "autoUpdate": true
+    },
+    "duc-skills": {
+      "source": {
+        "source": "directory",
+        "path": "C:\\Users\\ADMIN\\Desktop\\Workspace\\Skills"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "revit-ui@revit-skills": true,
+    "revit-api@revit-skills": true,
+    "revit-solution@revit-skills": true,
+    "revit-testing@revit-skills": true,
+    "revit-benchmarking@revit-skills": true,
+    "dotnet@revit-skills": true,
+    "dotnet-advanced@revit-skills": true,
+    "mattpocock-skills@mattpocock": true,
+    "duc@duc-skills": true,
+    "find-skills@duc-skills": true
+  }
+}
