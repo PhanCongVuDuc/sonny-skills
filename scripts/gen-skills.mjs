@@ -1,105 +1,164 @@
-// Sinh SKILLS.md từ các plugin đang cài. Chạy: node scripts/gen-skills.mjs
-//
-// Nguồn sự thật là ~/.claude/plugins/installed_plugins.json (installPath của từng plugin) chứ
-// không phải file này — nên SKILLS.md không thể trôi khỏi thực tế. Cố ý không in timestamp:
-// chạy lại mà không có gì đổi thì diff phải rỗng.
+#!/usr/bin/env node
+// Regenerates SKILLS.md from what is actually installed on this machine,
+// not from what skills.json claims. No timestamp, so an unchanged machine
+// produces an empty diff.
 
-import { readFile, writeFile, readdir } from "node:fs/promises";
-import { homedir } from "node:os";
-import path from "node:path";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { homedir } from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const OWN_PLUGIN = "duc@duc-skills";
-const installedPluginsPath = path.join(homedir(), ".claude", "plugins", "installed_plugins.json");
-const outPath = path.join(import.meta.dirname, "..", "SKILLS.md");
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const CLAUDE_DIR = path.join(homedir(), '.claude');
+const OUT = path.join(REPO_ROOT, 'SKILLS.md');
 
-/** Đọc frontmatter YAML tối giản — chỉ đủ cho `name` và `description` của SKILL.md. */
-function parseFrontmatter(text) {
+const readJson = (file, fallback) => {
+  if (!existsSync(file)) return fallback;
+  try {
+    return JSON.parse(readFileSync(file, 'utf8') || 'null') ?? fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const dirs = (p) => {
+  if (!existsSync(p)) return [];
+  try {
+    return readdirSync(p).filter((n) => !n.startsWith('.') && statSync(path.join(p, n)).isDirectory());
+  } catch {
+    return [];
+  }
+};
+
+/** Pull `name` and `description` out of a SKILL.md YAML frontmatter block. */
+const frontmatter = (file) => {
+  let text;
+  try {
+    text = readFileSync(file, 'utf8');
+  } catch {
+    return null;
+  }
   const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(text);
-  if (!match) return {};
-  const fields = {};
-  let currentKey = null;
+  if (!match) return null;
+  const out = {};
+  let key = null;
   for (const line of match[1].split(/\r?\n/)) {
-    const keyed = /^([A-Za-z][\w-]*):\s*(.*)$/.exec(line);
-    if (keyed) {
-      currentKey = keyed[1];
-      fields[currentKey] = keyed[2].trim();
-    } else if (currentKey && line.trim()) {
-      fields[currentKey] += " " + line.trim();
+    const kv = /^([A-Za-z][\w-]*):\s*(.*)$/.exec(line);
+    if (kv) {
+      key = kv[1];
+      out[key] = kv[2].trim().replace(/^["']|["']$/g, '');
+    } else if (key && /^\s+\S/.test(line)) {
+      out[key] = `${out[key]} ${line.trim()}`.trim();
     }
   }
-  for (const key of Object.keys(fields)) {
-    fields[key] = fields[key].replace(/^["']|["']$/g, "").trim();
-  }
-  return fields;
-}
+  return out;
+};
 
-async function findSkillFiles(dir) {
+/** Every skill a plugin ships: skills/<name>/SKILL.md, or a bare SKILL.md at root. */
+const skillsOf = (root) => {
   const found = [];
-  let entries;
-  try {
-    entries = await readdir(dir, { withFileTypes: true });
-  } catch {
-    return found;
+  const collect = (file, fallbackName) => {
+    const fm = frontmatter(file);
+    if (!fm) return;
+    found.push({ name: fm.name || fallbackName, description: fm.description || '—' });
+  };
+  for (const name of dirs(path.join(root, 'skills'))) {
+    const file = path.join(root, 'skills', name, 'SKILL.md');
+    if (existsSync(file)) collect(file, name);
   }
-  for (const entry of entries) {
-    if (entry.name.startsWith(".")) continue;
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) found.push(...(await findSkillFiles(full)));
-    else if (entry.name === "SKILL.md") found.push(full);
+  if (!found.length && existsSync(path.join(root, 'SKILL.md'))) {
+    collect(path.join(root, 'SKILL.md'), path.basename(root));
   }
-  return found;
-}
+  return found.sort((a, b) => a.name.localeCompare(b.name));
+};
 
-const installed = JSON.parse(await readFile(installedPluginsPath, "utf8"));
+const esc = (s) => String(s).replace(/\|/g, '\\|').replace(/\s+/g, ' ').trim();
+
+// ── plugins installed through marketplaces ───────────────────────────────────
+
+const installed = readJson(path.join(CLAUDE_DIR, 'plugins', 'installed_plugins.json'), { plugins: {} }).plugins ?? {};
+const manifest = readJson(path.join(REPO_ROOT, 'skills.json'), {});
+const ownPlugins = new Set(
+  Object.entries(manifest.marketplaces ?? {})
+    .filter(([, e]) => e.self)
+    .flatMap(([, e]) => e.plugins ?? []),
+);
+
 const plugins = [];
+for (const [id, entries] of Object.entries(installed)) {
+  const entry = Array.isArray(entries) ? entries[0] : entries;
+  if (!entry?.installPath) continue;
+  const [pluginName, marketplace] = id.split('@');
+  plugins.push({
+    id,
+    pluginName,
+    marketplace,
+    version: entry.version || entry.gitCommitSha?.slice(0, 12) || 'unknown',
+    own: ownPlugins.has(pluginName),
+    skills: skillsOf(entry.installPath),
+  });
+}
+plugins.sort((a, b) => Number(b.own) - Number(a.own) || a.id.localeCompare(b.id));
 
-for (const [id, installs] of Object.entries(installed.plugins)) {
-  const install = installs.find((entry) => entry.installPath);
-  if (!install) continue;
-  const [pluginName, marketplace] = id.split("@");
-  const skills = [];
-  for (const file of await findSkillFiles(install.installPath)) {
-    const { name, description } = parseFrontmatter(await readFile(file, "utf8"));
-    if (name) skills.push({ name, description: description ?? "" });
+// ── standalone skills in ~/.claude/skills (npx skills, claude plugin init) ───
+
+const standalone = [];
+for (const name of dirs(path.join(CLAUDE_DIR, 'skills'))) {
+  const root = path.join(CLAUDE_DIR, 'skills', name);
+  const isPlugin = existsSync(path.join(root, '.claude-plugin', 'plugin.json'));
+  for (const s of skillsOf(root)) standalone.push({ ...s, container: name, isPlugin });
+}
+standalone.sort((a, b) => a.name.localeCompare(b.name));
+
+// ── render ───────────────────────────────────────────────────────────────────
+
+const total = plugins.reduce((n, p) => n + p.skills.length, 0) + standalone.length;
+const out = [];
+
+out.push('# SKILLS.md');
+out.push('');
+out.push('> Sinh tự động bằng `node scripts/gen-skills.mjs` (hoặc `/setup-skills`). **Đừng sửa tay.**');
+out.push('> Đây là ảnh chụp **máy này**, không phải danh sách mong muốn — cái đó nằm ở `skills.json`.');
+out.push('');
+out.push(`Tổng **${total} skill** từ **${plugins.length} plugin**${standalone.length ? ` và **${standalone.length} skill rời**` : ''}.`);
+out.push('');
+
+if (plugins.length) {
+  out.push('| Plugin | Marketplace | Nguồn | Version | Skills |');
+  out.push('|---|---|---|---|---|');
+  for (const p of plugins) {
+    out.push(`| \`${p.pluginName}\` | ${p.marketplace} | ${p.own ? '**own**' : 'bên thứ 3'} | \`${p.version}\` | ${p.skills.length} |`);
   }
-  skills.sort((a, b) => a.name.localeCompare(b.name));
-  plugins.push({ id, pluginName, marketplace, version: install.version, skills });
+  out.push('');
 }
 
-plugins.sort((a, b) => {
-  if ((a.id === OWN_PLUGIN) !== (b.id === OWN_PLUGIN)) return a.id === OWN_PLUGIN ? -1 : 1;
-  return a.id.localeCompare(b.id);
-});
-
-const total = plugins.reduce((sum, plugin) => sum + plugin.skills.length, 0);
-const lines = [
-  "# SKILLS.md",
-  "",
-  "> Sinh tự động bằng `node scripts/gen-skills.mjs`. **Đừng sửa tay.**",
-  "",
-  `Tổng **${total} skill** từ **${plugins.length} plugin**.`,
-  "",
-  "| Plugin | Marketplace | Provenance | Version | Skills |",
-  "|---|---|---|---|---|",
-  ...plugins.map(
-    (p) =>
-      `| \`${p.pluginName}\` | ${p.marketplace} | ${p.id === OWN_PLUGIN ? "**own**" : "third-party"} | \`${p.version}\` | ${p.skills.length} |`,
-  ),
-];
-
-for (const plugin of plugins) {
-  lines.push(
-    "",
-    `## \`${plugin.pluginName}\` — ${plugin.id === OWN_PLUGIN ? "skill tự viết" : "bên thứ 3"}`,
-    "",
-    "| Skill | Mô tả |",
-    "|---|---|",
-    ...plugin.skills.map(
-      (skill) =>
-        `| \`${plugin.pluginName}:${skill.name}\` | ${skill.description.replace(/\|/g, "\\|")} |`,
-    ),
-  );
+for (const p of plugins) {
+  out.push(`## \`${p.pluginName}\` — ${p.own ? 'skill tự viết' : 'bên thứ 3'}`);
+  out.push('');
+  if (!p.skills.length) {
+    out.push('_Chưa có skill nào._');
+    out.push('');
+    continue;
+  }
+  out.push('| Skill | Mô tả |');
+  out.push('|---|---|');
+  for (const s of p.skills) out.push(`| \`${p.pluginName}:${s.name}\` | ${esc(s.description)} |`);
+  out.push('');
 }
 
-await writeFile(outPath, lines.join("\n") + "\n", "utf8");
-console.log(`SKILLS.md: ${total} skill / ${plugins.length} plugin`);
+if (standalone.length) {
+  out.push('## Skill rời trong `~/.claude/skills/`');
+  out.push('');
+  out.push('Cài bằng `npx skills` hoặc `claude plugin init`. Không thuộc marketplace nào.');
+  out.push('');
+  out.push('| Skill | Mô tả |');
+  out.push('|---|---|');
+  for (const s of standalone) {
+    const id = s.isPlugin ? `${s.container}@skills-dir:${s.name}` : s.name;
+    out.push(`| \`${id}\` | ${esc(s.description)} |`);
+  }
+  out.push('');
+}
+
+writeFileSync(OUT, `${out.join('\n')}`, 'utf8');
+console.log(`SKILLS.md: ${total} skill · ${plugins.length} plugin · ${standalone.length} skill rời`);

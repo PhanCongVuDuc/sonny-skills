@@ -1,26 +1,15 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "duc-skills",
+  "name": "sonny-skills",
   "owner": {
     "name": "Duc Phan"
   },
-  "description": "Duc Phan's own Claude Code skills, plus third-party skills pulled straight from their upstream repos.",
+  "description": "Skill tự viết của Duc Phan (Sonny).",
   "plugins": [
     {
-      "name": "duc",
-      "source": "./duc",
+      "name": "sonny",
+      "source": "./sonny",
       "description": "Duc Phan's own agent skills.",
-      "category": "productivity"
-    },
-    {
-      "name": "find-skills",
-      "source": {
-        "source": "git-subdir",
-        "url": "https://github.com/vercel-labs/skills.git",
-        "path": "skills/find-skills",
-        "ref": "main"
-      },
-      "description": "Discover and install agent skills from the ecosystem. Third-party, tracked upstream — see docs/adr/0002-no-vendoring.md.",
       "category": "productivity"
     }
   ]

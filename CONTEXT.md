@@ -1,51 +1,67 @@
-# Skills
+# sonny-skills
 
-Kho quản lý Agent Skill cho Claude Code trên máy của Duc Phan — skill tự viết lẫn skill bên
-thứ 3, phân phối qua cơ chế plugin marketplace native của Claude Code.
+Kho quản lý Agent Skill cho Claude Code của Duc Phan (Sonny). Khai báo bộ skill mong muốn ở một
+chỗ, dựng lại được trên bất kỳ máy nào bằng một lệnh.
 
 ## Language
 
-### Hai trục độc lập
+### Hai thứ đừng lẫn
 
-**Provenance**:
-Ai là người viết ra một skill. Nhận đúng ba giá trị: **own**, **third-party**, **fork**.
-_Avoid_: "skill của mình" / "skill ngoài" khi đang nói về đường phân phối.
+**Bộ skill mong muốn**:
+Danh sách skill mà Duc muốn có trên mọi máy. Sống trong `skills.json`. Đây là **ý định**.
+_Avoid_: "skill đã cài" — đó là thứ khác.
 
-**Distribution**:
-Con đường một skill đi vào máy. Độc lập với provenance — skill own vẫn có thể phân phối
-qua remote marketplace.
-_Avoid_: dùng lẫn với provenance.
+**Trạng thái máy**:
+Bộ skill thực sự đang nằm trên một máy cụ thể. Sống trong `~/.claude/`. `SKILLS.md` là ảnh chụp
+của nó. Đây là **thực tế**.
 
-### Provenance
+Setup là hành động kéo *trạng thái máy* về khớp với *bộ skill mong muốn*. Hai thứ lệch nhau là
+chuyện bình thường — chưa setup, hoặc vừa cài tay thứ gì đó để thử.
 
-**Own**:
-Skill do Duc Phan viết, sống trong `duc/skills/`, và chịu trách nhiệm bảo trì.
-
-**Third-party**:
-Skill người khác viết và bảo trì; kho này chỉ trỏ tới, không sửa.
-
-**Fork**:
-Skill bắt nguồn từ third-party nhưng đã bị sửa. Về mọi mặt vận hành nó **là own** — chỉ khác
-ở chỗ ghi credit nguồn gốc trong `SKILL.md`. Không có thư mục riêng cho fork.
-_Avoid_: vendored, patched.
-
-### Distribution
+### Phân phối
 
 **Marketplace**:
-Một repo (hoặc thư mục) có `.claude-plugin/marketplace.json` ở gốc, liệt kê các plugin.
-Đây là thứ `/plugin marketplace add` nhận vào.
+Một repo có `.claude-plugin/marketplace.json` ở gốc, liệt kê các plugin. Khi được thêm vào máy,
+Claude clone **toàn bộ** repo về `~/.claude/plugins/marketplaces/` — nên đọc được mã nguồn skill.
+Đây là lý do marketplace là tầng ưu tiên.
 
 **Plugin**:
-Đơn vị cài đặt và bật/tắt, và là **namespace** của skill — skill hiện ra dưới dạng
-`<plugin>:<skill>`. Kho này ship đúng một plugin own tên `duc`.
+Đơn vị cài/gỡ/bật/tắt, và là **namespace** của skill — skill hiện ra dưới dạng `<plugin>:<skill>`.
+Kho này ship đúng một plugin own tên `sonny`.
 _Avoid_: package, bundle.
 
 **Skill**:
-Một thư mục chứa `SKILL.md`, nằm trong `skills/` của một plugin.
+Một thư mục chứa `SKILL.md`. `description` trong frontmatter là thứ Claude đọc để quyết định có
+gọi skill hay không — nó là *trigger*, không phải lời giới thiệu.
+
+**Tầng phân phối**:
+Đường một skill đi vào máy. Đúng ba tầng, ưu tiên từ trên xuống: **marketplace** (mặc định) →
+**vercel** (repo không có marketplace, cài bằng `npx skills`) → **reference** (chỉ clone về để
+đọc, không cài).
 
 **Cache-copy**:
-Bản sao snapshot của plugin mà Claude tạo trong `~/.claude/plugins/cache/` khi cài. Plugin
-chạy từ bản sao này, **không** đọc live từ nguồn — nên sửa nguồn xong phải update mới có hiệu lực.
+Bản sao snapshot của plugin mà Claude tạo trong `~/.claude/plugins/cache/` khi cài. Plugin chạy
+từ bản sao này, **không** đọc live từ nguồn.
+
+### Máy
+
+**Máy viết**:
+Máy đang soạn skill own. Marketplace `sonny-skills` trỏ vào thư mục repo local, nên sửa xong là
+có hiệu lực ngay, không cần push.
+
+**Máy dùng**:
+Máy chỉ xài skill. Marketplace trỏ vào GitHub; thư mục repo là thứ vứt đi được sau khi setup.
+Đây là mặc định.
+
+### Skill own
+
+**Own**:
+Skill do Duc viết, sống trong `sonny/skills/`, và chịu trách nhiệm bảo trì.
+
+**Fork**:
+Skill bắt nguồn từ người khác nhưng đã bị sửa. Về mọi mặt vận hành nó **là own** — chỉ khác ở
+chỗ ghi credit nguồn gốc trong `SKILL.md`. Không có thư mục riêng cho fork.
+_Avoid_: vendored, patched.
 
 **Draft**:
 Skill đang viết dở, sống ở `drafts/` — nằm ngoài mọi plugin nên không được nạp vào context.

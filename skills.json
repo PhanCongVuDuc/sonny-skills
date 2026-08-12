@@ -1,0 +1,28 @@
+{
+  "$comment": "Nguồn sự thật duy nhất cho mọi skill trên mọi máy. Sửa file này, chạy /setup-skills. Xem README.md.",
+
+  "marketplaces": {
+    "sonny-skills": {
+      "$comment": "Chính repo này. `self` khiến máy dev trỏ vào thư mục local thay vì GitHub.",
+      "self": true,
+      "source": { "source": "github", "repo": "PhanCongVuDuc/sonny-skills" },
+      "autoUpdate": false,
+      "plugins": ["sonny"]
+    },
+    "mattpocock": {
+      "source": { "source": "github", "repo": "mattpocock/skills" },
+      "autoUpdate": true,
+      "plugins": ["mattpocock-skills"]
+    }
+  },
+
+  "vercel": [
+    {
+      "$comment": "vercel-labs/skills không có marketplace.json nên không cài bằng /plugin được.",
+      "repo": "vercel-labs/skills",
+      "skills": ["find-skills"]
+    }
+  ],
+
+  "reference": []
+}

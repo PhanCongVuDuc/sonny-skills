@@ -1,10 +1,10 @@
-# Bản clone bên thứ 3 — đang trong quá trình gỡ bỏ (xem docs/adr/0002-no-vendoring.md).
-# Giữ ngoài repo để không nhúng một git repo khác vào repo này.
-vendored/
+# Đánh dấu "máy này là máy viết skill" — do `node scripts/setup.mjs --dev` tạo ra.
+# Theo máy, không theo repo, nên không commit.
+.sonny-dev
 
 # OS / editor
 Thumbs.db
 desktop.ini
 .DS_Store
 .idea/
-.vscode/
+node_modules/
