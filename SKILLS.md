@@ -7,7 +7,7 @@ Tổng **37 skill**: 35 từ 2 plugin, 2 skill rời.
 
 | Plugin | Marketplace | Nguồn | Version | Skills |
 |---|---|---|---|---|
-| `sonny` | sonny-skills | **own** | `462bb97f4a4b` | 0 |
+| `sonny` | sonny-skills | **own** | `5ddd348604b7` | 0 |
 | `mattpocock-skills` | mattpocock | bên thứ 3 | `1.2.3` | 35 |
 
 ## `sonny` — skill tự viết
