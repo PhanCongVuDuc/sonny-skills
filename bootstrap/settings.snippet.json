@@ -16,9 +16,10 @@
     },
     "duc-skills": {
       "source": {
-        "source": "directory",
-        "path": "C:\\Users\\ADMIN\\Desktop\\Workspace\\Skills"
-      }
+        "source": "github",
+        "repo": "PhanCongVuDuc/duc-skills"
+      },
+      "autoUpdate": true
     }
   },
   "enabledPlugins": {

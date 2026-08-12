@@ -77,15 +77,11 @@ Dán 2 key trong [bootstrap/settings.snippet.json](bootstrap/settings.snippet.js
 `~/.claude/settings.json` (merge, đừng ghi đè — file đó còn `model`, `effortLevel`, `tui` của máy).
 Đây là **trạng thái khai báo**, không phải hướng dẫn gõ lệnh, nên nó không lỗi thời.
 
-Riêng entry `duc-skills` đang trỏ `directory` vào đường dẫn của máy này. Sau khi push GitHub, đổi
-thành nguồn remote thì mới thật sự portable:
+Snippet trỏ `duc-skills` vào `PhanCongVuDuc/duc-skills` (repo private, cần `gh auth login` trước).
 
-```json
-"duc-skills": { "source": { "source": "github", "repo": "<owner>/<repo>" }, "autoUpdate": true }
-```
-
-Lưu ý: `autoUpdate: true` chỉ hợp lý trên máy *dùng*. Trên máy *đang viết skill* thì giữ nguồn
-`directory` để sửa xong là update được ngay, không phải push trước.
+> Snippet là cấu hình cho máy **dùng**, không phải máy **viết**. Máy này — nơi đang viết skill —
+> giữ nguồn `directory` trỏ vào chính thư mục làm việc, để sửa xong là `plugin update` ăn ngay
+> không cần push. Đừng dán snippet đè lên máy này.
 
 ## Cheat-sheet `/plugin`
 
