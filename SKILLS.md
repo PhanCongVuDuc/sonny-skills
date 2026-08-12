@@ -6,7 +6,7 @@ Tổng **71 skill** từ **10 plugin**.
 
 | Plugin | Marketplace | Provenance | Version | Skills |
 |---|---|---|---|---|
-| `duc` | duc-skills | **own** | `02ff1fe60b8b` | 1 |
+| `duc` | duc-skills | **own** | `f72348f5d7e7` | 1 |
 | `dotnet-advanced` | revit-skills | third-party | `0.1.2` | 5 |
 | `dotnet` | revit-skills | third-party | `0.1.2` | 3 |
 | `find-skills` | duc-skills | third-party | `c6f69c631292-ed96bd46` | 1 |

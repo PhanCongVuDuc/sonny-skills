@@ -47,12 +47,20 @@ tốn context và không tự kích hoạt.
 3. `description` viết **tiếng Anh** (Claude đọc nó để quyết định có gọi skill không), thân viết
    **tiếng Việt**. `SKILL.md` ≤ 200 dòng, dài hơn thì tách sang `references/`.
 4. Chuyển từ `drafts/` sang `duc/skills/` khi qua cổng 3 điểm ở [drafts/README.md](drafts/README.md).
-5. `git commit` rồi `/plugin marketplace update duc-skills`.
+5. Áp dụng thay đổi — **ba bước, thiếu bước nào cũng không ăn**:
 
-> ⚠️ **Phải commit thì sửa đổi mới có hiệu lực.** Repo là git nên version của plugin `duc` chính
-> là commit SHA. Sửa file mà chưa commit → SHA không đổi → cache không refresh. (Đây là lợi ích
-> của việc `git init`: thời `my-skills` version là `unknown` nên thường phải uninstall + install
-> lại mới nạp được thay đổi.)
+```bash
+git commit -am "..."                  # 1. version của plugin CHÍNH LÀ commit SHA
+claude plugin update duc@duc-skills   # 2. marketplace update KHÔNG làm thay bước này
+                                      # 3. khởi động lại Claude Code
+```
+
+> ⚠️ Hai cái bẫy đã kiểm chứng thực tế:
+> **(a) Chưa commit thì không có gì đổi** — version plugin là commit SHA, sửa file mà chưa commit
+> thì SHA không đổi nên cache giữ nguyên. (Đây là lợi ích của `git init`: thời `my-skills` version
+> là `unknown` nên thường phải uninstall + install lại.)
+> **(b) `/plugin marketplace update duc-skills` báo thành công nhưng plugin vẫn ở version cũ** —
+> nó chỉ làm mới *marketplace*, còn nâng *plugin đã cài* là việc của `claude plugin update`.
 
 ## Cập nhật SKILLS.md
 
