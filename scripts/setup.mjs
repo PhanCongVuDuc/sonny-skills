@@ -115,9 +115,9 @@ const enabled = { ...(settings.enabledPlugins ?? {}) };
 for (const [name, entry] of Object.entries(manifest.marketplaces ?? {})) {
   const isLocal = Boolean(entry.self) && IS_DEV;
   if (isLocal) {
-    // A local-directory marketplace is registered by `claude plugin marketplace add <path>`.
-    // Declaring it in settings too would fight that registration, so leave it out.
-    delete extra[name];
+    // `claude plugin marketplace add <path>` writes its own entry here, with a
+    // machine-specific absolute path. Leave whatever it wrote alone — rewriting it
+    // every run would just churn settings.json.
   } else {
     // Keep whatever source Claude Code already recorded; only carry autoUpdate across.
     const currentSource = known[name]?.source ?? extra[name]?.source ?? entry.source;

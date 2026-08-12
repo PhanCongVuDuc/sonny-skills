@@ -62,10 +62,17 @@ const skillsOf = (root) => {
     if (!fm) return;
     found.push({ name: fm.name || fallbackName, description: fm.description || '—' });
   };
-  for (const name of dirs(path.join(root, 'skills'))) {
-    const file = path.join(root, 'skills', name, 'SKILL.md');
-    if (existsSync(file)) collect(file, name);
-  }
+  // Recursive: some repos group skills into category folders
+  // (skills/engineering/grilling/SKILL.md), so one level deep is not enough.
+  const walk = (dir, depth) => {
+    if (depth > 4) return;
+    if (existsSync(path.join(dir, 'SKILL.md'))) {
+      collect(path.join(dir, 'SKILL.md'), path.basename(dir));
+      return; // a skill folder does not nest further skills
+    }
+    for (const name of dirs(dir)) walk(path.join(dir, name), depth + 1);
+  };
+  for (const name of dirs(path.join(root, 'skills'))) walk(path.join(root, 'skills', name), 1);
   if (!found.length && existsSync(path.join(root, 'SKILL.md'))) {
     collect(path.join(root, 'SKILL.md'), path.basename(root));
   }
@@ -112,7 +119,8 @@ standalone.sort((a, b) => a.name.localeCompare(b.name));
 
 // ── render ───────────────────────────────────────────────────────────────────
 
-const total = plugins.reduce((n, p) => n + p.skills.length, 0) + standalone.length;
+const fromPlugins = plugins.reduce((n, p) => n + p.skills.length, 0);
+const total = fromPlugins + standalone.length;
 const out = [];
 
 out.push('# SKILLS.md');
@@ -120,7 +128,7 @@ out.push('');
 out.push('> Sinh tự động bằng `node scripts/gen-skills.mjs` (hoặc `/setup-skills`). **Đừng sửa tay.**');
 out.push('> Đây là ảnh chụp **máy này**, không phải danh sách mong muốn — cái đó nằm ở `skills.json`.');
 out.push('');
-out.push(`Tổng **${total} skill** từ **${plugins.length} plugin**${standalone.length ? ` và **${standalone.length} skill rời**` : ''}.`);
+out.push(`Tổng **${total} skill**: ${fromPlugins} từ ${plugins.length} plugin${standalone.length ? `, ${standalone.length} skill rời` : ''}.`);
 out.push('');
 
 if (plugins.length) {
