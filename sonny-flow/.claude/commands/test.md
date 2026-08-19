@@ -1,27 +1,27 @@
 ---
-description: Phase 4：テストシナリオ設計 → テスト実装 → テストレビュー。レベル（unit / e2e）を指定する。実装AIとは独立。
+description: "Phase 4: test-scenario design → test implementation → test review. Specify the level (unit / e2e). Independent from the implementation AI."
 ---
 
-テストフェーズを起動する。**実装エージェントとは別エージェントを使う**（自己検証バイアス回避）。
+Khởi động test phase. **Dùng agent khác với implementation agent** (tránh thiên kiến tự kiểm chứng).
 
-`$ARGUMENTS` で `unit` / `e2e` / `both` を指定する：
-- `unit`：単体テストのみ
-- `e2e`：e2eテストのみ
-- `both`：両方を**順に**実行（unit→e2e、シナリオファイルは別個に作る）
+Chỉ định `unit` / `e2e` / `both` qua `$ARGUMENTS`:
+- `unit`: chỉ unit test
+- `e2e`: chỉ e2e test
+- `both`: chạy cả hai **lần lượt** (unit→e2e, file scenario tạo riêng từng cái)
 
-進め方（指定レベルごとに繰り返す）：
-1. [`test-scenario-designer`](../agents/test-scenario-designer.md) を起動（[`test-scenario`](../skills/test-scenario/SKILL.md) Skill）
-   - 入力：仕様書（`{feature}.spec.md` または SIer受領設計書経由の `{feature}.derived-spec.md`）+ `business_rules.md`
-   - レベル `unit` / `e2e` を必ず指定
-   - 出力：`deliverables/04_test/scenarios-{feature}.unit.json` または `.e2e.json`（**正常系は対象外**）
-2. **人レビュー**：シナリオに業務固有の追加・修正があれば加える
-3. [`test-implementer`](../agents/test-implementer.md) を起動
-   - 入力：シナリオJSON、実装コード（**参考としてのみ**）
-   - e2eは**モック最小限**（外部システムのみ、内部APIは実物）
-   - 出力：テストコード + `scenario-map.json`
-4. [`test-reviewer`](../agents/test-reviewer.md) を起動
-   - 観点：シナリオ網羅性 / モック妥当性 / 同義反復の有無 / 追跡可能性 / レベル整合
-   - 出力：`deliverables/reviews/test-{feature}.json`
-5. テスト実行 → **人ゲート③**（実装＋テスト総合判定）：`implementation-reviewer` の観点別レビュー結果 + テスト結果を**併せて確認**。実装バグなら Phase 3 へ差し戻し、テスト側問題なら Phase 4 で修正、カバレッジ不足なら Phase 4 でシナリオ追加、問題なければ **PR 作成へ進む**
+Cách tiến hành (lặp lại cho từng level được chỉ định):
+1. Khởi động [`test-scenario-designer`](../agents/test-scenario-designer.md) (skill [`test-scenario`](../skills/test-scenario/SKILL.md))
+   - Input: spec (`{feature}.spec.md`, hoặc `{feature}.derived-spec.md` nếu đi qua design doc SIer) + `business_rules.md`
+   - Bắt buộc chỉ định level `unit` / `e2e`
+   - Output: `deliverables/04_test/scenarios-{feature}.unit.json` hoặc `.e2e.json` (**không bao gồm happy path**)
+2. **Human review**: nếu có phần cần thêm/sửa đặc thù nghiệp vụ thì bổ sung vào scenario
+3. Khởi động [`test-implementer`](../agents/test-implementer.md)
+   - Input: scenario JSON, code (**chỉ để tham khảo**)
+   - e2e thì **mock tối thiểu** (chỉ mock hệ thống ngoài, API nội bộ dùng đồ thật)
+   - Output: code test + `scenario-map.json`
+4. Khởi động [`test-reviewer`](../agents/test-reviewer.md)
+   - Perspective: độ phủ scenario / tính hợp lý của mock / có bị lặp thừa không / khả năng truy vết / khớp level
+   - Output: `deliverables/reviews/test-{feature}.json`
+5. Chạy test → **human gate ③** (đánh giá tổng hợp implementation + test): xem **cùng lúc** kết quả review theo perspective của `implementation-reviewer` và kết quả test. Nếu là bug implementation thì trả về Phase 3; nếu vấn đề nằm ở phía test thì sửa trong Phase 4; nếu thiếu coverage thì thêm scenario trong Phase 4; không vấn đề gì thì **sang bước tạo PR**
 
-引数：`$ARGUMENTS = "{feature} {level}"`（例：`order-create unit`、`order-create both`）
+Tham số: `$ARGUMENTS = "{feature} {level}"` (ví dụ: `order-create unit`, `order-create both`).

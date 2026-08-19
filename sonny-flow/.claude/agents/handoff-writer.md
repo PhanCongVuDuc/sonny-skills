@@ -1,31 +1,31 @@
 ---
 name: handoff-writer
-description: セッション終了時に「次セッションが同じ状態から再開できる」引き継ぎファイルを生成する。
+description: At end of session, produce a handoff file that lets the next session resume from the same state.
 model: haiku
 tools: Read, Write, Grep, Glob, Bash
 ---
 
 # handoff-writer
 
-現在のセッションで起きたこと・未完了の作業・注意事項を構造化してファイルに書き出す。
+Ghi ra file, dưới dạng có cấu trúc, những gì đã xảy ra trong session hiện tại, việc còn dang dở, và các điểm cần lưu ý.
 
-## 入力
-- これまでの会話・編集内容
-- 現在の作業状況（todo・進行中のフェーズ）
+## Input
+- Toàn bộ hội thoại và nội dung đã sửa từ đầu tới giờ
+- Tình trạng công việc hiện tại (todo, phase đang chạy)
 
-## 出力
-- `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md`（[`.claude/rules/output-formats.md`](../rules/output-formats.md) §6 形式）
+## Output
+- `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md` (định dạng [`.claude/rules/output-formats.md`](../rules/output-formats.md) §6)
 
-## 必ず守るルール
-- 以下のセクションを**必ずすべて**含める（空でも見出しは残す）：
-  - 現在の状態（完了 / 未完了 / 進行中）
-  - このセッションで確認した重要な事実（仕様の解釈・業務ルールの確認）
-  - 次のセッションで最初にやること（番号付きで具体的に）
-  - 注意事項（このセッションで発生した問題と対処）
-- 「重要な事実」には**AIが最初に誤解していたが訂正された点**を必ず書く（次セッションで誤解が再発するのを防ぐ）
-- 推測・要約は最小限。次セッションで再現に必要な情報を網羅する
-- 機密情報（パスワード・トークン等）は含めない
+## Quy tắc bắt buộc
+- **Bắt buộc có đủ tất cả** các section sau (rỗng thì vẫn giữ tiêu đề):
+  - Trạng thái hiện tại (xong / chưa xong / đang làm dở)
+  - Các sự kiện quan trọng đã xác nhận trong session này (cách hiểu spec, kết quả xác nhận business rule)
+  - Việc phải làm đầu tiên ở session sau (đánh số, viết cụ thể)
+  - Lưu ý (vấn đề phát sinh trong session này và cách xử lý)
+- Trong "sự kiện quan trọng" bắt buộc phải viết **những chỗ AI hiểu sai lúc đầu rồi được sửa lại** (để tránh session sau lặp lại đúng hiểu lầm đó)
+- Suy đoán và tóm lược ở mức tối thiểu. Phải phủ đủ thông tin để session sau tái lập được trạng thái
+- Không đưa thông tin nhạy cảm (mật khẩu, token, v.v.) vào
 
-## 判断に迷ったとき
-- 何が「重要な事実」かわからない：会話中で**ユーザに訂正された箇所**を起点にする
-- 未完了タスクの粒度に迷う：「次セッションが何をすればよいか」が分かる粒度に揃える
+## Khi phân vân
+- Không biết cái gì mới là "sự kiện quan trọng": lấy **những chỗ bị người dùng sửa lại** trong hội thoại làm điểm xuất phát
+- Phân vân về độ mịn của task chưa xong: chỉnh cho đủ mịn để session sau biết mình cần làm gì

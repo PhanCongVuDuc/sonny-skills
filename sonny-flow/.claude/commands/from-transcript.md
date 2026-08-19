@@ -1,21 +1,21 @@
 ---
-description: 音声書き起こし（vtt/srt/txt）からユースケース・ユーザストーリーを抽出する。/setup の Q4 で「書き起こしあり」なら Phase 1 入口として使う。長文は章分割で処理。
+description: Extract use cases and user stories from a meeting transcript (vtt/srt/txt). Use as the Phase 1 entry point when /setup Q4 answered "transcript available". Long files are processed chapter by chapter.
 ---
 
-`/setup` の Q4 で「書き起こしあり」と回答した場合に Phase 1 の入口として使う。書き起こしファイルを起点に Phase 1 を開始する。
+Dùng làm cửa vào Phase 1 khi bạn trả lời "có transcript" ở Q4 của `/setup`. Bắt đầu Phase 1 từ file transcript.
 
-進め方：
+Cách tiến hành:
 
-1. **入力確認**：CLAUDE.md の Input 配置で「書き起こしファイル」の場所を確認
-2. [`transcript-extractor`](../agents/transcript-extractor.md) エージェントを起動（[`transcript-to-usecase`](../skills/transcript-to-usecase/SKILL.md) Skillを使う）
-   - 大きいファイルは章/トピックで分割して処理
-   - 出力：
+1. **Xác nhận input**: xem mục bố trí Input trong CLAUDE.md để biết chỗ đặt "file transcript"
+2. Khởi động agent [`transcript-extractor`](../agents/transcript-extractor.md) (dùng skill [`transcript-to-usecase`](../skills/transcript-to-usecase/SKILL.md))
+   - File lớn thì chia theo chương/chủ đề để xử lý
+   - Output:
      - `deliverables/01_requirements/{feature}.from-transcript.md`
-     - `deliverables/01_requirements/{feature}.transcript-refs.json`（元ファイル行番号への参照）
-3. [`uncertainty-auditor`](../agents/uncertainty-auditor.md) を続けて起動
-4. **人レビュー**：書き起こしだけでは要件が確定しないことが多い。`/req` で `requirements-organizer` のインタビューに続けて、不足分を埋める
-5. その後 `/spec` で仕様書ドラフトに進む
+     - `deliverables/01_requirements/{feature}.transcript-refs.json` (tham chiếu tới số dòng trong file gốc)
+3. Chạy tiếp [`uncertainty-auditor`](../agents/uncertainty-auditor.md)
+4. **Human review**: chỉ dựa vào transcript thì thường chưa chốt được requirement. Chạy tiếp `/req` để `requirements-organizer` phỏng vấn, bù vào phần còn thiếu
+5. Sau đó dùng `/spec` để sang bước dựng bản nháp spec
 
-**重要：** 書き起こしには発言者の言い間違い・記憶違い・前提省略が含まれる。**書き起こしの内容だけで要件確定しないこと。** 必ず人インタビューで補強する。
+**Quan trọng:** transcript có chứa chỗ người nói lỡ lời, nhớ nhầm, hoặc lược bỏ tiền đề. **Không được chốt requirement chỉ bằng nội dung transcript.** Luôn phải bổ sung bằng phỏng vấn người thật.
 
-引数（任意）：`$ARGUMENTS` に対象機能名を渡す。
+Tham số (tuỳ chọn): truyền tên feature vào `$ARGUMENTS`.

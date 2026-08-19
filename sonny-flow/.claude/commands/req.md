@@ -1,14 +1,14 @@
 ---
-description: Phase 1：要件・ユースケース・ユーザストーリーをインタビュー形式で整理し、推測箇所レポートも併せて出力する
+description: "Phase 1: organise requirements, use cases and user stories through an interview, and emit an assumptions report alongside"
 ---
 
-[`requirements-organizer`](../agents/requirements-organizer.md) エージェントを起動し、[`usecase-interview`](../skills/usecase-interview/SKILL.md) Skillで暗黙の業務ルールも含めて整理する。
+Khởi động agent [`requirements-organizer`](../agents/requirements-organizer.md), dùng skill [`usecase-interview`](../skills/usecase-interview/SKILL.md) để sắp xếp lại, bao gồm cả những business rule ngầm hiểu.
 
-進め方：
-1. 対象機能・業界・システム種別を確認
-2. 質問を**1つずつ**出す（数値計算 → 例外処理 → データ制約 → 特例 → 暗黙の前提 → 法規制 → 処理順序）
-3. 整理結果を `deliverables/01_requirements/{feature}.requirements.md` に書き出す
-4. 続けて [`uncertainty-auditor`](../agents/uncertainty-auditor.md) を起動し `deliverables/01_requirements/{feature}.uncertainty.json` を生成（推測箇所レポート。形式は [`output-formats.md`](../rules/output-formats.md) §3）
-5. 続けて [`spec-drafter`](../agents/spec-drafter.md) を呼ぶか確認する
+Cách tiến hành:
+1. Xác nhận feature mục tiêu, ngành nghề, loại hệ thống
+2. Đặt câu hỏi **từng cái một** (tính toán số → xử lý ngoại lệ → ràng buộc dữ liệu → trường hợp đặc biệt → tiền đề ngầm → quy định pháp lý → thứ tự xử lý)
+3. Ghi kết quả đã sắp xếp ra `deliverables/01_requirements/{feature}.requirements.md`
+4. Chạy tiếp [`uncertainty-auditor`](../agents/uncertainty-auditor.md) để sinh `deliverables/01_requirements/{feature}.uncertainty.json` (báo cáo các chỗ suy đoán — định dạng ở [`output-formats.md`](../rules/output-formats.md) §3)
+5. Hỏi xem có gọi tiếp [`spec-drafter`](../agents/spec-drafter.md) không
 
-引数（任意）：`$ARGUMENTS` に対象機能名を渡せる。
+Tham số (tuỳ chọn): có thể truyền tên feature vào `$ARGUMENTS`.

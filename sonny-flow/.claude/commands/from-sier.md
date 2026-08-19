@@ -1,23 +1,23 @@
 ---
-description: SIerなど外部から受領した設計書を読み解き、派生仕様を作って実装フェーズに進む。/setup の Q3 で「設計書あり」なら Phase 1 入口として使う。
+description: Read a design doc received from an external party (e.g. an SIer), produce a derived spec, and move on to the implementation phase. Use as the Phase 1 entry point when /setup Q3 answered "design doc available".
 ---
 
-`/setup` の Q3 で「SIer受領設計書あり」と回答した場合に Phase 1 の入口として使う。受領設計書を入力に、implementer に渡せる**派生仕様**を作る。
+Dùng làm cửa vào Phase 1 khi bạn trả lời "có design doc nhận từ SIer" ở Q3 của `/setup`. Lấy design doc nhận được làm input, tạo ra **derived spec** đủ để giao cho implementer.
 
-進め方：
+Cách tiến hành:
 
-1. **入力確認**：CLAUDE.md の Input 配置で「SIer設計書」の場所を確認。ファイルが揃っていることをユーザに確認してもらう
-2. [`sier-spec-reader`](../agents/sier-spec-reader.md) エージェントを起動（[`sier-spec-mapping`](../skills/sier-spec-mapping/SKILL.md) Skillを使う）
-   - 出力：
-     - `deliverables/01_requirements/{feature}.derived-spec.md`（派生仕様）
-     - `deliverables/01_requirements/{feature}.sier-readout.json`（矛盾・未定義リスト）
-3. [`uncertainty-auditor`](../agents/uncertainty-auditor.md) を続けて起動
-   - 出力：`deliverables/01_requirements/{feature}.uncertainty.json`
-4. **人ゲート①'**：以下をユーザに確認してもらう
-   - `sier-readout.json` の `issues`（矛盾・未定義）への対処方針
-   - `uncertainty.json` の `impact: high` 項目の確認
-5. 確認が済んだら `/implement` で Phase 3 へ進む
+1. **Xác nhận input**: xem mục bố trí Input trong CLAUDE.md để biết chỗ đặt "design doc SIer". Nhờ người dùng xác nhận file đã đủ chưa
+2. Khởi động agent [`sier-spec-reader`](../agents/sier-spec-reader.md) (dùng skill [`sier-spec-mapping`](../skills/sier-spec-mapping/SKILL.md))
+   - Output:
+     - `deliverables/01_requirements/{feature}.derived-spec.md` (derived spec)
+     - `deliverables/01_requirements/{feature}.sier-readout.json` (danh sách mâu thuẫn / chưa định nghĩa)
+3. Chạy tiếp [`uncertainty-auditor`](../agents/uncertainty-auditor.md)
+   - Output: `deliverables/01_requirements/{feature}.uncertainty.json`
+4. **Human gate ①'**: nhờ người dùng xác nhận các mục sau
+   - Hướng xử lý cho `issues` trong `sier-readout.json` (mâu thuẫn / chưa định nghĩa)
+   - Xác nhận các mục `impact: high` trong `uncertainty.json`
+5. Xác nhận xong thì dùng `/implement` để sang Phase 3
 
-**重要：** 受領設計書を実装エージェントに直接渡さないこと。必ず `derived-spec.md` 経由で渡す（設計書間の矛盾や未定義箇所が implementer に伝わると、推測実装が増える）。
+**Quan trọng:** không đưa thẳng design doc nhận được cho implementation agent. Luôn đi qua `derived-spec.md`. (Nếu để mâu thuẫn và chỗ chưa định nghĩa giữa các design doc lọt tới implementer, phần code viết theo suy đoán sẽ tăng lên.)
 
-引数（任意）：`$ARGUMENTS` に対象機能名を渡す。
+Tham số (tuỳ chọn): truyền tên feature vào `$ARGUMENTS`.

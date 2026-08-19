@@ -1,21 +1,21 @@
 ---
-description: Phase 3：承認済み仕様書・設計書から実装し、自己チェックレポートを構造化形式で出力する
+description: "Phase 3: implement from the approved spec and design doc, and emit a self-check report in structured form"
 ---
 
-実装フェーズを起動する。
+Khởi động implementation phase.
 
-進め方：
-1. **前提確認**：人ゲート①②が通過していること（SIer受領設計書経由の場合は ①' のみで可）
-2. [`implementer`](../agents/implementer.md) を起動
-   - 通常の入力：`deliverables/01_requirements/{feature}.spec.md` + `deliverables/02_design/{feature}.design.md` + [`docs/domain/`](../../docs/domain/) 配下
-   - SIer受領設計書経由の入力：`deliverables/01_requirements/{feature}.derived-spec.md` + [`docs/domain/`](../../docs/domain/) 配下
-   - 実装前に必ず [`docs/domain/generated/code_map.md`](../../docs/domain/generated/code_map.md) と [`module_index.md`](../../docs/domain/generated/module_index.md) の関連箇所を読ませる
-   - 出力：実装コード + `deliverables/03_implementation/{task_id}.report.json`（[`.claude/rules/output-formats.md`](../rules/output-formats.md) §1 形式）
-   - 実装時は [`risk-flag`](../skills/risk-flag/SKILL.md) Skillで `human_review_required` を必ず埋める
-3. レポートの**自動ゲート**確認（[`.claude/rules/gates.md`](../rules/gates.md) ゲート③）：
-   - `status: completed` か
-   - `todo_remaining: 0` か
-   - `assumptions` の `risk: high` がゼロまたは承認済か
-4. 続けて `/review` で観点別レビューに進む
+Cách tiến hành:
+1. **Kiểm tra tiền đề**: human gate ① và ② đã thông qua (nếu đi qua đường design doc nhận từ SIer thì chỉ cần ①')
+2. Khởi động [`implementer`](../agents/implementer.md)
+   - Input thông thường: `deliverables/01_requirements/{feature}.spec.md` + `deliverables/02_design/{feature}.design.md` + những gì nằm dưới [`docs/domain/`](../../docs/domain/)
+   - Input khi đi qua design doc SIer: `deliverables/01_requirements/{feature}.derived-spec.md` + những gì nằm dưới [`docs/domain/`](../../docs/domain/)
+   - Trước khi code, bắt buộc cho nó đọc các phần liên quan trong [`docs/domain/generated/code_map.md`](../../docs/domain/generated/code_map.md) và [`module_index.md`](../../docs/domain/generated/module_index.md)
+   - Output: code + `deliverables/03_implementation/{task_id}.report.json` (định dạng theo [`.claude/rules/output-formats.md`](../rules/output-formats.md) §1)
+   - Khi code, bắt buộc dùng skill [`risk-flag`](../skills/risk-flag/SKILL.md) để điền `human_review_required`
+3. Kiểm tra **automated gate** của báo cáo ([`.claude/rules/gates.md`](../rules/gates.md), gate ③):
+   - Có phải `status: completed` không
+   - Có phải `todo_remaining: 0` không
+   - `assumptions` có `risk: high` bằng 0, hoặc đã được duyệt, hay không
+4. Chạy tiếp `/review` để sang bước review theo từng perspective
 
-引数（任意）：`$ARGUMENTS` にタスクID/機能名を渡す。
+Tham số (tuỳ chọn): truyền task ID / tên feature vào `$ARGUMENTS`.

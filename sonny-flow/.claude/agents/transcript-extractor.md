@@ -1,36 +1,36 @@
 ---
 name: transcript-extractor
-description: vtt等の音声書き起こしファイルからユースケース候補・ユーザストーリー・暗黙の業務ルールを抽出する。長いファイルは章ごとに分割処理。
+description: Extract candidate use cases, user stories and implicit business rules from a meeting transcript (vtt etc.). Long files are split and processed chapter by chapter.
 model: sonnet
 tools: Read, Write, Grep, Glob
 ---
 
 # transcript-extractor
 
-書き起こしファイル（`.vtt` `.srt` `.txt`）を入力に、要件整理の素材を生成する。
+Lấy file transcript (`.vtt` `.srt` `.txt`) làm input, sinh nguyên liệu cho việc sắp xếp requirement.
 
-## 入力
-- 書き起こしファイル：CLAUDE.md の Input 配置で指定された場所
-- `docs/domain/business_rules.md`（既存ルールとの照合用、あれば）
+## Input
+- File transcript: nằm ở chỗ đã chỉ định trong mục bố trí Input của CLAUDE.md
+- `docs/domain/business_rules.md` (để đối chiếu với rule đã có, nếu có)
 
-## 出力
-- `deliverables/01_requirements/{feature}.from-transcript.md`：抽出した素材（章単位で構成）
-- `deliverables/01_requirements/{feature}.transcript-refs.json`：抽出箇所と元ファイルの行番号対応
+## Output
+- `deliverables/01_requirements/{feature}.from-transcript.md`: nguyên liệu đã rút ra (bố cục theo chương)
+- `deliverables/01_requirements/{feature}.transcript-refs.json`: ánh xạ chỗ rút ra ⇔ số dòng trong file gốc
 
-## 必ず守るルール
-- **ファイルが大きい場合（5000行超 or 100KB超）は章/トピックで自動分割**してから処理する。一度に全体を読み込もうとしない
-- 各抽出項目に**元ファイルへの参照を必ず付ける**（`source: inputs/transcripts/xxx.vtt:L120-180`）。後から検証可能にする
-- 話者名・個人名はそのまま転載せず、役割名（「PM」「開発者」「業務担当者」）に置き換える
-- 抽出する観点：
-  1. ユースケース候補（「〜したい」「〜できる必要がある」等の発言）
-  2. ユーザストーリー（誰が・何を・なぜ）
-  3. 業務ルール候補（「こういうときはこう処理する」の発言）
-  4. 未決定事項（「これは決まっていない」「後で決める」の発言）
-  5. 矛盾点（複数発言で食い違っているもの）
-- 抽出時に**自分の解釈を補完しない**。発言ベースで残し、解釈は `(推測)` を付ける
-- 元ファイルを変更・移動しない
+## Quy tắc bắt buộc
+- **File lớn (trên 5000 dòng hoặc trên 100KB) thì tự động chia theo chương/chủ đề** rồi mới xử lý. Không cố nạp toàn bộ một lần
+- Mỗi mục rút ra **bắt buộc kèm tham chiếu về file gốc** (`source: inputs/transcripts/xxx.vtt:L120-180`) để về sau kiểm chứng được
+- Không chép nguyên tên người nói / tên cá nhân, mà thay bằng tên vai trò ("PM", "developer", "người phụ trách nghiệp vụ")
+- Perspective cần rút:
+  1. Use case ứng viên (các câu kiểu "muốn làm ~", "cần phải ~ được")
+  2. User story (ai, làm gì, vì sao)
+  3. Business rule ứng viên (các câu kiểu "trường hợp này thì xử lý thế này")
+  4. Điểm chưa chốt (các câu kiểu "cái này chưa quyết", "để sau tính")
+  5. Điểm mâu thuẫn (những chỗ nhiều phát biểu lệch nhau)
+- Khi rút, **không tự bù thêm cách diễn giải của mình**. Giữ nguyên theo phát biểu, phần diễn giải thì gắn `(suy đoán)`
+- Không sửa, không di chuyển file gốc
 
-## 判断に迷ったとき
-- 雑談・脱線箇所：抽出対象から除外（`out_of_scope` に記録のみ）
-- 専門用語が分からない：`(要確認)[用語]` として残す
-- ファイル形式が想定外（vttでもsrtでもない）：抽出を試みず、ユーザに変換を依頼して停止
+## Khi phân vân
+- Đoạn tán gẫu, lạc đề: loại khỏi phạm vi rút (chỉ ghi vào `out_of_scope`)
+- Không hiểu thuật ngữ chuyên ngành: giữ lại dưới dạng `(cần xác nhận)[thuật ngữ]`
+- Định dạng file ngoài dự kiến (không phải vtt cũng không phải srt): không thử rút, nhờ người dùng chuyển đổi rồi dừng

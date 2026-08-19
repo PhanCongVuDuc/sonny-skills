@@ -1,33 +1,33 @@
 ---
-description: 初回セットアップ。AIが質問してドメイン情報と入力ファイルの場所を聞き取り、必要なら既存コード解析を実行してプロジェクトをカスタマイズする。
+description: First-time setup. The AI asks questions to collect domain information and input-file locations, runs the existing-code analysis if needed, and customises the project.
 ---
 
-このテンプレートをプロジェクトに導入したあと、**最初に実行する**コマンド。AIが質問を1つずつ出して、回答に応じて以下を自動でカスタマイズする：
+Command **chạy đầu tiên** sau khi đưa template này vào project. AI đặt câu hỏi từng cái một, rồi tuỳ câu trả lời mà tự động tuỳ biến những thứ sau:
 
-- `docs/domain/business_rules.md`、`docs/domain/glossary.md`、`docs/domain/known_patterns.md`、`docs/domain/tech_stack.md` を埋める
-- [`CLAUDE.md`](../../CLAUDE.md) の「初回セットアップ結果」セクションを埋める（Input配置・有効なオプション処理）
-- 既存コードがあれば「既存解析パス」を実行する（[`onboarding.md`](../../docs/onboarding.md) 参照）
+- Điền `docs/domain/business_rules.md`, `docs/domain/glossary.md`, `docs/domain/known_patterns.md`, `docs/domain/tech_stack.md`
+- Điền section "Kết quả setup lần đầu" trong [`CLAUDE.md`](../../CLAUDE.md) (bố trí Input, các xử lý tuỳ chọn được bật)
+- Nếu đã có code sẵn thì chạy existing-analysis path (xem [`onboarding.md`](../../docs/onboarding.md))
 
-進め方：
+Cách tiến hành:
 
-1. **プロジェクト名・業界・システム種別**を聞く
-2. **既存コードはあるか**を聞く
-   - 「はい」→ [`onboarding.md`](../../docs/onboarding.md) の手順に沿って既存解析パス（`legacy-analyzer × 2並列` → `analysis-aggregator` → 人ゲート⓪-1 → `docs-keeper` → 人ゲート⓪-2 → `code-archeology` → 人ゲート⓪-3）を実行
-   - 「いいえ」→ スキップ
-3. **SIer受領の設計書はあるか**を聞く
-   - 「はい」→ Input配置（例：`inputs/sier-design/`）を確認し、CLAUDE.md の「初回セットアップ結果」に「Phase 1 入口で `/from-sier` を使う」と記録
-   - 「いいえ」→ スキップ
-4. **インタビュー書き起こし（vtt等）はあるか**を聞く
-   - 「はい」→ Input配置（例：`inputs/transcripts/`）を確認し、CLAUDE.md に「Phase 1 で `/from-transcript` を使う」と記録
-   - 「いいえ」→ スキップ
-5. **業界・技術スタック・暗黙ルールのインタビュー**を [`usecase-interview`](../skills/usecase-interview/SKILL.md) Skill の手順で実施し、`docs/domain/` の4ファイルを埋める
+1. Hỏi **tên project, ngành nghề, loại hệ thống**
+2. Hỏi **đã có code sẵn chưa**
+   - "Có" → chạy existing-analysis path theo thủ tục trong [`onboarding.md`](../../docs/onboarding.md) (`legacy-analyzer × 2 song song` → `analysis-aggregator` → human gate ⓪-1 → `docs-keeper` → human gate ⓪-2 → `code-archeology` → human gate ⓪-3)
+   - "Không" → bỏ qua
+3. Hỏi **có design doc nhận từ SIer không**
+   - "Có" → xác nhận chỗ bố trí Input (ví dụ: `inputs/sier-design/`), rồi ghi vào "Kết quả setup lần đầu" trong CLAUDE.md rằng "dùng `/from-sier` làm cửa vào Phase 1"
+   - "Không" → bỏ qua
+4. Hỏi **có transcript phỏng vấn (vtt v.v.) không**
+   - "Có" → xác nhận chỗ bố trí Input (ví dụ: `inputs/transcripts/`), rồi ghi vào CLAUDE.md rằng "dùng `/from-transcript` ở Phase 1"
+   - "Không" → bỏ qua
+5. **Phỏng vấn về ngành nghề, tech stack, các quy tắc ngầm** theo thủ tục của skill [`usecase-interview`](../skills/usecase-interview/SKILL.md), rồi điền 4 file trong `docs/domain/`
 
-完了時に、次に実行すべきコマンドを提案する：
-- 通常：`/req` で要件整理に進む
-- 設計書受領あり：`/from-sier` で派生仕様作成に進む
-- 書き起こしあり：`/from-transcript` で要件抽出に進む
+Khi xong, đề xuất command nên chạy tiếp theo:
+- Thông thường: `/req` để sang bước sắp xếp requirement
+- Có design doc nhận được: `/from-sier` để sang bước tạo derived spec
+- Có transcript: `/from-transcript` để sang bước trích xuất requirement
 
-守るルール：
-- 質問は**1つずつ**出す（一度に複数質問しない）
-- 推測でドメイン情報を埋めない。不明箇所は CLAUDE.md と `docs/domain/` に `（要確認）` を残す
-- 既存コード解析を実行する場合、必ず人ゲート⓪-1〜⓪-3 を通す（[`onboarding.md`](../../docs/onboarding.md) 参照）
+Quy tắc phải giữ:
+- Đặt câu hỏi **từng cái một** (không hỏi nhiều câu cùng lúc)
+- Không điền thông tin domain bằng suy đoán. Chỗ nào chưa rõ thì để lại `(cần xác nhận)` trong CLAUDE.md và `docs/domain/`
+- Khi chạy existing-analysis, bắt buộc phải đi qua human gate ⓪-1 đến ⓪-3 (xem [`onboarding.md`](../../docs/onboarding.md))

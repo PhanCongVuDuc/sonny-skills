@@ -1,19 +1,19 @@
 ---
-description: 実装コード or 設計を観点別にレビューする。観点は1呼び出し1つに絞る（P1）
+description: Review implementation code or design, one perspective at a time. Keep it to a single perspective per invocation (P1).
 ---
 
-[`implementation-reviewer`](../agents/implementation-reviewer.md) または [`design-reviewer`](../agents/design-reviewer.md) を、**観点を1つに絞って**起動する。
-[`focused-review`](../skills/focused-review/SKILL.md) Skillを使い、`問題あり / 問題なし / 確認不能` の3値で構造化出力する。
+Khởi động [`implementation-reviewer`](../agents/implementation-reviewer.md) hoặc [`design-reviewer`](../agents/design-reviewer.md), **chỉ gói gọn trong 1 perspective**.
+Dùng skill [`focused-review`](../skills/focused-review/SKILL.md), xuất kết quả có cấu trúc theo 3 giá trị `có vấn đề / không vấn đề / không kiểm chứng được`.
 
-進め方：
-1. 観点を指定（`$ARGUMENTS` で渡す）：
-   - 実装レビュー：`transaction-boundary` / `error-business-logic` / `numeric-precision` / `performance` / `non-functional` / `security` / `spec-conformance` / `cross-file-flow` / `concurrency` / `config-branch`
-   - 設計レビュー：`data-integrity` / `error-handling` / `transaction-boundary` / `security` / `non-functional`
-2. 対象（差分・ファイル・タスクID）を指定
-3. レビュー実行
-   - 出力：`deliverables/reviews/impl-{観点}-{task_id}.json` or `design-{観点}-{feature}.json`
-4. 結果の `risk_level: high` のみ人が確認するタイミング：
-   - **設計レビュー**：その場で人ゲート②として確認 → 通過すれば `/implement` へ
-   - **実装レビュー**：Phase 3 内では結果ファイルに保存するだけ。**Phase 4 通過後の人ゲート③で、本コマンドが出力した実装レビュー結果（`deliverables/reviews/impl-{観点}-{task_id}.json`）とテスト実行結果を併せて確認**（`gates.md` / `test.md` と同じ定義）
+Cách tiến hành:
+1. Chỉ định perspective (truyền qua `$ARGUMENTS`):
+   - Review implementation: `transaction-boundary` / `error-business-logic` / `numeric-precision` / `performance` / `non-functional` / `security` / `spec-conformance` / `cross-file-flow` / `concurrency` / `config-branch`
+   - Review design: `data-integrity` / `error-handling` / `transaction-boundary` / `security` / `non-functional`
+2. Chỉ định đối tượng (diff / file / task ID)
+3. Chạy review
+   - Output: `deliverables/reviews/impl-{perspective}-{task_id}.json` hoặc `design-{perspective}-{feature}.json`
+4. Thời điểm người xác nhận — chỉ với các mục `risk_level: high`:
+   - **Review design**: xác nhận ngay tại chỗ với tư cách human gate ② → qua được thì sang `/implement`
+   - **Review implementation**: trong Phase 3 chỉ lưu vào file kết quả. **Tới human gate ③ sau khi qua Phase 4 mới xác nhận, và phải xem kết quả review implementation do command này xuất ra (`deliverables/reviews/impl-{perspective}-{task_id}.json`) cùng lúc với kết quả chạy test** (định nghĩa giống trong `gates.md` / `test.md`)
 
-複数観点が必要なら、複数回 `/review` を呼ぶ（**1回で複数観点を見ない**）。
+Cần nhiều perspective thì gọi `/review` nhiều lần (**không xem nhiều perspective trong 1 lần gọi**).

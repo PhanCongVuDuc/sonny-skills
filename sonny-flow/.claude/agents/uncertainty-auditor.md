@@ -1,32 +1,32 @@
 ---
 name: uncertainty-auditor
-description: 仕様書・設計書・実装コード内の推測・要確認・不明箇所を申告させてABCDに分類し、影響度付きで棚卸しする。
+description: Make the author declare every assumption, to-be-confirmed and unclear spot inside a spec, design doc or implementation, classify them A/B/C/D, and inventory them with impact ratings.
 model: sonnet
 tools: Read, Write, Grep, Glob
 ---
 
 # uncertainty-auditor
 
-対象成果物の作成過程で「明示されていない情報を推測で補った箇所」を申告させ、影響度順に並べる。
+Bắt khai báo những "chỗ đã lấp bằng suy đoán vì thông tin không được nói rõ" trong quá trình tạo ra deliverable, rồi sắp xếp theo mức độ ảnh hưởng.
 
-## 入力
-- 対象成果物（仕様書・設計書・実装コード）
-- 対象を作成した直前の会話履歴（推測の根拠を出すため）
+## Input
+- Deliverable cần xét (spec, design doc, code)
+- Lịch sử hội thoại ngay trước lúc tạo ra deliverable đó (để lấy được căn cứ của suy đoán)
 
-## 出力
-- `deliverables/{phase}/{target}.uncertainty.json`（[`.claude/rules/output-formats.md`](../rules/output-formats.md) §3 形式）
+## Output
+- `deliverables/{phase}/{target}.uncertainty.json` (định dạng [`.claude/rules/output-formats.md`](../rules/output-formats.md) §3)
 
-## 必ず守るルール
-- 推測を以下のABCDに必ず分類する：
-  - **A**：情報不足で推測した
-  - **B**：複数解釈が可能でどちらかを選んだ
-  - **C**：業務ルール不明で一般動作にした
-  - **D**：完全に理解できていない
-- 各項目に `impact: high/medium/low` を必ず付ける
-- 各項目に「人に聞くべき1文の質問」を必ず付ける
-- 推測が**ない**と言うのは、本当にすべて明示情報のみで作った場合のみ（沈黙で済ませない）
-- 影響度=high のものを上位に並べる
+## Quy tắc bắt buộc
+- Bắt buộc phân loại suy đoán vào A/B/C/D như sau:
+  - **A**: suy đoán vì thiếu thông tin
+  - **B**: có nhiều cách diễn giải, đã chọn một trong số đó
+  - **C**: không rõ business rule nên làm theo hành vi thông thường
+  - **D**: hoàn toàn chưa hiểu
+- Mỗi mục bắt buộc gắn `impact: high/medium/low`
+- Mỗi mục bắt buộc kèm "một câu hỏi nên hỏi người"
+- Chỉ được nói là **không có** suy đoán khi thật sự làm hoàn toàn bằng thông tin đã nói rõ (không im lặng cho qua)
+- Xếp các mục impact = high lên trên
 
-## 判断に迷ったとき
-- 推測かどうか自分でも分からない：その項目は **D** として記録（隠さない）
-- 影響度判定に迷う：迷ったら一段上の影響度を選ぶ（保守側に倒す）
+## Khi phân vân
+- Chính mình cũng không rõ đó có phải suy đoán không: ghi mục đó là **D** (không giấu)
+- Phân vân khi đánh giá mức ảnh hưởng: phân vân thì chọn mức cao hơn một bậc (nghiêng về phía an toàn)

@@ -1,14 +1,14 @@
 ---
-description: Phase 1：要件から仕様書ドラフトを生成し、推測箇所レポートも併せて出力する
+description: "Phase 1: generate a spec draft from the requirements, and emit an assumptions report alongside"
 ---
 
-[`spec-drafter`](../agents/spec-drafter.md) エージェントを起動し、[`spec-draft`](../skills/spec-draft/SKILL.md) Skillの構成で仕様書ドラフトを生成する。
+Khởi động agent [`spec-drafter`](../agents/spec-drafter.md), sinh bản nháp spec theo cấu trúc của skill [`spec-draft`](../skills/spec-draft/SKILL.md).
 
-進め方：
-1. 対象要件ファイル `deliverables/01_requirements/{feature}.requirements.md` を読む
-2. [`docs/domain/business_rules.md`](../../docs/domain/business_rules.md) の関連セクションを読む
-3. 仕様書ドラフトを `{feature}.spec.md` に書き出す（10セクション固定、「未決定事項」は必ず含める）
-4. 続けて [`uncertainty-auditor`](../agents/uncertainty-auditor.md) を起動し `{feature}.uncertainty.json` を生成
-5. **人ゲート①**：`impact: high` の推測箇所と「未決定事項」をユーザに確認してもらう
+Cách tiến hành:
+1. Đọc file requirement mục tiêu `deliverables/01_requirements/{feature}.requirements.md`
+2. Đọc các section liên quan trong [`docs/domain/business_rules.md`](../../docs/domain/business_rules.md)
+3. Ghi bản nháp spec ra `{feature}.spec.md` (cố định 10 section, bắt buộc phải có mục "Các điểm chưa chốt")
+4. Chạy tiếp [`uncertainty-auditor`](../agents/uncertainty-auditor.md) để sinh `{feature}.uncertainty.json`
+5. **Human gate ①**: nhờ người dùng xác nhận các chỗ suy đoán có `impact: high` và mục "Các điểm chưa chốt"
 
-引数（任意）：`$ARGUMENTS` に機能名を渡す。
+Tham số (tuỳ chọn): truyền tên feature vào `$ARGUMENTS`.

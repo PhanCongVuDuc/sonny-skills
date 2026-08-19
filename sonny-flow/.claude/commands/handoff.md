@@ -1,26 +1,28 @@
 ---
-description: セッション終了時に「次セッションが同じ状態から再開できる」引き継ぎファイルを生成する
+description: At end of session, produce a handoff file that lets the next session resume from the same state
 ---
 
 <!--
-このコマンドは本テンプレート独自のカスタムスラッシュコマンドであり、Claude Code 公式の組み込みコマンドではない。
-公式が提供するセッション継続手段は次のとおり：
-  - `/compact` … 同一セッション内で会話履歴を圧縮
-  - `/recap`   … キャッシュを保持したまま要約
-  - `--continue` / Resume … 前回セッションの再開
-  - `CLAUDE.md` / auto memory … プロジェクト常駐の指示書・永続メモリ
-本コマンドは上記とは目的が異なり、`deliverables/handoff/` に**構造化された永続ファイル**として
-引き継ぎを残すための仕組み。日次／別日／別マシン等、完全に別セッションへの受け渡しに用いる。
-必要に応じて公式の `/compact` `/recap` と併用してよい。
+Command này là custom slash command riêng của template này, không phải command built-in
+chính thức của Claude Code.
+Các cơ chế nối tiếp session mà bản chính thức cung cấp là:
+  - `/compact` … nén lịch sử hội thoại trong cùng một session
+  - `/recap`   … tóm tắt mà vẫn giữ cache
+  - `--continue` / Resume … mở lại session trước
+  - `CLAUDE.md` / auto memory … tài liệu chỉ dẫn thường trú của project và bộ nhớ vĩnh viễn
+Command này khác mục đích với những cái trên: nó để lại phần handoff dưới dạng **file vĩnh viễn
+có cấu trúc** trong `deliverables/handoff/`. Dùng khi bàn giao sang một session hoàn toàn khác:
+khác ngày, khác máy, v.v.
+Có thể dùng kèm `/compact` `/recap` chính thức nếu cần.
 -->
 
-[`handoff-writer`](../agents/handoff-writer.md) を起動し、[`handoff`](../skills/handoff/SKILL.md) Skillで引き継ぎファイルを生成する。
+Khởi động [`handoff-writer`](../agents/handoff-writer.md), dùng skill [`handoff`](../skills/handoff/SKILL.md) để sinh file handoff.
 
-進め方：
-1. このセッションでの作業を分類：完了 / 未完了 / 進行中
-2. 重要な事実を抽出：**ユーザに訂正された箇所**、業務ルールの確認結果、決まった設計判断
-3. 次のセッションで最初にやることを番号付きで具体的に書く
-4. 注意事項（コンテキスト汚染が起きた箇所、リトライした処理など）を記録
-5. `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md` に書き出す
+Cách tiến hành:
+1. Phân loại công việc đã làm trong session này: xong / chưa xong / đang làm dở
+2. Rút ra các sự kiện quan trọng: **chỗ đã bị người dùng sửa lại**, kết quả xác nhận business rule, các quyết định thiết kế đã chốt
+3. Viết cụ thể, đánh số, những việc phải làm đầu tiên ở session sau
+4. Ghi lại các lưu ý (chỗ nào bị nhiễu context, xử lý nào đã phải retry)
+5. Ghi ra `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md`
 
-新セッション開始時の最初のプロンプトで、このファイルを Read してから作業を再開する。
+Ở prompt đầu tiên của session mới, Read file này rồi mới làm tiếp.
