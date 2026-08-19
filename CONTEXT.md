@@ -66,3 +66,11 @@ _Avoid_: vendored, patched.
 **Draft**:
 Skill đang viết dở, sống ở `drafts/` — nằm ngoài mọi plugin nên không được nạp vào context.
 _Avoid_: in-progress, wip.
+
+**Mirror**:
+Bản sao trung thành của cây thư mục người khác, giữ nguyên bố cục nguồn kể cả khi bố cục đó khiến
+Claude không nạp được gì. Khác *fork* ở chỗ fork đã bị sửa và **là own**; mirror thì chưa — nó là
+bản *đúng*, chưa phải bản *dùng được*, và chỉ sinh ra để đọc. Dịch sang tiếng Việt vẫn là mirror,
+vì cấu trúc không đổi. Ship dưới plugin riêng và **không** khai trong `skills.json`, nên
+`/setup-skills` không cài. Xem [[0004-fork-harness-arent-workflow]].
+_Avoid_: vendored, snapshot, archive.
