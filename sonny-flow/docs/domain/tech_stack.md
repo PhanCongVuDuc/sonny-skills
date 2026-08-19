@@ -1,62 +1,62 @@
-# 技術スタック
+# Tech stack
 
-<!-- このファイルは人間（技術有識者）が管理する正典です。AI は読む専用。技術選定の根拠を残すことが重要です。 -->
-<!-- AI は実装時にこのファイルを参照し、整合する技術・バージョンで実装します。 -->
-<!-- 古い記述を見つけた場合 AI は更新を『提案』します（自動で書き換えない）。 -->
-<!-- [REPLACE] のセクションをプロジェクト固有の内容に書き換えてください。 -->
+<!-- File này là bản chính thống do người (chuyên môn kỹ thuật) quản lý. AI chỉ đọc. Điều quan trọng là để lại căn cứ của việc chọn công nghệ. -->
+<!-- AI tham chiếu file này khi code, và code bằng đúng công nghệ, đúng phiên bản cho khớp. -->
+<!-- Khi thấy mô tả đã cũ, AI sẽ "đề xuất" cập nhật (không tự động sửa). -->
+<!-- Hãy thay các section [REPLACE] bằng nội dung riêng của project. -->
 
-## 言語・ランタイム
+## Ngôn ngữ, runtime
 
-| 項目 | バージョン | 選定理由 |
+| Mục | Phiên bản | Lý do chọn |
 |---|---|---|
-| [REPLACE: 言語名] | [REPLACE: x.y.z] | [REPLACE: なぜこれを選んだか] |
-| [REPLACE: ランタイム] | [REPLACE] | [REPLACE] |
+| [REPLACE: tên ngôn ngữ] | [REPLACE: x.y.z] | [REPLACE: vì sao chọn cái này] |
+| [REPLACE: runtime] | [REPLACE] | [REPLACE] |
 
 ---
 
-## フレームワーク・主要ライブラリ
+## Framework, thư viện chính
 
-| ライブラリ | バージョン | 用途 | 選定理由 |
+| Thư viện | Phiên bản | Công dụng | Lý do chọn |
 |---|---|---|---|
-| [REPLACE] | [REPLACE] | [REPLACE: 何に使っているか] | [REPLACE] |
+| [REPLACE] | [REPLACE] | [REPLACE: dùng để làm gì] | [REPLACE] |
 
 ---
 
-## インフラ・ミドルウェア
+## Hạ tầng, middleware
 
-| コンポーネント | 種別 | バージョン/プラン | 備考 |
+| Thành phần | Loại | Phiên bản/Gói | Ghi chú |
 |---|---|---|---|
-| [REPLACE: DB名] | データベース | [REPLACE] | [REPLACE: 用途・特記事項] |
-| [REPLACE: キャッシュ] | キャッシュ | [REPLACE] | [REPLACE] |
-| [REPLACE: メッセージキュー] | MQ | [REPLACE] | [REPLACE] |
+| [REPLACE: tên DB] | Cơ sở dữ liệu | [REPLACE] | [REPLACE: công dụng, điểm đặc biệt] |
+| [REPLACE: cache] | Cache | [REPLACE] | [REPLACE] |
+| [REPLACE: message queue] | MQ | [REPLACE] | [REPLACE] |
 
 ---
 
-## 外部 API・SaaS
+## API ngoài, SaaS
 
-| サービス名 | 用途 | 認証方式 | 公式ドキュメントURL |
+| Tên dịch vụ | Công dụng | Phương thức xác thực | URL tài liệu chính thức |
 |---|---|---|---|
 | [REPLACE] | [REPLACE] | API Key / OAuth2 / etc. | [REPLACE] |
 
 ---
 
-## ビルド・CI/CD
+## Build, CI/CD
 
-| ツール | 用途 | 設定ファイル |
+| Công cụ | Công dụng | File cấu hình |
 |---|---|---|
-| [REPLACE: ビルドツール] | [REPLACE] | [REPLACE: パス] |
-| [REPLACE: CIサービス] | [REPLACE] | [REPLACE: パス] |
+| [REPLACE: build tool] | [REPLACE] | [REPLACE: path] |
+| [REPLACE: dịch vụ CI] | [REPLACE] | [REPLACE: path] |
 
 ---
 
-## バージョン固定の方針
+## Phương châm ghim phiên bản
 
-[REPLACE: patch/minor/major の自動更新ポリシー。例:「セキュリティパッチは即時適用、minor は月次レビュー」]
+[REPLACE: chính sách tự động cập nhật patch/minor/major. Ví dụ: "bản vá bảo mật thì áp dụng ngay, minor thì review hàng tháng"]
 
 ---
 
-## 技術的負債・既知の制約
+## Nợ kỹ thuật, ràng buộc đã biết
 
-| 箇所 | 内容 | 対応予定 |
+| Chỗ nào | Nội dung | Kế hoạch xử lý |
 |---|---|---|
-| [REPLACE] | [REPLACE: なぜ負債になっているか] | [REPLACE: いつ・どのように解消するか] |
+| [REPLACE] | [REPLACE: vì sao nó thành nợ] | [REPLACE: bao giờ và bằng cách nào sẽ giải quyết] |

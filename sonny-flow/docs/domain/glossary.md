@@ -1,39 +1,39 @@
-# 用語集
+# Từ điển thuật ngữ
 
-<!-- このファイルは人間（業務有識者 + 開発者）が共同管理する正典です。 -->
-<!-- AI はコードを読む・書くときにこのファイルを参照し、変数名・コメント・API 名の言葉を揃えます。 -->
-<!-- 新しい用語を発見した場合 AI は追記を『提案』します（人間が合意したものを記録）。 -->
-<!-- [REPLACE] の例を削除し、プロジェクト固有の用語に書き換えてください。 -->
+<!-- File này là bản chính thống do người (chuyên môn nghiệp vụ + developer) cùng quản lý. -->
+<!-- AI tham chiếu file này khi đọc và viết code, để thống nhất từ ngữ trong tên biến, comment, tên API. -->
+<!-- Khi phát hiện thuật ngữ mới, AI sẽ "đề xuất" bổ sung (chỉ ghi lại cái người đã đồng thuận). -->
+<!-- Hãy xoá các ví dụ [REPLACE] và thay bằng thuật ngữ riêng của project. -->
 
-## 業務用語
+## Thuật ngữ nghiệp vụ
 
-業務ドメイン固有の言葉。業界標準語・社内略語・顧客が使う用語を含む。
+Từ ngữ đặc thù của domain nghiệp vụ. Bao gồm từ chuẩn của ngành, từ viết tắt nội bộ, và thuật ngữ khách hàng dùng.
 
-| 用語 | 定義 | 関連用語 | 備考 |
+| Thuật ngữ | Định nghĩa | Thuật ngữ liên quan | Ghi chú |
 |---|---|---|---|
-| [REPLACE: 用語] | [REPLACE: 正確な定義] | [REPLACE: 関連する用語名] | [REPLACE: 注意点・由来] |
+| [REPLACE: thuật ngữ] | [REPLACE: định nghĩa chính xác] | [REPLACE: tên thuật ngữ liên quan] | [REPLACE: điểm cần lưu ý, nguồn gốc] |
 
 ---
 
-## システム内部用語
+## Thuật ngữ nội bộ hệ thống
 
-コードベース・設計書で使われる用語。ビジネス用語と1対1対応しない場合はマッピングを明記。
+Từ ngữ được dùng trong codebase và design doc. Nếu không tương ứng 1-1 với thuật ngữ nghiệp vụ thì ghi rõ ánh xạ.
 
-| 用語 | 定義 | 対応するビジネス用語 | 登場するモジュール |
+| Thuật ngữ | Định nghĩa | Thuật ngữ nghiệp vụ tương ứng | Module xuất hiện |
 |---|---|---|---|
-| [REPLACE: クラス名/関数名] | [REPLACE] | [REPLACE] | [REPLACE: src/xxx/] |
+| [REPLACE: tên class/tên hàm] | [REPLACE] | [REPLACE] | [REPLACE: src/xxx/] |
 
 ---
 
-## 略語・頭字語
+## Từ viết tắt, từ đầu chữ
 
-| 略語 | 正式名称 | 意味 |
+| Viết tắt | Tên đầy đủ | Ý nghĩa |
 |---|---|---|
 | [REPLACE] | [REPLACE] | [REPLACE] |
 
 ---
 
-## 用語使用ルール
+## Rule sử dụng thuật ngữ
 
-- [REPLACE: 同じ概念に複数の呼び方がある場合のルール。例:「『注文』と『オーダー』は同義。コード上は Order に統一」]
-- [REPLACE: 顧客向け資料とシステム内部で意図的に用語を変えている場合はその旨を明記]
+- [REPLACE: rule khi một khái niệm có nhiều cách gọi. Ví dụ: "'đơn hàng' và 'order' là đồng nghĩa. Trong code thống nhất dùng Order"]
+- [REPLACE: nếu cố ý dùng thuật ngữ khác nhau giữa tài liệu cho khách và nội bộ hệ thống thì ghi rõ điều đó]

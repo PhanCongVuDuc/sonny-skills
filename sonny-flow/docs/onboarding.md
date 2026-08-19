@@ -1,56 +1,56 @@
-# オンボーディング手順（AI向け根拠ドキュメント）
+# Thủ tục onboarding (tài liệu căn cứ dành cho AI)
 
-`/arent-workflow:onboarding` と `/bootstrap` コマンドが従う全体手順をここに定義する。
-**新規プロジェクト**と**既存コードベース**の2パスがあり、いずれも各フェーズ終了後に人確認ゲートを通す。
+Định nghĩa ở đây toàn bộ thủ tục mà command `/arent-workflow:onboarding` và `/bootstrap` tuân theo.
+Có 2 path — **project mới** và **codebase có sẵn** — cả hai đều phải đi qua gate xác nhận của người sau khi kết thúc mỗi phase.
 
-> 初回ハーネス注入（`.claude/`・`deliverables/`・`docs/domain/` の生成）は `/arent-workflow:setup` の役割。
-> このドキュメントは、その後の「プロジェクト理解・ドメイン知識生成」の手順を扱う。
-
----
-
-## 新規プロジェクトパス（`/arent-workflow:onboarding new`）
-
-1. プロジェクト名・業界・システム種別を聞く（質問は**1つずつ**）。
-2. `docs/domain/` の4ファイル（`business_rules.md` / `tech_stack.md` / `glossary.md` / `known_patterns.md`）を、業界・技術スタック・暗黙ルールのインタビューで埋める。
-3. `CLAUDE.md` の残りの `[REPLACE]` プレースホルダを対話式に埋める。
-4. 完了後、`/arent-workflow:requirements` で要件整理へ進む。
+> Việc inject harness lần đầu (sinh ra `.claude/`, `deliverables/`, `docs/domain/`) là vai trò của `/arent-workflow:setup`.
+> Tài liệu này xử lý thủ tục "hiểu project, sinh tri thức domain" diễn ra sau đó.
 
 ---
 
-## 既存コードベースパス（`/arent-workflow:onboarding existing [path]`）
+## Path project mới (`/arent-workflow:onboarding new`)
 
-各フェーズ終了後に**人確認**を行ってから次へ進む。並列解析は必ず別セッションで2回実行する。
+1. Hỏi tên project, ngành nghề, loại hệ thống (câu hỏi ra **từng cái một**).
+2. Điền 4 file trong `docs/domain/` (`business_rules.md` / `tech_stack.md` / `glossary.md` / `known_patterns.md`) bằng cách phỏng vấn về ngành nghề, tech stack, và các quy tắc ngầm.
+3. Điền nốt các placeholder `[REPLACE]` còn lại trong `CLAUDE.md` theo lối đối thoại.
+4. Xong thì sang bước sắp xếp requirement bằng `/arent-workflow:requirements`.
 
-| フェーズ | 内容 | 成果物 | 人ゲート |
+---
+
+## Path codebase có sẵn (`/arent-workflow:onboarding existing [path]`)
+
+Sau khi kết thúc mỗi phase phải **có người xác nhận** rồi mới đi tiếp. Parallel analysis bắt buộc chạy 2 lần trong 2 session khác nhau.
+
+| Phase | Nội dung | Deliverable | Human gate |
 |---|---|---|---|
-| Phase 0-1 領域定義 | 対象パスをドメイン領域に分割 | `deliverables/00_onboarding/regions.json` | 領域分割の妥当性を確認（番号なしの事前確認。承認後 Phase 0-2 へ） |
-| Phase 0-2 並列解析 | 各領域を `parallel-analysis` スキルで解析（`legacy-analyzer` を独立2回）→ `analysis-aggregator` で突き合わせ | `00_onboarding/{region}/analysis-run1.json`・`analysis-run2.json`・`aggregation.json` | **人ゲート⓪-1**：`divergent`/`partial` を有識者が確認 |
-| Phase 0-3 ドキュメント生成 | `doc-bootstrap` スキルで自動層3ファイルを生成 | `docs/domain/generated/{code_map,dependencies,module_index}.md` | **人ゲート⓪-2**：生成物の妥当性 |
-| Phase 0-4 業務ルール抽出 | `code-archeology` スキルで業務ルール候補を抽出 | `00_onboarding/business-rules-candidates.json` | **人ゲート⓪-3**：候補を有識者承認 → `docs/domain/business_rules.md` に反映 |
+| Phase 0-1 định nghĩa region | Chia path mục tiêu thành các domain region | `deliverables/00_onboarding/regions.json` | Xác nhận việc chia region có hợp lý không (xác nhận trước, không đánh số. Duyệt xong thì sang Phase 0-2) |
+| Phase 0-2 parallel analysis | Phân tích từng region bằng skill `parallel-analysis` (chạy `legacy-analyzer` 2 lần độc lập) → đối chiếu bằng `analysis-aggregator` | `00_onboarding/{region}/analysis-run1.json`, `analysis-run2.json`, `aggregation.json` | **Human gate ⓪-1**: người có chuyên môn kiểm `divergent`/`partial` |
+| Phase 0-3 sinh tài liệu | Sinh 3 file thuộc tầng tự động bằng skill `doc-bootstrap` | `docs/domain/generated/{code_map,dependencies,module_index}.md` | **Human gate ⓪-2**: tính hợp lý của sản phẩm sinh ra |
+| Phase 0-4 rút business rule | Rút các business rule ứng viên bằng skill `code-archeology` | `00_onboarding/business-rules-candidates.json` | **Human gate ⓪-3**: người có chuyên môn duyệt các ứng viên → phản ánh vào `docs/domain/business_rules.md` |
 
-> ゲートの自動判定条件は [`.claude/rules/gates.md`](../.claude/rules/gates.md)（ゲート⓪）を参照。
-> 各成果物のフォーマットは [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md)（§8 / §8b）を参照。
-
----
-
-## 必ず守るルール
-
-- 質問は**1つずつ**出す（一度に複数質問しない）。
-- 推測でドメイン情報を埋めない。不明箇所は `（要確認）` を残す。
-- 各人確認ゲートで**必ず承認を得てから**次フェーズへ進む。自動で全フェーズを連続実行しない。
-- 既存コードパスの並列解析は必ず別セッションで2回実行し、`aggregation.json` で突き合わせる。
+> Điều kiện phán định tự động của gate: xem [`.claude/rules/gates.md`](../.claude/rules/gates.md) (gate ⓪).
+> Định dạng của từng deliverable: xem [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md) (§8 / §8b).
 
 ---
 
-## 完了チェックリスト
+## Quy tắc bắt buộc
 
-オンボーディング完了の判定。`/bootstrap` はこのチェックリストに戻って残作業を確認する。
+- Đặt câu hỏi **từng cái một** (không hỏi nhiều câu cùng lúc).
+- Không điền thông tin domain bằng suy đoán. Chỗ nào chưa rõ thì để lại `(cần xác nhận)`.
+- Ở mỗi gate xác nhận của người, **bắt buộc phải được duyệt rồi** mới sang phase kế tiếp. Không tự động chạy liên tục hết mọi phase.
+- Parallel analysis của path codebase có sẵn bắt buộc chạy 2 lần trong 2 session khác nhau, rồi đối chiếu bằng `aggregation.json`.
 
-- [ ] `docs/domain/business_rules.md` が `[REPLACE]` を残さず、有識者承認済みの業務ルールで埋まっている
-- [ ] `docs/domain/tech_stack.md` に採用技術・バージョン・選定理由が記載されている
-- [ ] `docs/domain/glossary.md` に主要な業務用語・略語が登録されている
-- [ ] （既存コードパス）`docs/domain/generated/` の3ファイルが生成され、人確認⓪-2 済み
-- [ ] （既存コードパス）`business-rules-candidates.json` が人確認⓪-3 済みで `business_rules.md` に反映
-- [ ] `CLAUDE.md` に未置換の `[REPLACE]` が残っていない
-- [ ] 残りのセットアップ（LSP設定 = `/setup-lsp`、ドメインインタビュー）が完了している
-- [ ] 次フェーズ `/arent-workflow:requirements` に進める状態である
+---
+
+## Checklist hoàn thành
+
+Dùng để phán định onboarding đã xong hay chưa. `/bootstrap` sẽ quay lại checklist này để kiểm phần việc còn lại.
+
+- [ ] `docs/domain/business_rules.md` không còn sót `[REPLACE]`, và đã được điền bằng các business rule đã được người có chuyên môn duyệt
+- [ ] `docs/domain/tech_stack.md` đã ghi công nghệ đang dùng, phiên bản, và lý do chọn
+- [ ] `docs/domain/glossary.md` đã đăng ký các thuật ngữ nghiệp vụ chính và các từ viết tắt
+- [ ] (path codebase có sẵn) 3 file trong `docs/domain/generated/` đã được sinh ra và đã qua xác nhận ⓪-2
+- [ ] (path codebase có sẵn) `business-rules-candidates.json` đã qua xác nhận ⓪-3 và đã phản ánh vào `business_rules.md`
+- [ ] `CLAUDE.md` không còn sót `[REPLACE]` nào chưa thay
+- [ ] Phần setup còn lại (cấu hình LSP = `/setup-lsp`, phỏng vấn domain) đã hoàn thành
+- [ ] Đã ở trạng thái sang được phase kế tiếp `/arent-workflow:requirements`

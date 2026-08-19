@@ -1,51 +1,51 @@
-# エージェント設計ルール（agent-rules）
+# Rule thiết kế agent (agent-rules)
 
-`.claude/agents/` のサブエージェント定義と、それを呼ぶスキル・コマンドが守る設計ルール。
-新しいエージェントを追加・分割するとき、および定期レビュー（`pipeline-improve`）の判断基準にする。
-
----
-
-## 基本原則
-
-1. **1エージェント＝1責務・1観点**。レビュー系は「1呼び出し1観点」を厳守し、観点外の問題に気づいても黙殺する（別呼び出しで扱う）。
-2. **出力は構造化**。各エージェントの成果物フォーマットは [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md)（§1〜§9）に従う。自然言語の「できました」を進行根拠にしない。
-3. **観点キー・リスクカテゴリは共通定義を使う**。独自カテゴリを発明せず [`.claude/rules/risk-categories.md`](../.claude/rules/risk-categories.md) のキーを使う。
-4. **推測は隠さない**。確証のない点は `（推測）` / `uncertainty` / ABCD分類で必ず申告する（[`output-formats.md`](../.claude/rules/output-formats.md) §3）。
-5. **フェーズ移行は人ゲート**。エージェントは「人が確認すべき項目」を絞り込むところまで。承認の判断は人が行う（[`.claude/rules/gates.md`](../.claude/rules/gates.md)）。
+Các rule thiết kế mà định nghĩa subagent trong `.claude/agents/`, cùng những skill và command gọi chúng, phải giữ.
+Dùng khi thêm mới hoặc tách agent, và làm tiêu chí phán đoán cho lần review định kỳ (`pipeline-improve`).
 
 ---
 
-## エージェント分割の基準
+## Nguyên tắc nền
 
-| 分割すべきとき | 例 |
+1. **1 agent = 1 trách nhiệm, 1 perspective**. Nhóm review thì nghiêm ngặt "1 lần gọi 1 perspective", có nhận ra vấn đề ngoài perspective cũng bỏ qua (xử lý ở lần gọi khác).
+2. **Output phải có cấu trúc**. Định dạng deliverable của từng agent tuân theo [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md) (§1–§9). Không lấy câu "xong rồi" bằng ngôn ngữ tự nhiên làm căn cứ để đi tiếp.
+3. **Khoá perspective và risk category dùng định nghĩa chung**. Không tự phát minh category riêng, mà dùng khoá trong [`.claude/rules/risk-categories.md`](../.claude/rules/risk-categories.md).
+4. **Không giấu suy đoán**. Điểm nào chưa có bằng chứng chắc chắn thì bắt buộc khai báo bằng `(suy đoán)` / `uncertainty` / phân loại ABCD ([`output-formats.md`](../.claude/rules/output-formats.md) §3).
+5. **Chuyển phase là human gate**. Agent chỉ làm tới mức lọc ra "những mục người cần kiểm tra". Quyết định duyệt là của người ([`.claude/rules/gates.md`](../.claude/rules/gates.md)).
+
+---
+
+## Tiêu chí tách agent
+
+| Khi nào nên tách | Ví dụ |
 |---|---|
-| 観点が増えて1エージェントの責務が肥大化 | 実装レビューを観点別（trans境界 / 数値精度 / 性能…）に並列化 |
-| 「生成」と「検証」が混ざっている | `implementer`（生成）と `implementation-reviewer`（検証）を分ける |
-| 「解析」と「集約」が混ざっている | `legacy-analyzer`（1領域解析）と `analysis-aggregator`（突き合わせ）を分ける |
-| 独立した別セッションで多重実行したい | 並列解析（同一領域を2回）→ 突き合わせ |
+| Perspective tăng lên khiến trách nhiệm của 1 agent phình ra | Song song hoá review implementation theo từng perspective (transaction boundary / độ chính xác số / hiệu năng…) |
+| "Sinh ra" và "kiểm chứng" đang bị trộn lẫn | Tách `implementer` (sinh ra) và `implementation-reviewer` (kiểm chứng) |
+| "Phân tích" và "tổng hợp" đang bị trộn lẫn | Tách `legacy-analyzer` (phân tích 1 region) và `analysis-aggregator` (đối chiếu) |
+| Muốn chạy nhiều lần trong các session độc lập | Parallel analysis (cùng 1 region 2 lần) → đối chiếu |
 
-エージェントを増やしすぎたら `pipeline-improve` で**廃止・統合候補**を検討する（肥大化防止）。
+Nếu agent tăng quá nhiều thì dùng `pipeline-improve` để cân nhắc **các ứng viên bỏ đi hoặc gộp lại** (chống phình).
 
 ---
 
-## frontmatter 規約
+## Quy ước frontmatter
 
 ```yaml
 ---
-name: <kebab-case。ファイル名と一致させる>
-description: いつ起動すべきかを第三者が判断できる三人称記述
-model: sonnet | opus | haiku    # 慎重さが要るレビュー系は opus も可
-tools: Read, Grep, Glob, ...    # 必要最小限。解析系は読み取り専用に絞る
+name: <kebab-case. Khớp với tên file>
+description: mô tả ngôi thứ ba, đủ để người ngoài phán đoán khi nào nên khởi động
+model: sonnet | opus | haiku    # nhóm review cần cẩn trọng thì dùng opus cũng được
+tools: Read, Grep, Glob, ...    # tối thiểu cần thiết. Nhóm phân tích thì thu về chỉ đọc
 ---
 ```
 
-- `name` は必ずファイル名（拡張子なし）と一致させる。
-- 解析・レビュー系はコード変更を伴わないので `Write`/`Edit` を付けない（読み取り専用）。
+- `name` bắt buộc khớp với tên file (không tính phần mở rộng).
+- Nhóm phân tích và review không kèm việc sửa code nên không gắn `Write`/`Edit` (chỉ đọc).
 
 ---
 
-## 定期レビューのサイクル
+## Chu kỳ review định kỳ
 
-- **3ヶ月に1度**、`pipeline-improve` スキルで「人が修正した箇所と理由」を分析し、ルール／エージェント／パイプラインの改善案を Before/After で出す（[`output-formats.md`](../.claude/rules/output-formats.md) §7）。
-- 改善案は**そのまま貼れる具体文言**で出し、`.claude/rules/*.md` や `.claude/agents/*.md` への反映は**人の承認後**に行う（エージェントが直接書き込まない）。
-- 追加ばかりでルールが肥大化しないよう、**廃止できるルール・エージェントも必ず探す**。
+- **3 tháng một lần**, dùng skill `pipeline-improve` để phân tích "những chỗ người đã sửa và lý do", rồi ra phương án cải thiện rule / agent / pipeline dưới dạng Before/After ([`output-formats.md`](../.claude/rules/output-formats.md) §7).
+- Phương án cải thiện phải ra bằng **câu chữ cụ thể có thể dán thẳng vào**, và việc phản ánh vào `.claude/rules/*.md` hay `.claude/agents/*.md` thì làm **sau khi có người duyệt** (agent không tự ghi thẳng vào).
+- Để rule không phình lên vì chỉ toàn thêm mới, **bắt buộc đi tìm cả rule và agent có thể bỏ đi**.

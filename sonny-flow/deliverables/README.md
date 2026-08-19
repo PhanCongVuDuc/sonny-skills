@@ -1,58 +1,58 @@
 # deliverables/
 
-各フェーズの成果物・レポートを書き出す場所。**AIエージェントの自然言語の「完了報告」は信用せず、このフォルダの構造化ファイルを根拠に判断する。**
+Nơi ghi ra deliverable và báo cáo của từng phase. **Không tin câu "báo cáo hoàn thành" bằng ngôn ngữ tự nhiên của AI agent, mà phán định dựa trên các file có cấu trúc trong thư mục này.**
 
 ---
 
-## ディレクトリ別の用途
+## Công dụng theo từng thư mục
 
-| ディレクトリ | 入るもの | 主な生成元 |
+| Thư mục | Chứa gì | Nguồn sinh chính |
 |---|---|---|
-| `00_setup/` | `harness-manifest.json`（注入ファイル一覧・ハッシュ）、`existing-analysis.json`、`harness-analysis.json`、`merge-plan.json` | `/setup`・`/re-setup` Skill |
-| `00_onboarding/` | 既存解析パスの成果物：`regions.json`、`{region}/analysis-run*.json`、`{region}/aggregation.json`、`business-rules-candidates.json`、`docs-update-*.json` | `legacy-analyzer`、`analysis-aggregator`、`docs-keeper`、`code-archeology` Skill |
-| `01_requirements/` | `{feature}.requirements.md`（ユースケース・ユーザストーリー）<br>`{feature}.spec.md`（仕様書ドラフト）<br>`{feature}.derived-spec.md`（SIer受領設計書経由の派生仕様）<br>`{feature}.sier-readout.json`（SIer設計書の矛盾リスト）<br>`{feature}.from-transcript.md`（vtt等からの抽出）<br>`{feature}.transcript-refs.json`（元ファイル行番号）<br>`{feature}.uncertainty.json`（推測箇所レポート） | `requirements-organizer`、`spec-drafter`、`sier-spec-reader`、`transcript-extractor`、`uncertainty-auditor` |
-| `02_design/` | `{feature}.design.md`（設計書）<br>`{decision_id}.debate.md`（設計判断ディベート） | `design-architect`、`design-decision` Skill |
-| `03_implementation/` | `{task_id}.report.json`（実装エージェントの自己チェックレポート） | `implementer` |
-| `04_test/` | `scenarios-{feature}.unit.json`（単体シナリオ）<br>`scenarios-{feature}.e2e.json`（e2eシナリオ）<br>`scenario-map.json`（シナリオ⇔テストの対応） | `test-scenario-designer`、`test-implementer` |
-| `reviews/` | `design-{観点}-{feature}.json`（設計レビュー）<br>`impl-{観点}-{task_id}.json`（実装レビュー）<br>`test-{feature}.json`（テストレビュー）<br>`devils-advocate-*.md`（悪魔の代弁者）<br>`pipeline-improve-*.md`（パイプライン改善） | 各種レビュアー・Skill |
-| `handoff/` | `handoff-{YYYY-MM-DD}-{seq}.md`（セッション引き継ぎ） | `handoff-writer` |
+| `00_setup/` | `harness-manifest.json` (danh sách file được inject kèm hash), `existing-analysis.json`, `harness-analysis.json`, `merge-plan.json` | Skill `/setup`, `/re-setup` |
+| `00_onboarding/` | Deliverable của existing-analysis path: `regions.json`, `{region}/analysis-run*.json`, `{region}/aggregation.json`, `business-rules-candidates.json`, `docs-update-*.json` | `legacy-analyzer`, `analysis-aggregator`, `docs-keeper`, skill `code-archeology` |
+| `01_requirements/` | `{feature}.requirements.md` (use case, user story)<br>`{feature}.spec.md` (bản nháp spec)<br>`{feature}.derived-spec.md` (derived spec khi đi qua design doc SIer)<br>`{feature}.sier-readout.json` (danh sách mâu thuẫn trong design doc SIer)<br>`{feature}.from-transcript.md` (rút từ vtt v.v.)<br>`{feature}.transcript-refs.json` (số dòng của file gốc)<br>`{feature}.uncertainty.json` (báo cáo các chỗ suy đoán) | `requirements-organizer`, `spec-drafter`, `sier-spec-reader`, `transcript-extractor`, `uncertainty-auditor` |
+| `02_design/` | `{feature}.design.md` (design doc)<br>`{decision_id}.debate.md` (tranh luận quyết định thiết kế) | `design-architect`, skill `design-decision` |
+| `03_implementation/` | `{task_id}.report.json` (báo cáo tự kiểm tra của implementation agent) | `implementer` |
+| `04_test/` | `scenarios-{feature}.unit.json` (scenario unit)<br>`scenarios-{feature}.e2e.json` (scenario e2e)<br>`scenario-map.json` (ánh xạ scenario ⇔ test) | `test-scenario-designer`, `test-implementer` |
+| `reviews/` | `design-{perspective}-{feature}.json` (review design)<br>`impl-{perspective}-{task_id}.json` (review implementation)<br>`test-{feature}.json` (review test)<br>`devils-advocate-*.md` (devil's advocate)<br>`pipeline-improve-*.md` (cải thiện pipeline) | Các reviewer và skill khác nhau |
+| `handoff/` | `handoff-{YYYY-MM-DD}-{seq}.md` (handoff giữa các session) | `handoff-writer` |
 
 ---
 
-## 命名規約
+## Quy ước đặt tên
 
-- `{feature}` は機能名のkebab-case（例：`order-create`、`invoice-export`）
-- `{task_id}` はタスクID（例：`form_001_convert`）
-- `{観点}` は [`.claude/rules/risk-categories.md`](../.claude/rules/risk-categories.md) の観点キー
-- `{decision_id}` は設計判断ID（例：`db-engine-choice`、`auth-method`）
-
----
-
-## 構造化フォーマット
-
-JSON/Markdownの詳細フォーマットは [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md) を参照。
+- `{feature}` là tên chức năng viết kebab-case (ví dụ: `order-create`, `invoice-export`)
+- `{task_id}` là task ID (ví dụ: `form_001_convert`)
+- `{perspective}` là khoá perspective trong [`.claude/rules/risk-categories.md`](../.claude/rules/risk-categories.md)
+- `{decision_id}` là ID của quyết định thiết kế (ví dụ: `db-engine-choice`, `auth-method`)
 
 ---
 
-## ファイルの取り扱い
+## Định dạng có cấu trúc
 
-- 各フェーズが終わったら、このフォルダにあるファイルを根拠に次フェーズへ進む
-- 削除は基本しない（後でパイプライン改善Skillが分析する材料になる）
-- 機密情報（個人情報・トークン）は書き込まないこと
+Định dạng chi tiết của JSON/Markdown: xem [`.claude/rules/output-formats.md`](../.claude/rules/output-formats.md).
 
-## git 管理ポリシー（テンプレートのデフォルト）
+---
 
-| ディレクトリ | デフォルト | 理由 |
+## Cách xử lý file
+
+- Mỗi phase kết thúc thì lấy file trong thư mục này làm căn cứ để sang phase kế tiếp
+- Về cơ bản không xoá (sau này chúng là nguyên liệu để skill cải thiện pipeline phân tích)
+- Không ghi thông tin nhạy cảm (thông tin cá nhân, token) vào
+
+## Chính sách quản lý git (mặc định của template)
+
+| Thư mục | Mặc định | Lý do |
 |---|---|---|
-| `00_setup/` | commit | ハーネス注入の根拠・履歴を残す |
-| `00_onboarding/` | commit（`docs-update-*.json` のみ ignore） | 既存解析の根拠を残す |
-| `01_requirements/*.spec.md` `*.derived-spec.md` `*.requirements.md` | commit | 仕様書は差分レビューしたい |
-| `01_requirements/*.uncertainty.json` `*.sier-readout.json` | commit | 推測箇所・矛盾は学習材料 |
-| `02_design/*.design.md` `*.debate.md` | commit | 設計書は差分レビューしたい |
-| `03_implementation/*.report.json` | **ignore** | 揮発的・実装ごとに上書きされる |
-| `04_test/scenarios-*.json` | commit | テストシナリオは差分レビューしたい |
-| `04_test/scenario-map.json` | **ignore** | テストコードと一緒に再生成可能 |
-| `reviews/*.json` `*.md` | commit | レビュー履歴は学習材料として価値が高い |
-| `handoff/*.md` | **ignore** | セッション固有の作業メモ |
+| `00_setup/` | commit | Giữ lại căn cứ và lịch sử của việc inject harness |
+| `00_onboarding/` | commit (chỉ ignore `docs-update-*.json`) | Giữ lại căn cứ của existing-analysis |
+| `01_requirements/*.spec.md` `*.derived-spec.md` `*.requirements.md` | commit | Spec thì muốn review theo diff |
+| `01_requirements/*.uncertainty.json` `*.sier-readout.json` | commit | Chỗ suy đoán và mâu thuẫn là nguyên liệu để học |
+| `02_design/*.design.md` `*.debate.md` | commit | Design doc thì muốn review theo diff |
+| `03_implementation/*.report.json` | **ignore** | Dễ bay hơi, bị ghi đè sau mỗi lần code |
+| `04_test/scenarios-*.json` | commit | Scenario test thì muốn review theo diff |
+| `04_test/scenario-map.json` | **ignore** | Sinh lại được cùng với code test |
+| `reviews/*.json` `*.md` | commit | Lịch sử review có giá trị cao như nguyên liệu để học |
+| `handoff/*.md` | **ignore** | Ghi chú công việc riêng của từng session |
 
-`.gitignore` には上記のデフォルトが書かれている。プロジェクトの方針に応じて調整可。
+`.gitignore` đã ghi sẵn các mặc định trên. Có thể điều chỉnh tuỳ theo phương châm của project.

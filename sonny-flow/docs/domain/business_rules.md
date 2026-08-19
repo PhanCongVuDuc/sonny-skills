@@ -1,97 +1,97 @@
-# 業務ルール
+# Business rule
 
-<!-- このファイルは人間（業務有識者）が管理する正典です。AI は読む専用。 -->
-<!-- 実装・設計の根拠として AI が必ず参照します（.claude/rules/domain-knowledge.md 参照）。 -->
-<!-- AI は /arent-workflow:onboarding の code-archeology フェーズで候補を抽出し、追記を『提案』しますが、反映は人間の承認後のみです（自動上書き禁止）。 -->
-<!-- [REPLACE] のセクションをプロジェクト固有の内容に書き換えてください。 -->
+<!-- File này là bản chính thống do người (chuyên môn nghiệp vụ) quản lý. AI chỉ đọc. -->
+<!-- AI bắt buộc tham chiếu file này làm căn cứ khi code và thiết kế (xem .claude/rules/domain-knowledge.md). -->
+<!-- AI sẽ rút ứng viên ở phase code-archeology của /arent-workflow:onboarding và "đề xuất" phần bổ sung, nhưng việc phản ánh chỉ diễn ra sau khi người duyệt (cấm tự động ghi đè). -->
+<!-- Hãy thay các section [REPLACE] bằng nội dung riêng của project. -->
 
-## システム概要
+## Tổng quan hệ thống
 
-[REPLACE: このシステムが扱う業務領域と主要な責務を1〜3段落で記述する。]
-
----
-
-## 不変制約
-
-業務上、絶対に崩せないルール。実装上の都合より優先される。
-
-### [REPLACE: ルール名1]
-
-- **条件**: [REPLACE: どのような状況で適用されるか]
-- **制約**: [REPLACE: 何が禁止・必須か]
-- **理由**: [REPLACE: なぜこのルールが存在するか（法規制・契約・業界慣習など）]
-
-### [REPLACE: ルール名2]
-
-- **条件**:
-- **制約**:
-- **理由**:
+[REPLACE: mô tả trong 1–3 đoạn về mảng nghiệp vụ mà hệ thống này xử lý và các trách nhiệm chính.]
 
 ---
 
-## 計算式・集計ロジック
+## Ràng buộc bất biến
 
-金額・数量・スコアなど、明示的な計算式が存在する場合に記述する。
+Những rule về mặt nghiệp vụ tuyệt đối không được phá. Được ưu tiên hơn sự tiện lợi khi code.
 
-### [REPLACE: 計算名]
+### [REPLACE: tên rule 1]
 
-```
-[REPLACE: 計算式を擬似コードや数式で記述]
-例:
-合計金額 = Σ(単価 × 数量) × (1 - 割引率)
-消費税 = 合計金額 × 税率（端数は切り捨て）
-```
+- **Điều kiện**: [REPLACE: áp dụng trong tình huống nào]
+- **Ràng buộc**: [REPLACE: cái gì bị cấm, cái gì bắt buộc]
+- **Lý do**: [REPLACE: vì sao rule này tồn tại (quy định pháp lý, hợp đồng, thông lệ ngành, v.v.)]
 
-- **適用条件**: [REPLACE]
-- **例外**: [REPLACE: 計算が変わるケース]
+### [REPLACE: tên rule 2]
+
+- **Điều kiện**:
+- **Ràng buộc**:
+- **Lý do**:
 
 ---
 
-## ステータス遷移
+## Công thức tính, logic tổng hợp
 
-エンティティが取り得る状態と、許可された遷移を定義する。
+Ghi vào đây khi có công thức tính tường minh cho số tiền, số lượng, điểm số, v.v.
 
-### [REPLACE: エンティティ名]
+### [REPLACE: tên phép tính]
 
 ```
-[REPLACE: 状態遷移図を ASCII または Mermaid で記述]
-例:
+[REPLACE: viết công thức bằng mã giả hoặc công thức toán]
+Ví dụ:
+Tổng tiền = Σ(đơn giá × số lượng) × (1 - tỷ lệ giảm giá)
+Thuế tiêu thụ = Tổng tiền × thuế suất (phần lẻ thì cắt xuống)
+```
+
+- **Điều kiện áp dụng**: [REPLACE]
+- **Ngoại lệ**: [REPLACE: các case làm phép tính thay đổi]
+
+---
+
+## Chuyển trạng thái
+
+Định nghĩa các trạng thái mà entity có thể có, và các chuyển đổi được phép.
+
+### [REPLACE: tên entity]
+
+```
+[REPLACE: vẽ sơ đồ chuyển trạng thái bằng ASCII hoặc Mermaid]
+Ví dụ:
 draft → submitted → approved → closed
        ↓
-     rejected → draft（修正後再提出）
+     rejected → draft (sửa xong nộp lại)
 ```
 
-| 遷移 | 条件 | 許可ロール |
+| Chuyển đổi | Điều kiện | Role được phép |
 |---|---|---|
 | draft → submitted | [REPLACE] | [REPLACE] |
 | submitted → approved | [REPLACE] | [REPLACE] |
 
 ---
 
-## 例外処理・エッジケース
+## Xử lý ngoại lệ, edge case
 
-通常フローから外れる業務ケースを列挙する。
+Liệt kê các case nghiệp vụ đi chệch khỏi luồng thông thường.
 
-| ケース | 発生条件 | 期待する動作 |
+| Case | Điều kiện phát sinh | Hành vi mong đợi |
 |---|---|---|
 | [REPLACE] | [REPLACE] | [REPLACE] |
 
 ---
 
-## 外部システム依存・法規制
+## Phụ thuộc hệ thống ngoài, quy định pháp lý
 
-外部 API・法規制・標準に依存する業務ルール。変更時の影響が大きいため明示的に管理する。
+Các business rule phụ thuộc vào API ngoài, quy định pháp lý, hoặc tiêu chuẩn. Quản lý tường minh vì ảnh hưởng khi thay đổi là lớn.
 
-| 依存先 | 種別 | 内容 | 最終確認日 |
+| Nơi phụ thuộc | Loại | Nội dung | Ngày xác nhận gần nhất |
 |---|---|---|---|
-| [REPLACE] | 法規制/外部API/業界標準 | [REPLACE] | [REPLACE] |
+| [REPLACE] | Quy định pháp lý/API ngoài/Tiêu chuẩn ngành | [REPLACE] | [REPLACE] |
 
 ---
 
-## 利害関係者・承認フロー
+## Bên liên quan, luồng duyệt
 
-業務上の意思決定を誰が行うかを明示する。
+Nói rõ ai là người ra quyết định về mặt nghiệp vụ.
 
-| 決定事項 | 承認者 | エスカレーション先 |
+| Việc cần quyết | Người duyệt | Nơi escalate |
 |---|---|---|
 | [REPLACE] | [REPLACE] | [REPLACE] |

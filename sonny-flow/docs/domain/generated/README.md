@@ -1,10 +1,10 @@
-# generated/ — 自動生成ドキュメント（手で編集しない）
+# generated/ — tài liệu sinh tự động (không sửa tay)
 
-このディレクトリのファイルは `docs-keeper` エージェント（および `scripts/update-ai-docs.*`）が
-コード差分から**自動生成・差分更新**します。手で編集しても次回更新で上書きされます。
+Các file trong thư mục này được agent `docs-keeper` (và `scripts/update-ai-docs.*`)
+**sinh tự động và cập nhật theo diff** từ code diff. Sửa tay cũng sẽ bị ghi đè ở lần cập nhật sau.
 
-- `code_map.md` — モジュール・クラス・関数の地図
-- `dependencies.md` — 依存関係グラフ
-- `module_index.md` — エントリポイント・公開API一覧
+- `code_map.md` — bản đồ module, class, hàm
+- `dependencies.md` — đồ thị phụ thuộc
+- `module_index.md` — danh sách entry point và API công khai
 
-初回生成は `/arent-workflow:onboarding existing` で行われます。
+Lần sinh đầu tiên được thực hiện bằng `/arent-workflow:onboarding existing`.

@@ -1,42 +1,42 @@
-# docs/domain — ドメイン知識ドキュメント
+# docs/domain — tài liệu tri thức domain
 
-このディレクトリは `/arent-workflow:setup` がプロジェクトへ注入したドメイン知識の置き場です。
-**AI が実装・設計の根拠として参照する正典**であり、コードからは読み取れない業務知識・技術選定の背景・用語をここに集約します。
+Thư mục này là nơi chứa tri thức domain mà `/arent-workflow:setup` đã inject vào project.
+Đây là **bản chính thống mà AI tham chiếu làm căn cứ khi code và thiết kế**; nơi gom lại những tri thức nghiệp vụ, bối cảnh lựa chọn công nghệ, và thuật ngữ mà đọc code không suy ra được.
 
-> 旧来の `docs/domain-template/` を手動コピー（`cp -r`）する運用は廃止しました。
-> Plugin の `/arent-workflow:setup` が雛形を注入し、`/arent-workflow:onboarding` が初期内容を提案します。
+> Cách vận hành cũ là copy tay `docs/domain-template/` (`cp -r`) đã bị bỏ.
+> `/arent-workflow:setup` của plugin sẽ inject khung mẫu, còn `/arent-workflow:onboarding` sẽ đề xuất nội dung ban đầu.
 
-## 3層構造（所有モデル）
+## Cấu trúc 3 tầng (mô hình sở hữu)
 
 ```
 docs/domain/
-├── business_rules.md   ← 【不変層】業務有識者が管理。AI は読む専用（提案は人間承認後のみ）
-├── tech_stack.md       ← 【不変層】技術選定の根拠。AI は読む専用
-├── glossary.md         ← 【不変層】用語の定義。AI は読む専用
-├── known_patterns.md   ← 【半固定層】パターン集。AI が提案し、人間が承認して記録
-└── generated/          ← 【自動生成層】docs-keeper エージェントが自動更新
+├── business_rules.md   ← 【tầng bất biến】người có chuyên môn nghiệp vụ quản lý. AI chỉ đọc (muốn đề xuất thì phải được người duyệt trước)
+├── tech_stack.md       ← 【tầng bất biến】căn cứ của việc chọn công nghệ. AI chỉ đọc
+├── glossary.md         ← 【tầng bất biến】định nghĩa thuật ngữ. AI chỉ đọc
+├── known_patterns.md   ← 【tầng bán cố định】tập hợp pattern. AI đề xuất, người duyệt rồi mới ghi lại
+└── generated/          ← 【tầng sinh tự động】agent docs-keeper tự động cập nhật
     ├── code_map.md
     ├── dependencies.md
     └── module_index.md
 ```
 
-| ファイル | 用途 | 管理者 |
+| File | Công dụng | Người quản lý |
 |---|---|---|
-| `business_rules.md` | 業務ルール（不変制約・計算式・ステータス遷移・例外・法規制・承認フロー） | 人間（業務有識者） |
-| `tech_stack.md` | 採用技術・バージョン・選択理由 | 人間（技術有識者） |
-| `glossary.md` | 用語集（業界用語・社内略語・コード語彙との対応） | 人間（有識者＋開発者） |
-| `known_patterns.md` | 設計パターン・コーディング規約の実例 | AI 提案 → 人間承認 |
-| `generated/*.md` | コード地図・依存関係・公開API一覧 | `docs-keeper` エージェント（自動） |
+| `business_rules.md` | Business rule (ràng buộc bất biến, công thức tính, chuyển trạng thái, ngoại lệ, quy định pháp lý, luồng duyệt) | Người (chuyên môn nghiệp vụ) |
+| `tech_stack.md` | Công nghệ đang dùng, phiên bản, lý do chọn | Người (chuyên môn kỹ thuật) |
+| `glossary.md` | Từ điển thuật ngữ (thuật ngữ ngành, từ viết tắt nội bộ, ánh xạ sang từ vựng trong code) | Người (chuyên môn + developer) |
+| `known_patterns.md` | Ví dụ thực tế của pattern thiết kế và quy ước code | AI đề xuất → người duyệt |
+| `generated/*.md` | Bản đồ code, quan hệ phụ thuộc, danh sách API công khai | Agent `docs-keeper` (tự động) |
 
-## arent-workflow Plugin との連携
+## Phối hợp với plugin arent-workflow
 
-- `docs-keeper` エージェントがコード変更を検知して `generated/` の3ファイルを自動更新する（業務ルールは扱わない＝人間管理）。
-- `.claude/rules/domain-knowledge.md` が `src/**` 等の編集時に `business_rules.md` 参照を Claude に促す。コードとドキュメントが矛盾する場合は**ドキュメントを正**とし、差分は人間に提案する。
-- `/arent-workflow:onboarding existing` が初回セットアップ時に既存コードを解析し、`generated/` を生成 ＋ `business_rules.md`／`known_patterns.md` への追記を**提案**する（自動反映はしない）。
-- CI/手動で再生成したい場合は `scripts/update-ai-docs.sh force`（または `.ps1 force`）を実行する。
+- Agent `docs-keeper` phát hiện thay đổi code rồi tự động cập nhật 3 file trong `generated/` (không đụng business rule = do người quản lý).
+- `.claude/rules/domain-knowledge.md` nhắc Claude tham chiếu `business_rules.md` khi sửa `src/**` v.v. Khi code và tài liệu mâu thuẫn thì **lấy tài liệu làm chuẩn**, và đề xuất phần khác biệt cho người.
+- `/arent-workflow:onboarding existing` phân tích code có sẵn lúc setup lần đầu, sinh ra `generated/` và **đề xuất** phần bổ sung cho `business_rules.md` / `known_patterns.md` (không tự động phản ánh).
+- Muốn sinh lại bằng CI hoặc bằng tay thì chạy `scripts/update-ai-docs.sh force` (hoặc `.ps1 force`).
 
-## 編集ルール
+## Rule chỉnh sửa
 
-- 不変層（business_rules / tech_stack / glossary）は**人間が書く**。AI は読むだけで、勝手に上書きしない。
-- 半固定層（known_patterns）は AI が候補を提案し、人間が承認したものだけを記録する。
-- 自動生成層（generated/）は**手で編集しない**（次回の自動更新で上書きされる）。
+- Tầng bất biến (business_rules / tech_stack / glossary) là **do người viết**. AI chỉ đọc, không tự ý ghi đè.
+- Tầng bán cố định (known_patterns) thì AI đề xuất ứng viên, chỉ ghi lại những gì người đã duyệt.
+- Tầng sinh tự động (generated/) thì **không sửa tay** (sẽ bị ghi đè ở lần cập nhật tự động sau).

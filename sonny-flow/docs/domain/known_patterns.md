@@ -1,65 +1,65 @@
-# 設計パターン・コーディング規約
+# Pattern thiết kế, quy ước code
 
-<!-- 半固定層：AI が候補を提案し、技術リードが承認した実例を記録します。AI が自動で書き換えてはいけません。 -->
-<!-- AI は新規実装時にこのファイルのパターンに倣います（.claude/rules/domain-knowledge.md 参照）。 -->
-<!-- 新しいパターン採用時は設計レビュー後にここへ追記を『提案』します。 -->
-<!-- [REPLACE] の構造を残しつつ内容をプロジェクト固有の実例に書き換えてください。 -->
+<!-- Tầng bán cố định: AI đề xuất ứng viên, và ghi lại những ví dụ thực tế mà tech lead đã duyệt. AI không được tự động sửa. -->
+<!-- AI noi theo các pattern trong file này khi code mới (xem .claude/rules/domain-knowledge.md). -->
+<!-- Khi áp dụng pattern mới thì "đề xuất" bổ sung vào đây sau khi đã review thiết kế. -->
+<!-- Hãy giữ nguyên cấu trúc [REPLACE] và thay nội dung bằng ví dụ thực tế của project. -->
 
-## アーキテクチャパターン
+## Pattern kiến trúc
 
-### [REPLACE: パターン名（例: Repository Pattern）]
+### [REPLACE: tên pattern (ví dụ: Repository Pattern)]
 
-- **採用理由**: [REPLACE: なぜこのパターンを使っているか]
-- **適用範囲**: [REPLACE: どのレイヤー/モジュールに適用するか]
-- **実装例**:
+- **Lý do áp dụng**: [REPLACE: vì sao lại dùng pattern này]
+- **Phạm vi áp dụng**: [REPLACE: áp dụng cho layer/module nào]
+- **Ví dụ code**:
 
-```[REPLACE: 言語]
-// [REPLACE: 簡潔な実装例]
+```[REPLACE: ngôn ngữ]
+// [REPLACE: ví dụ code ngắn gọn]
 ```
 
-- **やってはいけないこと**: [REPLACE: アンチパターン・変形してはいけない形]
+- **Những điều không được làm**: [REPLACE: anti-pattern, những biến thể không được phép]
 
 ---
 
-## 命名規約
+## Quy ước đặt tên
 
-| 対象 | 規約 | 例 |
+| Đối tượng | Quy ước | Ví dụ |
 |---|---|---|
-| [REPLACE: ファイル名] | [REPLACE: kebab-case / PascalCase / etc.] | [REPLACE: 例] |
-| [REPLACE: 関数名] | [REPLACE] | [REPLACE] |
-| [REPLACE: 定数] | [REPLACE] | [REPLACE] |
+| [REPLACE: tên file] | [REPLACE: kebab-case / PascalCase / etc.] | [REPLACE: ví dụ] |
+| [REPLACE: tên hàm] | [REPLACE] | [REPLACE] |
+| [REPLACE: hằng số] | [REPLACE] | [REPLACE] |
 
 ---
 
-## エラーハンドリングパターン
+## Pattern error handling
 
-[REPLACE: このプロジェクトで統一されたエラーハンドリングの方針と実例]
+[REPLACE: phương châm error handling đã thống nhất trong project này, kèm ví dụ thực tế]
 
-```[REPLACE: 言語]
-// [REPLACE: 標準的なエラーハンドリング例]
+```[REPLACE: ngôn ngữ]
+// [REPLACE: ví dụ error handling chuẩn]
 ```
 
 ---
 
-## テストパターン
+## Pattern test
 
-### [REPLACE: テストの種別（例: 統合テスト）]
+### [REPLACE: loại test (ví dụ: integration test)]
 
-- **ツール**: [REPLACE]
-- **ファイル配置**: [REPLACE: `tests/integration/**/*.test.ts` など]
-- **フィクスチャ方針**: [REPLACE: テストデータの作り方]
-- **実例**:
+- **Công cụ**: [REPLACE]
+- **Chỗ đặt file**: [REPLACE: ví dụ `tests/integration/**/*.test.ts`]
+- **Phương châm fixture**: [REPLACE: cách tạo dữ liệu test]
+- **Ví dụ thực tế**:
 
-```[REPLACE: 言語]
-// [REPLACE: テストコードの例]
+```[REPLACE: ngôn ngữ]
+// [REPLACE: ví dụ code test]
 ```
 
 ---
 
-## 非推奨・廃止パターン
+## Pattern không còn khuyến nghị, đã bỏ
 
-過去に使われていたが現在は使わないパターン。既存コードで見かけた場合の対処方針を明記。
+Những pattern từng dùng nhưng hiện không dùng nữa. Ghi rõ hướng xử lý khi bắt gặp trong code có sẵn.
 
-| パターン | 廃止理由 | 代替 |
+| Pattern | Lý do bỏ | Thay thế bằng |
 |---|---|---|
 | [REPLACE] | [REPLACE] | [REPLACE] |
