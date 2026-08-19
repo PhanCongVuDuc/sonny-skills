@@ -1,30 +1,30 @@
-# parallel-analysis ─ 詳細手順
+# parallel-analysis ─ thủ tục chi tiết
 
-## 手順
-1. **対象を1領域に絞る**（コード全体を一度に渡さない）。領域定義は `deliverables/00_onboarding/regions.json`
-2. **独立セッション**で `legacy-analyzer` を2回起動（run-1, run-2）。同じプロンプトを渡す
-   - セッションを共有するとコンテキスト汚染で結果が似てしまう。**必ず別セッション**
-   - 余裕があれば run-3 まで増やす（3-of-3 一致が confirmed の最強保証）
-3. それぞれの結果を `analysis-run1.json`, `analysis-run2.json` として保存
-4. `analysis-aggregator` を起動して突き合わせ：
-   - `confirmed`：両方一致 → 信頼度=高
-   - `divergent`：両方が違う結論 → 人レビュー必須
-   - `partial`：片方しか触れていない → 人レビュー必須
-5. 人ゲートで `divergent` と `partial` だけ確認する（`confirmed` は基本通す）
+## Thủ tục
+1. **Thu đối tượng về đúng 1 region** (không đưa toàn bộ code một lần). Định nghĩa region nằm ở `deliverables/00_onboarding/regions.json`
+2. Khởi động `legacy-analyzer` 2 lần trong **session độc lập** (run-1, run-2). Truyền cùng một prompt
+   - Dùng chung session thì context bị nhiễu và kết quả sẽ giống nhau. **Bắt buộc khác session**
+   - Nếu dư sức thì tăng lên tới run-3 (khớp 3-of-3 là mức bảo đảm mạnh nhất cho confirmed)
+3. Lưu kết quả từng run thành `analysis-run1.json`, `analysis-run2.json`
+4. Khởi động `analysis-aggregator` để đối chiếu:
+   - `confirmed`: cả hai khớp → mức tin cậy = cao
+   - `divergent`: hai bên kết luận khác nhau → bắt buộc người review
+   - `partial`: chỉ một bên nhắc tới → bắt buộc người review
+5. Ở human gate chỉ kiểm `divergent` và `partial` (`confirmed` thì về cơ bản cho qua)
 
-## 守るべき詳細ルール
-- runごとに**必ず別セッション**で実行する（コンテキスト汚染の防止）
-- run間で**プロンプトを変えない**（同一条件での比較が成立しなくなる）
-- run結果を見てから「3run目はもう少しヒントを足そう」と思っても、それは別タスクの解析として残す（同一突き合わせには混ぜない）
-- `confidence_rate` が 70% 未満なら、領域分割が粗すぎる可能性。領域を分割し直して再実行する
-- 領域を跨ぐ問題に気づいても、当該領域のレポートには書かない（`legacy-analyzer` の責務外）
+## Quy tắc chi tiết phải giữ
+- Mỗi run **bắt buộc chạy trong session khác nhau** (chống nhiễu context)
+- **Không đổi prompt** giữa các run (đổi là mất tính so sánh trong cùng điều kiện)
+- Xem kết quả run rồi nghĩ "run thứ 3 thêm chút gợi ý nữa" thì để cái đó lại như một task phân tích riêng (không trộn vào cùng một lần đối chiếu)
+- `confidence_rate` dưới 70% thì có khả năng việc chia region đang quá thô. Chia lại region rồi chạy lại
+- Có nhận ra vấn đề vắt qua nhiều region cũng không viết vào báo cáo của region đang xét (nằm ngoài trách nhiệm của `legacy-analyzer`)
 
-## confidence_rate の使い方
+## Cách dùng confidence_rate
 
-`aggregation.json` の `confidence_rate` は **(confirmed の項目数) / (総項目数)** で計算する。
+`confidence_rate` trong `aggregation.json` được tính bằng **(số mục confirmed) / (tổng số mục)**.
 
-| confidence_rate | 解釈 | 対応 |
+| confidence_rate | Diễn giải | Cách xử lý |
 |---|---|---|
-| ≥ 0.90 | 解析の信頼度が非常に高い | 通常通り人ゲートへ |
-| 0.70 〜 0.90 | 一定の信頼度。divergent/partialを人レビュー | 通常運用 |
-| < 0.70 | 領域分割が粗い・対象コードが複雑すぎる | 領域を細かく分けて再実行を検討 |
+| ≥ 0.90 | Độ tin cậy của phân tích rất cao | Đi tới human gate như bình thường |
+| 0.70 – 0.90 | Có độ tin cậy nhất định. Người review phần divergent/partial | Vận hành bình thường |
+| < 0.70 | Chia region quá thô, hoặc code quá phức tạp | Cân nhắc chia region nhỏ hơn rồi chạy lại |

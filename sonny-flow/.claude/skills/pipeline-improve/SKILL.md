@@ -1,23 +1,23 @@
 ---
 name: pipeline-improve
-description: 直近のAI駆動開発サイクルで記録した「人が修正した箇所と理由」ログを分析し、ルール・パイプラインの改善案をBefore/After形式で出力する。
+description: Analyse the "what humans corrected and why" log from the recent AI-driven development cycles, and emit rule and pipeline improvements in Before/After form.
 ---
 
 # pipeline-improve
 
-## いつ使うか
-- 3ヶ月に1度の定期レビュー（[`docs/agent-rules.md`](../../../docs/agent-rules.md) のサイクル）
-- AIの同種ミスが繰り返し発生していると感じたとき
-- ルールファイルが肥大化してきたとき
+## Khi nào dùng
+- Review định kỳ 3 tháng một lần (chu kỳ trong [`docs/agent-rules.md`](../../../docs/agent-rules.md))
+- Khi cảm thấy AI lặp đi lặp lại cùng một loại lỗi
+- Khi file rule đã phình lên
 
-## 入出力
-- 入力：`deliverables/reviews/*.json` の `verdict: 問題あり`、`deliverables/03_implementation/*.report.json` の `assumptions(risk: high)`、人が訂正したgit diff
-- 出力：`deliverables/reviews/pipeline-improve-{YYYY-MM}.md`（[`.claude/rules/output-formats.md`](../../rules/output-formats.md) §7 形式）
+## Input / output
+- Input: các mục `verdict: có vấn đề` trong `deliverables/reviews/*.json`, các mục `assumptions(risk: high)` trong `deliverables/03_implementation/*.report.json`, và git diff do người sửa lại
+- Output: `deliverables/reviews/pipeline-improve-{YYYY-MM}.md` (định dạng [`.claude/rules/output-formats.md`](../../rules/output-formats.md) §7)
 
-## 最低限の守るルール
-- 「廃止できるルール」も必ず探す（追加ばかりだとルールが肥大化する）
-- ルール変更案は**具体的な文言**で出す（「気を付ける」のような抽象表現は禁止）
-- 過去のレポートを読んで、同じ改善案を繰り返し出していないか確認する
-- このSkillの結果を **直接 `.claude/agents/*.md` に書き込まない**（必ず人の承認を得る）
+## Quy tắc tối thiểu phải giữ
+- Bắt buộc đi tìm cả "rule có thể bỏ đi" (chỉ toàn thêm mới thì rule sẽ phình lên)
+- Phương án sửa rule phải ra bằng **câu chữ cụ thể** (cấm diễn đạt trừu tượng kiểu "cần chú ý")
+- Đọc các báo cáo cũ để kiểm tra xem có đang lặp lại đúng phương án cải thiện đó không
+- **Không ghi thẳng** kết quả của skill này vào `.claude/agents/*.md` (bắt buộc có người duyệt)
 
-分析の進め方は [`reference.md`](reference.md) を参照。
+Cách tiến hành phân tích: xem [`reference.md`](reference.md).

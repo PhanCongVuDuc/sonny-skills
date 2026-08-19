@@ -1,48 +1,48 @@
-# design-decision ─ 詳細手順
+# design-decision ─ thủ tục chi tiết
 
-## 3ステップ進行
+## Tiến hành 3 bước
 
 ```
-Step 1：「選択肢Aの推進者」として、Aを採用すべき理由を3つ
-Step 2：「選択肢Bの推進者」として、Bを採用すべき理由を3つ
-Step 3：「中立な審判」として、この判断で最も重要な決め手となる観点を2つ整理
+Step 1: đóng vai "người ủng hộ phương án A", đưa 3 lý do nên chọn A
+Step 2: đóng vai "người ủng hộ phương án B", đưa 3 lý do nên chọn B
+Step 3: đóng vai "trọng tài trung lập", sắp xếp 2 perspective mang tính quyết định nhất cho lựa chọn này
 ```
 
-**Step 3で結論を出さない**。決め手の観点を整理するのみ。最終判断は人が行う。
+**Ở Step 3 không đưa ra kết luận**. Chỉ sắp xếp các perspective mang tính quyết định. Phán đoán cuối cùng do người làm.
 
-## 出力フォーマット例
+## Ví dụ định dạng output
 
 ```markdown
-# 設計判断：DBエンジン選定
+# Quyết định thiết kế: chọn DB engine
 
-## 選択肢
+## Các phương án
 - A: PostgreSQL
 - B: MySQL
 
-## 前提条件
-- 規模：100万レコード/年
-- 制約：オンプレ運用必須
-- チームスキル：MySQL経験者多数、PG経験者少
+## Điều kiện tiền đề
+- Quy mô: 1 triệu bản ghi/năm
+- Ràng buộc: bắt buộc vận hành on-premise
+- Kỹ năng team: nhiều người có kinh nghiệm MySQL, ít người có kinh nghiệm PG
 
-## Aの推進者の主張
-1. JSONB のネイティブサポートで半構造化データを扱いやすい
-2. 外部キー制約とトリガーの組み合わせが堅牢
-3. CTE・ウィンドウ関数が標準で揃う
+## Lập luận của người ủng hộ A
+1. Hỗ trợ JSONB gốc nên dễ xử lý dữ liệu bán cấu trúc
+2. Kết hợp ràng buộc khoá ngoại và trigger rất chắc chắn
+3. CTE, hàm window có sẵn theo chuẩn
 
-## Bの推進者の主張
-1. チームのスキルセットと運用ノウハウが既にある
-2. レプリケーション構成のドキュメントが豊富
-3. クラウド・オンプレ両方で運用実績が多い
+## Lập luận của người ủng hộ B
+1. Team đã sẵn có kỹ năng và kinh nghiệm vận hành
+2. Tài liệu về cấu hình replication rất phong phú
+3. Có nhiều thực tế vận hành trên cả cloud lẫn on-premise
 
-## 中立な審判：決め手となる観点
-1. 観点：チーム学習コスト（B有利）
-2. 観点：今後のデータモデル拡張余地（A有利）
-（結論は出さない。人が判断する）
+## Trọng tài trung lập: các perspective mang tính quyết định
+1. Perspective: chi phí học của team (B có lợi)
+2. Perspective: dư địa mở rộng data model về sau (A có lợi)
+(Không đưa ra kết luận. Người sẽ quyết)
 ```
 
-## 守るべき詳細ルール
-- AIが「どちらが良い」と結論を述べることは禁止
-- 各推進者の主張は3点ずつ均等に出す（片方が薄くならないように）
-- 「決め手の観点」には A有利/B有利/引き分け のラベルを付ける
-- 前提条件が不足していたら、推測で埋めずに「（要確認）」で報告
-- 選択肢が3つ以上ある場合は、まず2択に絞ってから繰り返し適用する
+## Quy tắc chi tiết phải giữ
+- Cấm AI phát biểu kết luận "bên nào tốt hơn"
+- Lập luận của mỗi người ủng hộ phải ra đều tay, mỗi bên 3 điểm (để không bên nào bị mỏng)
+- Với "perspective mang tính quyết định" thì gắn nhãn A có lợi / B có lợi / hoà
+- Nếu điều kiện tiền đề còn thiếu thì báo lại bằng "(cần xác nhận)", không lấp bằng suy đoán
+- Nếu có từ 3 phương án trở lên thì trước hết thu về 2 lựa chọn rồi áp dụng lặp lại

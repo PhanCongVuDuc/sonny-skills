@@ -1,26 +1,26 @@
 ---
 name: focused-review
-description: 設計・コードに対して1観点だけを絞り込んでレビューする。対象外を明示し、問題あり/問題なし/確認不能の3値で構造化出力する。
+description: Review a design or code narrowed to exactly one perspective. State what is out of scope, and emit structured output in three values: issue found / no issue / cannot verify.
 ---
 
 # focused-review
 
-## いつ使うか
-- 「全体をレビューして」と言いたくなったとき（→ 観点を絞る）
-- 特定の観点（トランザクション境界・数値精度等）を集中的に確認したいとき
-- `design-reviewer` や `implementation-reviewer` を呼び出すとき
+## Khi nào dùng
+- Khi bạn định nói "review toàn bộ giúp tôi" (→ hãy thu hẹp lại perspective)
+- Khi muốn kiểm tra tập trung vào một perspective cụ thể (transaction boundary, độ chính xác số, v.v.)
+- Khi gọi `design-reviewer` hoặc `implementation-reviewer`
 
-## 入出力
-- 入力：レビュー対象 + **1つの観点**（[`.claude/rules/risk-categories.md`](../../rules/risk-categories.md) から選ぶ）
-- 出力：
-  - 設計：`deliverables/reviews/design-{観点}-{feature}.json`
-  - 実装：`deliverables/reviews/impl-{観点}-{task_id}.json`
-- 形式：[`.claude/rules/output-formats.md`](../../rules/output-formats.md) §2（`verdict: 問題あり / 問題なし / 確認不能` の3値）
+## Input / output
+- Input: đối tượng review + **đúng 1 perspective** (chọn từ [`.claude/rules/risk-categories.md`](../../rules/risk-categories.md))
+- Output:
+  - Design: `deliverables/reviews/design-{perspective}-{feature}.json`
+  - Implementation: `deliverables/reviews/impl-{perspective}-{task_id}.json`
+- Định dạng: [`.claude/rules/output-formats.md`](../../rules/output-formats.md) §2 (3 giá trị `verdict: có vấn đề / không vấn đề / không kiểm chứng được`)
 
-## 最低限の守るルール
-- **1呼び出し1観点**を厳守
-- 「良い点」は出さない（指摘のみ）
-- 「問題なし」も観点を明示して出す（沈黙で済ませない）
-- 観点に該当しない問題に気づいたら黙殺し、別呼び出しで対応
+## Quy tắc tối thiểu phải giữ
+- Nghiêm ngặt **1 lần gọi 1 perspective**
+- Không xuất "điểm tốt" (chỉ nêu vấn đề)
+- "Không vấn đề" cũng phải xuất kèm perspective đã xét (không im lặng cho qua)
+- Nhận ra vấn đề không thuộc perspective đang xét thì bỏ qua, xử lý ở lần gọi khác
 
-詳細な観点別の確認ポイントは [`reference.md`](reference.md) を参照。
+Điểm kiểm tra chi tiết theo từng perspective: xem [`reference.md`](reference.md).

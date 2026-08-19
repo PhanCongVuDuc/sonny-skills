@@ -1,40 +1,40 @@
-# doc-bootstrap ─ 詳細手順
+# doc-bootstrap ─ thủ tục chi tiết
 
-## 手順
-1. 入力を確認：
-   - 全領域の `aggregation.json` が `human_verdict` 付きで揃っているか
-   - 揃っていないなら停止し、揃っていない領域を報告
-2. `docs-keeper` エージェントを起動し、以下の3ファイルを**初回生成**：
+## Thủ tục
+1. Kiểm tra input:
+   - `aggregation.json` của toàn bộ region đã đủ và có kèm `human_verdict` chưa
+   - Chưa đủ thì dừng, và báo lại những region còn thiếu
+2. Khởi động agent `docs-keeper` để **sinh lần đầu** 3 file sau:
    - `docs/domain/generated/code_map.md`
    - `docs/domain/generated/dependencies.md`
    - `docs/domain/generated/module_index.md`
-3. 生成方針：
-   - **`human_verdict: confirmed` の項目のみ反映**
-   - 推測は反映しない（不確実な情報を初期ドキュメントに混ぜない）
-   - 1モジュールにつき1〜3行（簡潔さ優先）
-   - 関連モジュールへの**相互リンク**を必ず付ける
-   - リスク高モジュールには **⚠️マーカー**（このマーカーのみ絵文字を例外的に許可）
-4. 完了後、件数サマリを出力：
-   - 反映したモジュール数
-   - 反映しなかった項目数（推測・要確認・不明）と理由
+3. Phương châm sinh:
+   - **Chỉ phản ánh những mục `human_verdict: confirmed`**
+   - Không phản ánh phần suy đoán (không trộn thông tin chưa chắc chắn vào tài liệu ban đầu)
+   - Mỗi module 1–3 dòng (ưu tiên ngắn gọn)
+   - Bắt buộc gắn **link qua lại** tới các module liên quan
+   - Module rủi ro cao thì gắn **marker ⚠️** (chỉ riêng marker này được phép dùng emoji, như một ngoại lệ)
+4. Xong thì xuất bản tóm tắt số lượng:
+   - Số module đã phản ánh
+   - Số mục không phản ánh (suy đoán, cần xác nhận, không rõ) kèm lý do
 
-## 3ファイルの構造ガイド
+## Hướng dẫn cấu trúc của 3 file
 
 ### code_map.md
-- 領域別にセクション分け
-- 各モジュール：パス + 責務（1行）+ 関連リンク
+- Chia section theo region
+- Mỗi module: path + trách nhiệm (1 dòng) + link liên quan
 
 ### dependencies.md
-- レイヤー違反の禁止事項
-- 主要モジュールの依存先（順方向）
-- 循環依存・要注意箇所（⚠️マーカー）
+- Các điều cấm về vi phạm layer
+- Nơi mà các module chính phụ thuộc vào (theo chiều xuôi)
+- Phụ thuộc vòng và các chỗ cần chú ý (marker ⚠️)
 
 ### module_index.md
-- テーブル形式：機能名 / 主要ファイル / 関連シナリオ / 業務ルール参照
+- Dạng bảng: tên chức năng / file chính / scenario liên quan / tham chiếu business rule
 
-## 守るべき詳細ルール
-- **初回生成のみ**。差分更新は使わず、全文を新規生成（更新時は `docs-keeper` の差分マージモードを使う）
-- 推測情報を初期ドキュメントに含めない（人ゲート⓪-1で `confirmed` 化されたものだけ）
-- ファイルが既に存在する場合は上書き確認を求める（自動上書き禁止）
-- 生成後、必ず人ゲート⓪-2に進む（自動で次フェーズに進ませない）
-- 反映しなかった項目（divergent / partial で human_verdict 未確定など）は summary に件数と理由を記載
+## Quy tắc chi tiết phải giữ
+- **Chỉ dành cho lần sinh đầu tiên**. Không dùng cập nhật theo diff, mà sinh mới toàn văn (khi cập nhật thì dùng chế độ merge diff của `docs-keeper`)
+- Không đưa thông tin suy đoán vào tài liệu ban đầu (chỉ những gì đã thành `confirmed` ở human gate ⓪-1)
+- Nếu file đã tồn tại thì phải hỏi xác nhận ghi đè (cấm tự động ghi đè)
+- Sinh xong bắt buộc đi tới human gate ⓪-2 (không tự động sang phase kế tiếp)
+- Các mục không phản ánh (divergent / partial mà human_verdict chưa chốt, v.v.) thì ghi số lượng và lý do vào summary

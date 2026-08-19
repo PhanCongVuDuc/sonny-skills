@@ -1,51 +1,51 @@
-# handoff ─ 詳細手順
+# handoff ─ thủ tục chi tiết
 
-## 手順
-1. 現在のセッションでの作業を以下に分類：
-   - 完了した処理
-   - 未完了の処理
-   - 進行中の処理
-2. **このセッションで確認した重要な事実**を抽出。特に：
-   - AIが最初に誤解していたが訂正された点（次セッションでの再発防止）
-   - 業務ルールの確認結果
-3. **次のセッションで最初にやること**を番号付きで具体的に書く
-4. このセッションで発生した問題・コンテキスト汚染の記録を残す
-5. ファイルに書き出す
+## Thủ tục
+1. Phân loại công việc trong session hiện tại thành:
+   - Xử lý đã hoàn thành
+   - Xử lý chưa hoàn thành
+   - Xử lý đang làm dở
+2. Rút ra **các sự kiện quan trọng đã xác nhận trong session này**. Đặc biệt là:
+   - Những chỗ AI hiểu sai lúc đầu rồi được sửa lại (chống tái phát ở session sau)
+   - Kết quả xác nhận business rule
+3. Viết cụ thể, đánh số, **những việc phải làm đầu tiên ở session sau**
+4. Để lại ghi chép về các vấn đề phát sinh và về việc context bị nhiễu trong session này
+5. Ghi ra file
 
-## 出力フォーマット
+## Định dạng output
 
 ```markdown
-# 引き継ぎファイル（{日時}）
+# File handoff ({ngày giờ})
 
-## 現在の状態
-- 完了した処理：
-- 未完了の処理：
-- 進行中の処理：
+## Trạng thái hiện tại
+- Xử lý đã hoàn thành:
+- Xử lý chưa hoàn thành:
+- Xử lý đang làm dở:
 
-## このセッションで確認した重要な事実
--（仕様の解釈・業務ルールの確認事項等）
--（AIの誤解→訂正の記録）
+## Sự kiện quan trọng đã xác nhận trong session này
+- (Cách hiểu spec, các mục đã xác nhận về business rule, v.v.)
+- (Ghi chép AI hiểu sai → được sửa lại)
 
-## 次のセッションで最初にやること
+## Việc phải làm đầu tiên ở session sau
 1.
 2.
 
-## 注意事項（このセッションで発生した問題と対処）
+## Lưu ý (vấn đề phát sinh trong session này và cách xử lý)
 -
 ```
 
-## 新セッション開始時の使い方
+## Cách dùng khi bắt đầu session mới
 
-新しいセッションの最初のプロンプトで `deliverables/handoff/` の**最新ファイル**を Read させて、AIの認識を再構築してから作業に入る。具体例：
+Ở prompt đầu tiên của session mới, cho AI Read **file mới nhất** trong `deliverables/handoff/` để tái dựng nhận thức rồi mới bắt tay làm việc. Ví dụ cụ thể:
 
 ```
-新セッションの最初のメッセージ：
-「deliverables/handoff/ の最新ファイルを読んで、その状態から作業を継続してください」
+Tin nhắn đầu tiên của session mới:
+"Đọc file mới nhất trong deliverables/handoff/ rồi tiếp tục công việc từ trạng thái đó."
 ```
 
-## 守るべき詳細ルール
-- 4セクションを必ずすべて含める（空でも見出しを残す）
-- 「重要な事実」にはユーザに訂正された箇所を必ず書く
-- 機密情報（パスワード・トークン等）は含めない
-- 推測・要約は最小限。次セッションで再現に必要な情報を網羅する
-- ファイル名は連番。同日複数生成時は `handoff-2026-05-19-1.md`、`handoff-2026-05-19-2.md`
+## Quy tắc chi tiết phải giữ
+- Bắt buộc có đủ tất cả 4 section (rỗng thì vẫn giữ tiêu đề)
+- Trong "sự kiện quan trọng" bắt buộc viết những chỗ bị người dùng sửa lại
+- Không đưa thông tin nhạy cảm (mật khẩu, token, v.v.) vào
+- Suy đoán và tóm lược ở mức tối thiểu. Phủ đủ thông tin để session sau tái lập được
+- Tên file đánh số thứ tự. Cùng ngày sinh nhiều lần thì `handoff-2026-05-19-1.md`, `handoff-2026-05-19-2.md`

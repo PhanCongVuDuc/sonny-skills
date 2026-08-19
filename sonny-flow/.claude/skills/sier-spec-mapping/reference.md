@@ -1,51 +1,51 @@
-# sier-spec-mapping ─ 詳細手順
+# sier-spec-mapping ─ thủ tục chi tiết
 
-## 手順
-1. CLAUDE.md の Input 配置で受領設計書の場所を確認
-2. `sier-spec-reader` エージェントを起動し、設計書群を読み解く
-3. 以下の観点を**順番固定**で抽出
-4. 出力を2つに分ける：
-   - **派生仕様**（implementer に渡せるレベルまで展開した実装指示）
-   - **issues**（矛盾・未定義・確認質問）
-5. 必ず `uncertainty-report` Skillを併走させ、推測箇所を別JSONに出す
-6. 派生仕様には**受領設計書への参照を必ず付ける**（`source: inputs/sier-design/v1.2_基本設計書.docx#3.2.1`）
+## Thủ tục
+1. Xem mục bố trí Input trong CLAUDE.md để biết chỗ đặt design doc nhận được
+2. Khởi động agent `sier-spec-reader` để đọc hiểu bộ design doc
+3. Rút các perspective dưới đây theo **thứ tự cố định**
+4. Chia output làm 2 phần:
+   - **Derived spec** (chỉ dẫn code đã khai triển tới mức giao được cho implementer)
+   - **issues** (mâu thuẫn, chỗ chưa định nghĩa, câu hỏi xác nhận)
+5. Bắt buộc chạy song song skill `uncertainty-report` để xuất các chỗ suy đoán ra JSON riêng
+6. Trong derived spec **bắt buộc gắn tham chiếu về design doc nhận được** (`source: inputs/sier-design/v1.2_basic-design.docx#3.2.1`)
 
-## 抽出する観点（順番固定）
+## Các perspective cần rút (thứ tự cố định)
 
-1. 機能の入出力（リクエスト・レスポンス・画面項目）
-2. 業務ルール（計算式・判定条件・閾値）
-3. エラーハンドリング（書かれていないものを明示）
-4. トランザクション境界・べき等性
-5. 設計書間の矛盾点
-6. 暗黙の前提（業界慣行で省略されているもの）
-7. 未定義箇所（実装上の選択が必要だが指示がない）
+1. Input/output của chức năng (request, response, các mục trên màn hình)
+2. Business rule (công thức tính, điều kiện phán đoán, ngưỡng)
+3. Error handling (nêu rõ cả những cái không được viết trong doc)
+4. Transaction boundary và tính idempotent
+5. Các điểm mâu thuẫn giữa những design doc khác nhau
+6. Tiền đề ngầm (những cái bị lược đi vì là thông lệ ngành)
+7. Chỗ chưa định nghĩa (chỗ buộc phải chọn khi code nhưng doc không chỉ dẫn)
 
-## 派生仕様（derived-spec.md）の冒頭フォーマット
+## Định dạng phần đầu của derived spec (derived-spec.md)
 
 ```markdown
-# {feature} 派生仕様
+# Derived spec của {feature}
 
-## 出典
-- inputs/sier-design/v1.2_基本設計書.docx（章 3.2.1〜3.2.5）
-- inputs/sier-design/v1.0_画面定義書.xlsx（シート「注文画面」）
+## Nguồn
+- inputs/sier-design/v1.2_basic-design.docx (chương 3.2.1–3.2.5)
+- inputs/sier-design/v1.0_screen-definition.xlsx (sheet "Màn hình đơn hàng")
 
-## 受領設計書のバージョン
-- 基本設計書 v1.2（2026-04-01 受領）
-- 画面定義書 v1.0（2026-04-01 受領）
+## Phiên bản của design doc nhận được
+- Thiết kế cơ bản v1.2 (nhận ngày 2026-04-01)
+- Định nghĩa màn hình v1.0 (nhận ngày 2026-04-01)
 
-## 注意
-このファイルは受領設計書を実装可能な粒度に展開したもの。原本は inputs/sier-design/ を参照。
-矛盾・未定義箇所は別ファイル {feature}.sier-readout.json を参照。
+## Lưu ý
+File này là bản khai triển design doc nhận được tới độ mịn có thể code được. Bản gốc xem ở inputs/sier-design/.
+Mâu thuẫn và chỗ chưa định nghĩa thì xem file riêng {feature}.sier-readout.json.
 
 ---
 
-（以降、通常の仕様書構成と同じ10セクション）
+(Từ đây trở xuống là 10 section giống cấu trúc spec thông thường)
 ```
 
-## 守るべき詳細ルール
-- **受領設計書を要約・言い換えしない**。実装に必要な情報だけを抽出
-- 設計書に書かれていない処理を「気を利かせて」追加しない
-- 矛盾・未定義は派生仕様に含めない（`issues` に積む）
-- 必ず**人ゲート①'**を通す。`issues` を解消してから implementer に進む
-- 受領設計書のバージョンを `derived-spec.md` の冒頭に必ず明記する
-- 複数版の設計書がある場合、最新版を優先するが、旧版との差分も `version_diff` に記録
+## Quy tắc chi tiết phải giữ
+- **Không tóm tắt, không diễn đạt lại** design doc nhận được. Chỉ rút thông tin cần cho việc code
+- Không "tự giác" thêm những xử lý không có trong design doc
+- Mâu thuẫn và chỗ chưa định nghĩa thì không đưa vào derived spec (dồn vào `issues`)
+- Bắt buộc đi qua **human gate ①'**. Giải quyết xong `issues` rồi mới sang implementer
+- Bắt buộc ghi rõ phiên bản của design doc nhận được ở đầu `derived-spec.md`
+- Khi có nhiều phiên bản design doc thì ưu tiên bản mới nhất, nhưng vẫn ghi phần khác biệt so với bản cũ vào `version_diff`

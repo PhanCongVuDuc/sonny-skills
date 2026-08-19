@@ -1,21 +1,21 @@
-# uncertainty-report ─ 詳細手順
+# uncertainty-report ─ thủ tục chi tiết
 
-## ABCD分類の定義
+## Định nghĩa phân loại ABCD
 
-- **A**：情報不足で推測した
-- **B**：複数解釈が可能で、どちらかを選んだ
-- **C**：業務ルールが不明で一般動作にした
-- **D**：完全に理解できていない
+- **A**: suy đoán vì thiếu thông tin
+- **B**: có nhiều cách diễn giải, đã chọn một trong số đó
+- **C**: không rõ business rule nên làm theo hành vi thông thường
+- **D**: hoàn toàn chưa hiểu
 
-## 手順
-1. 対象成果物を読む
-2. 「明示されていない情報を推測で補った箇所」をすべて洗い出す
-3. ABCDのいずれかに分類
-4. 各項目に `impact: high/medium/low` を付ける
-5. 各項目に「人に聞くべき1文の質問」を付ける
-6. 影響度=high のものを上位に並べて出力
+## Thủ tục
+1. Đọc deliverable cần xét
+2. Rà ra toàn bộ "những chỗ đã lấp bằng suy đoán vì thông tin không được nói rõ"
+3. Phân loại vào một trong ABCD
+4. Gắn `impact: high/medium/low` cho từng mục
+5. Gắn "một câu hỏi nên hỏi người" cho từng mục
+6. Xếp các mục có mức ảnh hưởng = high lên trên rồi xuất ra
 
-## 出力フォーマット例
+## Ví dụ định dạng output
 
 ```json
 {
@@ -25,19 +25,19 @@
     {
       "id": "A1",
       "class": "A",
-      "content": "顧客IDの形式（数値 or 文字列）",
-      "guess": "数値として扱った",
-      "basis": "既存テーブルの型から推測",
-      "question_for_human": "顧客IDは数値・文字列のどちらで扱うのが正しいか？",
+      "content": "Định dạng của ID khách hàng (số hay chuỗi)",
+      "guess": "Đã xử lý như kiểu số",
+      "basis": "Suy đoán từ kiểu dữ liệu của bảng có sẵn",
+      "question_for_human": "ID khách hàng xử lý đúng là kiểu số hay kiểu chuỗi?",
       "impact": "high"
     }
   ]
 }
 ```
 
-## 守るべき詳細ルール
-- 「推測なし」を返すのは本当にすべて明示情報のみで作った場合のみ（沈黙NG）
-- 影響度判定に迷ったら**一段上**を選ぶ（保守側に倒す）
-- ABCDの分類が曖昧な場合は **D** にする（隠さない）
-- 「人に聞くべき質問」は閉じた質問にする（Yes/No or 選択肢で答えられる形）
-- 影響度=high のものは上位に並べ、ゲート①の人レビュー対象になる
+## Quy tắc chi tiết phải giữ
+- Chỉ được trả về "không có suy đoán" khi thật sự làm hoàn toàn bằng thông tin đã nói rõ (cấm im lặng cho qua)
+- Phân vân khi đánh giá mức ảnh hưởng thì chọn **cao hơn một bậc** (nghiêng về phía an toàn)
+- Phân loại ABCD còn mập mờ thì để **D** (không giấu)
+- "Câu hỏi nên hỏi người" phải là câu hỏi đóng (trả lời được bằng Yes/No hoặc bằng cách chọn phương án)
+- Các mục có mức ảnh hưởng = high thì xếp lên trên, và sẽ là đối tượng human review của gate ①

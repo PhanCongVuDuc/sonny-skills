@@ -1,23 +1,23 @@
-# risk-flag ─ 詳細手順
+# risk-flag ─ thủ tục chi tiết
 
-## 手順
-1. 実装コードを読む（差分でも可）
-2. 以下のリスクカテゴリに該当する箇所を抽出
-3. 各箇所に `risk_level: high/medium/low` を付ける
-4. JSON構造で出力（`human_review_required` フィールド）
+## Thủ tục
+1. Đọc code (diff cũng được)
+2. Rút ra những chỗ rơi vào các risk category dưới đây
+3. Gắn `risk_level: high/medium/low` cho từng chỗ
+4. Xuất theo cấu trúc JSON (field `human_review_required`)
 
-## リスクカテゴリ（抽出対象）
+## Risk category (đối tượng cần rút ra)
 
-- `numeric-precision`：丸め・型変換・整数除算
-- `transaction-boundary`：複数DB操作・部分失敗
-- `error-business-logic`：catch内のビジネスロジック
-- `business-rule`：暗黙の業務ルールへの依存
-- `concurrency`：非同期・スレッド安全性
-- `security`：認証・認可・入力検証・情報漏洩
+- `numeric-precision`: làm tròn, ép kiểu, chia số nguyên
+- `transaction-boundary`: nhiều thao tác DB, thất bại một phần
+- `error-business-logic`: business logic nằm trong catch
+- `business-rule`: phụ thuộc vào business rule ngầm
+- `concurrency`: bất đồng bộ, an toàn luồng
+- `security`: xác thực, phân quyền, kiểm tra input, rò rỉ thông tin
 
-詳細な観点は [`.claude/rules/risk-categories.md`](../../rules/risk-categories.md) を参照。
+Perspective chi tiết: xem [`.claude/rules/risk-categories.md`](../../rules/risk-categories.md).
 
-## 出力フォーマット
+## Định dạng output
 
 ```json
 {
@@ -25,17 +25,17 @@
     {
       "location": "src/foo.ts:42",
       "category": "numeric-precision",
-      "description": "金額計算で float を使用。decimal への置き換えが必要か確認",
+      "description": "Dùng float khi tính tiền. Cần xác nhận có phải thay bằng decimal không",
       "risk_level": "high",
-      "question_for_human": "金額計算の精度要件は？（最小単位は？）"
+      "question_for_human": "Yêu cầu về độ chính xác khi tính tiền là gì? (đơn vị nhỏ nhất là bao nhiêu?)"
     }
   ]
 }
 ```
 
-## 守るべき詳細ルール
-- フラグを立てる基準は [`.claude/rules/risk-categories.md`](../../rules/risk-categories.md) と一致させる
-- `question_for_human` を必ず付ける（人が見たときに何を確認すればよいかを明示）
-- 「フラグなし」を返す場合は、確認したカテゴリを明示する（`confirmed_categories: [...]`）
-- 高頻度に重複するパターン（例：同じファイル内の同種の問題）は1つにまとめてよい
-- `risk_level: high` の判定基準：業務影響・データ破損・セキュリティのいずれかに該当
+## Quy tắc chi tiết phải giữ
+- Tiêu chí cắm flag phải khớp với [`.claude/rules/risk-categories.md`](../../rules/risk-categories.md)
+- Bắt buộc kèm `question_for_human` (nói rõ khi người xem thì cần xác nhận cái gì)
+- Khi trả về "không có flag" thì phải nói rõ các category đã kiểm tra (`confirmed_categories: [...]`)
+- Các pattern trùng lặp tần suất cao (ví dụ: cùng loại vấn đề trong cùng một file) thì có thể gộp lại làm một
+- Tiêu chí phán định `risk_level: high`: rơi vào một trong ba mục ảnh hưởng nghiệp vụ, hỏng dữ liệu, bảo mật

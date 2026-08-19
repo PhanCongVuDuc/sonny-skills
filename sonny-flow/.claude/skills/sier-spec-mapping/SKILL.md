@@ -1,26 +1,26 @@
 ---
 name: sier-spec-mapping
-description: SIer受領設計書から「実装可能な派生仕様」へのマッピングを行う。/setup で「設計書あり」と回答した場合の Phase 1 入口で使う。
+description: Map a design doc received from an SIer into an implementable derived spec. Used at the Phase 1 entry point when /setup answered "design doc available".
 ---
 
 # sier-spec-mapping
 
-## いつ使うか
-- SIerなど外部受領設計書を起点に実装するとき（/setup の Q3 で「設計書あり」と回答した場合の Phase 1 入口）
-- 受領設計書をそのまま implementer に渡せない（粒度・矛盾・未定義のため）
+## Khi nào dùng
+- Khi bắt đầu code từ design doc nhận từ bên ngoài như SIer (cửa vào Phase 1 khi trả lời "có design doc" ở Q3 của /setup)
+- Khi không thể đưa thẳng design doc nhận được cho implementer (vì độ mịn, vì mâu thuẫn, vì chỗ chưa định nghĩa)
 
-## 入出力
-- 入力：受領設計書（場所はCLAUDE.mdの「Input配置」セクション参照）
-- 出力：
-  - `deliverables/01_requirements/{feature}.derived-spec.md`：派生仕様（implementer 入力）
-  - `deliverables/01_requirements/{feature}.sier-readout.json`：矛盾・未定義リスト
-  - `deliverables/01_requirements/{feature}.uncertainty.json`：推測箇所レポート
+## Input / output
+- Input: design doc nhận được (vị trí xem section "Bố trí Input" trong CLAUDE.md)
+- Output:
+  - `deliverables/01_requirements/{feature}.derived-spec.md`: derived spec (input cho implementer)
+  - `deliverables/01_requirements/{feature}.sier-readout.json`: danh sách mâu thuẫn, chỗ chưa định nghĩa
+  - `deliverables/01_requirements/{feature}.uncertainty.json`: báo cáo các chỗ suy đoán
 
-## 最低限の守るルール
-- **受領設計書を要約・言い換えしない**。実装に必要な情報だけを抽出
-- 設計書に書かれていない処理を「気を利かせて」追加しない
-- 矛盾・未定義は派生仕様に含めない（`issues` に積む）
-- 必ず**人ゲート①'**を通す。`issues` を解消してから implementer に進む
-- 受領設計書のバージョンを `derived-spec.md` の冒頭に必ず明記する
+## Quy tắc tối thiểu phải giữ
+- **Không tóm tắt, không diễn đạt lại** design doc nhận được. Chỉ rút thông tin cần cho việc code
+- Không "tự giác" thêm những xử lý không có trong design doc
+- Mâu thuẫn và chỗ chưa định nghĩa thì không đưa vào derived spec (dồn vào `issues`)
+- Bắt buộc đi qua **human gate ①'**. Giải quyết xong `issues` rồi mới sang implementer
+- Bắt buộc ghi rõ phiên bản của design doc nhận được ở đầu `derived-spec.md`
 
-抽出観点の詳細は [`reference.md`](reference.md) を参照。
+Chi tiết các perspective cần rút: xem [`reference.md`](reference.md).

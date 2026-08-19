@@ -1,29 +1,29 @@
-# spec-draft ─ 詳細手順
+# spec-draft ─ thủ tục chi tiết
 
-## 仕様書ドラフトの10セクション構成
+## Cấu trúc 10 section của bản nháp spec
 
 ```
-1. 機能概要（1〜2文）
-2. 前提条件・事前状態
-3. 正常系フロー（番号付き）
-4. 異常系・エラーフロー（エラーケースと処理）
-5. 入力定義（項目名・型・必須/任意・バリデーション）
-6. 出力定義（返却値・副作用・更新されるデータ）
-7. 業務ルール（計算式・判定条件・制約）
-8. トランザクション境界（API単位なら必須）
-9. べき等性（同じリクエストを2回送ったときの挙動）
-10. 未決定事項（情報不足で決められなかった点を質問形式で）
+1. Tổng quan chức năng (1–2 câu)
+2. Điều kiện tiên quyết, trạng thái trước đó
+3. Luồng happy path (có đánh số)
+4. Luồng error path (các case lỗi và cách xử lý)
+5. Định nghĩa input (tên mục, kiểu, bắt buộc/tuỳ chọn, validation)
+6. Định nghĩa output (giá trị trả về, tác dụng phụ, dữ liệu bị cập nhật)
+7. Business rule (công thức tính, điều kiện phán đoán, ràng buộc)
+8. Transaction boundary (bắt buộc nếu đơn vị là API)
+9. Tính idempotent (hành vi khi gửi cùng một request 2 lần)
+10. Các điểm chưa chốt (những chỗ không quyết được vì thiếu thông tin, viết dưới dạng câu hỏi)
 ```
 
-## 手順
-1. 入力：要件、`docs/domain/business_rules.md` の関連セクション
-2. 上記10セクションでドラフトを生成
-3. 出力後、[`uncertainty-auditor`](../../agents/uncertainty-auditor.md) を呼び `{feature}.uncertainty.json` を生成
+## Thủ tục
+1. Input: requirement, các section liên quan trong `docs/domain/business_rules.md`
+2. Sinh bản nháp theo 10 section ở trên
+3. Xuất xong thì gọi [`uncertainty-auditor`](../../agents/uncertainty-auditor.md) để sinh `{feature}.uncertainty.json`
 
-## 守るべき詳細ルール
-- 「未決定事項」セクションは**必ず存在させる**（空でも見出しは残す）
-- 異常系・エラーフローは正常系と同等以上の分量を確保
-- 業務ルールは推測で埋めない。不明なら未決定事項に
-- コードは書かない
-- 各セクションは「項目→説明→具体例」のフォーマットを推奨
-- 入力定義・出力定義はテーブル形式で揃える（後の `implementer` の入力にしやすい）
+## Quy tắc chi tiết phải giữ
+- Section "Các điểm chưa chốt" **bắt buộc phải tồn tại** (rỗng thì vẫn giữ tiêu đề)
+- Luồng error path phải có dung lượng bằng hoặc hơn happy path
+- Không lấp business rule bằng suy đoán. Không rõ thì đưa sang mục chưa chốt
+- Không viết code
+- Khuyến nghị mỗi section theo định dạng "mục → giải thích → ví dụ cụ thể"
+- Định nghĩa input và định nghĩa output thì trình bày dạng bảng cho đều (để sau này dễ làm input cho `implementer`)

@@ -1,27 +1,27 @@
 ---
 name: doc-bootstrap
-description: /setup の既存解析パスで、解析突き合わせ済みデータから AI向けドキュメント（code_map / dependencies / module_index）の初回生成を行う。
+description: In the /setup existing-analysis path, perform the first-time generation of the AI-facing docs (code_map / dependencies / module_index) from the cross-checked analysis data.
 ---
 
 # doc-bootstrap
 
-## いつ使うか
-- /setup の既存解析パスで AI向けドキュメントを初回整備するとき
-- 既存ドキュメントが古く、再生成したいとき
+## Khi nào dùng
+- Khi cần dựng lần đầu bộ docs dành cho AI trong existing-analysis path của /setup
+- Khi tài liệu có sẵn đã cũ và muốn sinh lại
 
-## 入出力
-- 入力：全領域の `aggregation.json`（`human_verdict` 付き）
-- 実行主体：このスキルは入口（オーケストレータ）で、実際の生成は `docs-keeper` エージェントの初回（全文生成）モードを起動して行う
-- 出力：
-  - `docs/domain/generated/code_map.md`（新規作成）
-  - `docs/domain/generated/dependencies.md`（新規作成）
-  - `docs/domain/generated/module_index.md`（新規作成）
-  - `deliverables/00_onboarding/docs-update-{YYYY-MM-DD}.json`：生成サマリ（`docs-keeper` が出力。差分更新時と同じ命名・インベントリ）
+## Input / output
+- Input: `aggregation.json` của toàn bộ region (có kèm `human_verdict`)
+- Chủ thể thực thi: skill này là cửa vào (orchestrator), việc sinh thật sự thì khởi động chế độ lần đầu (sinh toàn văn) của agent `docs-keeper`
+- Output:
+  - `docs/domain/generated/code_map.md` (tạo mới)
+  - `docs/domain/generated/dependencies.md` (tạo mới)
+  - `docs/domain/generated/module_index.md` (tạo mới)
+  - `deliverables/00_onboarding/docs-update-{YYYY-MM-DD}.json`: bản tóm tắt việc sinh (do `docs-keeper` xuất ra. Cùng cách đặt tên và cùng bộ mục như khi cập nhật theo diff)
 
-## 最低限の守るルール
-- **初回生成のみ**。差分更新は `docs-keeper` の差分マージモードを使う
-- 推測情報を初期ドキュメントに含めない（`human_verdict: confirmed` のものだけ反映）
-- ファイルが既に存在する場合は上書き確認を求める（自動上書き禁止）
-- 生成後、必ず人ゲート⓪-2に進む（自動で次フェーズに進ませない）
+## Quy tắc tối thiểu phải giữ
+- **Chỉ dành cho lần sinh đầu tiên**. Cập nhật theo diff thì dùng chế độ merge diff của `docs-keeper`
+- Không đưa thông tin suy đoán vào tài liệu ban đầu (chỉ phản ánh những mục `human_verdict: confirmed`)
+- Nếu file đã tồn tại thì phải hỏi xác nhận ghi đè (cấm tự động ghi đè)
+- Sinh xong bắt buộc đi tới human gate ⓪-2 (không tự động sang phase kế tiếp)
 
-生成方針の詳細は [`reference.md`](reference.md) を参照。
+Chi tiết phương châm sinh: xem [`reference.md`](reference.md).

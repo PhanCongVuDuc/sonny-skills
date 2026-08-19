@@ -1,22 +1,22 @@
 ---
 name: handoff
-description: セッション終了時に「次セッションが同じ状態から再開できる」引き継ぎファイルを生成する。重要な誤解訂正を必ず記録する。
+description: At end of session, produce a handoff file that lets the next session resume from the same state. Always record the important misunderstandings that got corrected.
 ---
 
 # handoff
 
-## いつ使うか
-- 長期タスクで現在のセッションを区切るとき
-- コンテキストが肥大化してきたとき
-- AIの理解がおかしくなり、新セッションに切り替えたいとき
+## Khi nào dùng
+- Khi cần ngắt session hiện tại trong một task dài hạn
+- Khi context đã phình lên
+- Khi AI hiểu sai lệch và muốn chuyển sang session mới
 
-## 入出力
-- 入力：これまでの会話・編集内容・現在の作業状況
-- 出力：`deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md`（[`.claude/rules/output-formats.md`](../../rules/output-formats.md) §6 形式）
+## Input / output
+- Input: toàn bộ hội thoại, nội dung đã sửa, tình trạng công việc hiện tại
+- Output: `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md` (định dạng [`.claude/rules/output-formats.md`](../../rules/output-formats.md) §6)
 
-## 最低限の守るルール
-- 4セクション（現在の状態 / 重要な事実 / 次にやること / 注意事項）を**必ずすべて**含める（空でも見出しを残す）
-- 「重要な事実」には**ユーザに訂正された箇所**を必ず書く
-- 機密情報（パスワード・トークン）は含めない
+## Quy tắc tối thiểu phải giữ
+- **Bắt buộc có đủ tất cả** 4 section (trạng thái hiện tại / sự kiện quan trọng / việc làm tiếp / lưu ý) — rỗng thì vẫn giữ tiêu đề
+- Trong "sự kiện quan trọng" bắt buộc viết **những chỗ bị người dùng sửa lại**
+- Không đưa thông tin nhạy cảm (mật khẩu, token) vào
 
-新セッションでの読み込み手順は [`reference.md`](reference.md) を参照。
+Thủ tục nạp lại ở session mới: xem [`reference.md`](reference.md).

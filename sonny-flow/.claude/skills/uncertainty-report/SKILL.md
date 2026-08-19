@@ -1,21 +1,21 @@
 ---
 name: uncertainty-report
-description: 仕様書・設計書・実装コードに含まれる推測箇所をABCDに分類し、影響度・確認質問付きで棚卸しする。
+description: Classify the assumptions inside a spec, design doc or implementation into A/B/C/D, and inventory them with impact ratings and confirmation questions.
 ---
 
 # uncertainty-report
 
-## いつ使うか
-- 仕様書・設計書・実装後に、人レビューゲートで「何を確認すべきか」を絞り込みたいとき
-- AIの自信度を可視化したいとき
+## Khi nào dùng
+- Khi muốn lọc ra "cần kiểm cái gì" ở human review gate, sau khi có spec, design doc, hoặc sau khi code
+- Khi muốn nhìn thấy được mức độ tự tin của AI
 
-## 入出力
-- 入力：対象成果物（仕様書・設計書・コード）
-- 出力：`deliverables/{phase}/{target}.uncertainty.json`（[`.claude/rules/output-formats.md`](../../rules/output-formats.md) §3 形式）
+## Input / output
+- Input: deliverable cần xét (spec, design doc, code)
+- Output: `deliverables/{phase}/{target}.uncertainty.json` (định dạng [`.claude/rules/output-formats.md`](../../rules/output-formats.md) §3)
 
-## 最低限の守るルール
-- 「推測なし」を返すのは本当にすべて明示情報のみで作った場合のみ（沈黙NG）
-- 影響度判定に迷ったら**一段上**を選ぶ（保守側に倒す）
-- 分類が曖昧な場合は **D** にする（隠さない）
+## Quy tắc tối thiểu phải giữ
+- Chỉ được trả về "không có suy đoán" khi thật sự làm hoàn toàn bằng thông tin đã nói rõ (cấm im lặng cho qua)
+- Phân vân khi đánh giá mức ảnh hưởng thì chọn **cao hơn một bậc** (nghiêng về phía an toàn)
+- Phân loại còn mập mờ thì để **D** (không giấu)
 
-ABCD分類の定義と詳細な棚卸し手順は [`reference.md`](reference.md) を参照。
+Định nghĩa phân loại ABCD và thủ tục kiểm kê chi tiết: xem [`reference.md`](reference.md).

@@ -1,22 +1,22 @@
 ---
 name: design-decision
-description: 複数候補のある設計判断をディベート形式（推進者A・推進者B・中立な審判）で並べる。AIに結論を出させずに人が判断する。
+description: Lay out a design decision that has multiple candidates as a debate (advocate A, advocate B, neutral referee). The AI does not conclude — the human decides.
 ---
 
 # design-decision
 
-## いつ使うか
-- アーキテクチャ・技術選定の選択肢を比較したいとき
-- 複数の設計案を中立的に整理したいとき
-- 1つに見える設計に「他に選択肢はないか」を問いたいとき
+## Khi nào dùng
+- Khi muốn so sánh các phương án về kiến trúc hoặc lựa chọn công nghệ
+- Khi muốn sắp xếp nhiều phương án thiết kế một cách trung lập
+- Khi muốn hỏi "có phương án nào khác không" đối với một thiết kế trông như chỉ có một đường
 
-## 入出力
-- 入力：選択肢（最大4つ）、前提条件（規模・チームスキル・制約・将来計画）
-- 出力：`deliverables/02_design/{decision_id}.debate.md`（[`.claude/rules/output-formats.md`](../../rules/output-formats.md) §5 形式）
+## Input / output
+- Input: các phương án (tối đa 4), điều kiện tiền đề (quy mô, kỹ năng team, ràng buộc, kế hoạch tương lai)
+- Output: `deliverables/02_design/{decision_id}.debate.md` (định dạng [`.claude/rules/output-formats.md`](../../rules/output-formats.md) §5)
 
-## 最低限の守るルール
-- AIが「どちらが良い」と結論を述べることは禁止
-- 各推進者の主張は3点ずつ均等に出す（片方が薄くならないように）
-- 前提条件が不足していたら、推測で埋めずに「（要確認）」で報告
+## Quy tắc tối thiểu phải giữ
+- Cấm AI phát biểu kết luận "bên nào tốt hơn"
+- Lập luận của mỗi người ủng hộ phải ra đều tay, mỗi bên 3 điểm (để không bên nào bị mỏng)
+- Nếu điều kiện tiền đề còn thiếu thì báo lại bằng "(cần xác nhận)", không lấp bằng suy đoán
 
-詳細な3ステップ進行は [`reference.md`](reference.md) を参照。
+Cách tiến hành 3 bước chi tiết: xem [`reference.md`](reference.md).

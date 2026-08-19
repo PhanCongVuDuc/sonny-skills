@@ -1,37 +1,37 @@
-# test-scenario ─ 詳細手順
+# test-scenario ─ thủ tục chi tiết
 
-## 手順
-1. **レベルを決める**：`unit`（単体）or `e2e`（エンドツーエンド）。両方必要ならSkillを2回回す
-2. 対象機能の仕様書を読む（`{feature}.spec.md` or `.derived-spec.md`）
-3. `docs/domain/business_rules.md` を読み、業務ルールの境界を把握
-4. レベルごとのカテゴリでシナリオを生成
-5. 各シナリオに必須フィールドを付ける（下記）
-6. 出力JSONに書き出す
+## Thủ tục
+1. **Chốt level**: `unit` hay `e2e` (end-to-end). Cần cả hai thì chạy skill 2 lần
+2. Đọc spec của chức năng mục tiêu (`{feature}.spec.md` hoặc `.derived-spec.md`)
+3. Đọc `docs/domain/business_rules.md` để nắm các ranh giới của business rule
+4. Sinh scenario theo category của từng level
+5. Gắn các field bắt buộc cho từng scenario (xem dưới)
+6. Ghi ra file JSON output
 
-## レベル別カテゴリ
+## Category theo từng level
 
-### unit（単体テスト）
-- `boundary-value`（0件・最大件数・NULL・空・最大桁数・負数）
-- `business-rule-boundary`（端数・閾値ちょうど・期末・月末）
-- `processing-order`（前提処理スキップ）
-- `partial-failure`（複数ステップの途中エラー）
-- `concurrency`（同時実行・競合）
+### unit (unit test)
+- `boundary-value` (0 bản ghi, số bản ghi tối đa, NULL, rỗng, số chữ số tối đa, số âm)
+- `business-rule-boundary` (phần lẻ, đúng ngay ngưỡng, cuối kỳ, cuối tháng)
+- `processing-order` (bỏ qua xử lý tiền đề)
+- `partial-failure` (lỗi giữa chừng trong chuỗi nhiều bước)
+- `concurrency` (chạy đồng thời, tranh chấp)
 
-### e2e（エンドツーエンドテスト）
-- `user-flow-error`（ユーザ動線の異常：途中で戻る・閉じる・タイムアウト）
-- `cross-module-state`（モジュール跨ぎの状態整合：注文→在庫→請求の連鎖）
-- `integration-failure`（外部連携失敗：決済・通知・認証）
-- `auth-boundary`（認可境界：他ユーザのデータが見えない）
-- `data-leak`（権限外データ表示の有無）
+### e2e (end-to-end test)
+- `user-flow-error` (bất thường trên luồng thao tác: quay lại giữa chừng, đóng, timeout)
+- `cross-module-state` (nhất quán trạng thái xuyên module: chuỗi đơn hàng → tồn kho → hoá đơn)
+- `integration-failure` (tích hợp ngoài thất bại: thanh toán, thông báo, xác thực)
+- `auth-boundary` (ranh giới phân quyền: không nhìn thấy dữ liệu của người dùng khác)
+- `data-leak` (có hiển thị dữ liệu ngoài quyền hay không)
 
-## 各シナリオの必須フィールド
+## Field bắt buộc của từng scenario
 
-- 共通：`id`, `category`, `name`, `preconditions`, `steps`, `expected`, **`miss_impact`**
-- e2e追加：`entry_point`（画面/URL/API）, `actors`（誰が操作するか）
+- Chung: `id`, `category`, `name`, `preconditions`, `steps`, `expected`, **`miss_impact`**
+- e2e thêm: `entry_point` (màn hình/URL/API), `actors` (ai là người thao tác)
 
-## 守るべき詳細ルール
-- **正常系（happy-path）シナリオを出さない**（AIが最も得意な領域なので人が追加する）
-- `miss_impact`（見落とした場合の影響）を1行で必ず付ける
-- 業務ルールが不明なシナリオには `（要確認）` を付ける
-- 仕様書ベースで生成する（実装コードを見て「あるべき動作」を逆算しない）
-- 単体とe2eを**1ファイルに混ぜない**（テスト実装が混乱する）
+## Quy tắc chi tiết phải giữ
+- **Không xuất scenario happy path** (đó là phần AI giỏi nhất, nên để người tự thêm)
+- Bắt buộc kèm 1 dòng `miss_impact` (ảnh hưởng nếu bỏ sót)
+- Scenario nào không rõ business rule thì gắn `(cần xác nhận)`
+- Sinh dựa trên spec (không nhìn code rồi suy ngược ra "hành vi lẽ ra phải thế")
+- **Không trộn unit và e2e trong cùng 1 file** (sẽ làm rối phần viết test)

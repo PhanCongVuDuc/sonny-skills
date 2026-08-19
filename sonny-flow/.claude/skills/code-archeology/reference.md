@@ -1,21 +1,21 @@
-# code-archeology ─ 詳細手順
+# code-archeology ─ thủ tục chi tiết
 
-## 手順
-1. 対象コードを指定（ファイル単位 or 領域単位）
-2. 以下の観点で抽出（「機能の説明」ではなく「なぜそう書いたか」が中心）
-3. 推測には必ず `（推測）` を付ける
-4. 結果を構造化出力
+## Thủ tục
+1. Chỉ định code cần xét (theo file hoặc theo region)
+2. Rút theo các perspective dưới đây (trọng tâm là "vì sao lại viết như thế", không phải "mô tả chức năng")
+3. Phần suy đoán bắt buộc gắn `(suy đoán)`
+4. Xuất kết quả có cấu trúc
 
-## 抽出する観点
+## Các perspective cần rút
 
-1. このコードが存在する**業務上の理由**
-2. 実装上の判断・工夫の跡（なぜこの構造か）
-3. 後から追加された可能性がある箇所（コーディングスタイル不一致）
-4. 依存している**暗黙の前提・事前条件**
-5. マジックナンバー・特殊条件分岐の**業務的意味の推測**
-6. 変更すると最もリスクが高い箇所と理由
+1. **Lý do nghiệp vụ** khiến đoạn code này tồn tại
+2. Dấu vết của phán đoán và mẹo khi code (vì sao lại là cấu trúc này)
+3. Chỗ có khả năng được thêm vào sau này (phong cách code không đồng nhất)
+4. **Tiền đề ngầm, điều kiện tiên quyết** mà nó đang phụ thuộc vào
+5. **Suy đoán về ý nghĩa nghiệp vụ** của magic number và các nhánh điều kiện đặc biệt
+6. Chỗ sửa vào là rủi ro nhất, kèm lý do
 
-## 出力構造
+## Cấu trúc output
 
 ```json
 {
@@ -25,14 +25,14 @@
       "type": "business_rule_hint",
       "location": "Pricing.ts:42",
       "code_excerpt": "if (amount > 1000000) return amount * 0.95;",
-      "interpretation": "100万円超は5%値引き（理由は推測）",
+      "interpretation": "Trên 1 triệu thì giảm 5% (lý do là suy đoán)",
       "confidence": "guess",
-      "question_for_human": "100万円閾値と5%値引きの業務的根拠は？"
+      "question_for_human": "Căn cứ nghiệp vụ của ngưỡng 1 triệu và mức giảm 5% là gì?"
     },
     {
       "type": "implicit_assumption",
       "location": "Order.ts:78",
-      "interpretation": "顧客IDは関数呼び出し前に検証済みと想定",
+      "interpretation": "Giả định ID khách hàng đã được kiểm tra trước khi gọi hàm",
       "confidence": "high",
       "question_for_human": null
     }
@@ -40,10 +40,10 @@
 }
 ```
 
-## 守るべき詳細ルール
-- 「コードを読めば分かる機能の再説明」をしない（**なぜ**にフォーカス）
-- 推測と確証を必ず区別する（`（推測）` `（確証）` `（不明）`）
-- コードを変更しない（読み取り専用）
-- 業界慣行で説明できる箇所と、このプロジェクト固有の処理を区別する
-- 抽出結果が**直接 `docs/domain/business_rules.md` に上書きされない**ことを意識（必ず人ゲートを通る）
-- `confidence: guess` の項目は人ゲート⓪-3 で必ず確認される
+## Quy tắc chi tiết phải giữ
+- Không "giải thích lại chức năng mà đọc code là biết" (tập trung vào **vì sao**)
+- Bắt buộc phân biệt suy đoán với điều chắc chắn (`(suy đoán)` `(chắc chắn)` `(không rõ)`)
+- Không sửa code (chỉ đọc)
+- Phân biệt chỗ giải thích được bằng thông lệ ngành với chỗ là xử lý riêng của project này
+- Luôn ý thức rằng kết quả rút ra **không được ghi đè thẳng vào `docs/domain/business_rules.md`** (bắt buộc đi qua human gate)
+- Các mục `confidence: guess` chắc chắn sẽ bị kiểm ở human gate ⓪-3
