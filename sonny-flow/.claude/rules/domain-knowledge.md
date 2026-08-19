@@ -4,29 +4,29 @@ paths:
   - "Tests/**"
 ---
 
-# ドメイン知識参照ルール
+# Rule tham chiếu tri thức domain
 
-このルールは C# プロジェクト（`Arent3d.Architecture.Routing*` — Core / AppBase / Electrical.App / Presentation / Auth / RevitTest）と `Tests/` 配下のファイルを読み書きするときに自動的に適用されます。
+Rule này tự động được áp dụng khi đọc/ghi các file thuộc project C# (`Arent3d.Architecture.Routing*` — Core / AppBase / Electrical.App / Presentation / Auth / RevitTest) và các file nằm dưới `Tests/`.
 
-## 実装・設計前に必ず参照するドキュメント
+## Tài liệu bắt buộc tham chiếu trước khi code / thiết kế
 
-コードを新規作成・修正する前に、以下のドキュメントが存在する場合は必ず読むこと:
+Trước khi tạo mới hoặc sửa code, nếu các tài liệu sau tồn tại thì bắt buộc phải đọc:
 
-1. **`docs/domain/business_rules.md`** — 業務ルール・不変制約・計算式。実装の根拠になる。
-2. **`docs/domain/glossary.md`** — 用語定義。変数名・コメント・API名に使う言葉を揃える。
-3. **`docs/domain/known_patterns.md`** — 採用済みパターン。新規実装はここに倣う。
-4. **`docs/domain/generated/code_map.md`** — モジュール地図。影響範囲の把握に使う。
+1. **`docs/domain/business_rules.md`** — business rule, ràng buộc bất biến, công thức tính. Đây là căn cứ cho việc code.
+2. **`docs/domain/glossary.md`** — định nghĩa thuật ngữ. Dùng để thống nhất từ ngữ trong tên biến, comment, tên API.
+3. **`docs/domain/known_patterns.md`** — các pattern đã áp dụng. Code mới thì noi theo đây.
+4. **`docs/domain/generated/code_map.md`** — bản đồ module. Dùng để nắm phạm vi ảnh hưởng.
 
-ドキュメントが存在しない場合はスキップして構わないが、存在する場合はスキップしてはならない。
+Tài liệu không tồn tại thì bỏ qua cũng được, nhưng đã tồn tại thì không được bỏ qua.
 
-## 実装後に更新を検討するドキュメント
+## Tài liệu cần cân nhắc cập nhật sau khi code
 
-- `docs/domain/generated/` 配下は `docs-keeper` エージェントが自動更新する（`arent-workflow` Plugin 有効時）。
-- 新しい業務ルールを発見した場合は、実装後に `docs/domain/business_rules.md` への追記を提案する。
-- 新しい設計パターンを採用した場合は、`docs/domain/known_patterns.md` への追記を提案する。
+- Phần nằm dưới `docs/domain/generated/` do agent `docs-keeper` tự động cập nhật (khi plugin `arent-workflow` đang bật).
+- Nếu phát hiện business rule mới, sau khi code xong thì đề xuất bổ sung vào `docs/domain/business_rules.md`.
+- Nếu áp dụng pattern thiết kế mới, thì đề xuất bổ sung vào `docs/domain/known_patterns.md`.
 
-## ドキュメントと実装が矛盾している場合
+## Khi tài liệu và code mâu thuẫn nhau
 
-1. ドキュメント（`business_rules.md`）を正として扱い、コードの修正方向を検討する
-2. どちらが正しいか判断できない場合は、ユーザーに確認してから進める
-3. ドキュメントが明らかに古い場合は、更新を提案する（自動で書き換えない）
+1. Coi tài liệu (`business_rules.md`) là chuẩn, rồi cân nhắc hướng sửa code
+2. Nếu không phán đoán được bên nào đúng, hỏi người dùng rồi mới đi tiếp
+3. Nếu tài liệu rõ ràng đã cũ, thì đề xuất cập nhật (không tự động viết đè)

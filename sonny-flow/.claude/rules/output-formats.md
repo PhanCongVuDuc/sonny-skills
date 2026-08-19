@@ -1,38 +1,38 @@
 ---
-description: 成果物の構造化フォーマット契約（§1〜§9）。各エージェント・スキルが deliverables に書き出す JSON/Markdown の唯一の正フォーマット。paths なし（明示参照）。
+description: The structured-format contract for deliverables (§1–§9). The single authoritative format for every JSON/Markdown artifact each agent and skill writes into deliverables. No paths (explicit reference only).
 ---
 
-# output-formats（成果物の構造化フォーマット定義）
+# output-formats (định nghĩa định dạng có cấu trúc của deliverable)
 
-`paths:` frontmatter なし — このファイルは path 自動ロードではなく、各エージェント・スキルが明示的に参照する「契約（contract）」ルールです。`deliverables/` に書き出す全成果物の JSON / Markdown スキーマをここで一元管理します。
+Không có frontmatter `paths:` — file này không tự động load theo path, mà là rule dạng "hợp đồng (contract)" được từng agent, từng skill tham chiếu tường minh. Toàn bộ schema JSON / Markdown của mọi deliverable ghi vào `deliverables/` được quản lý tập trung tại đây.
 
-各セクション `§N` は、特定の生成元（エージェント or スキル）が出力する成果物の**唯一の正フォーマット**です。生成元はここで定義されたスキーマに厳密に従って出力してください。
+Mỗi section `§N` là **định dạng chuẩn duy nhất** của deliverable do một nguồn sinh cụ thể (agent hoặc skill) xuất ra. Nguồn sinh phải xuất đúng nghiêm ngặt theo schema định nghĩa ở đây.
 
-## 共通ルール
+## Quy tắc chung
 
-- **JSON は厳密な JSON**（コメント・末尾カンマ禁止）。1ファイル1ルートオブジェクト。
-- 文字コードは UTF-8。値は日本語可。フィールド名（キー）はここで定義した英語キーで固定。
-- 不明・未確定の値は**省略せず**、`null` か `"（要確認）..."` の文字列で明示する（沈黙で埋めない）。
-- パスのプレースホルダ（`{feature}` `{task_id}` `{region}` `{観点}` `{decision_id}` `{phase}` `{target}` `{runN}` `{YYYY-MM-DD}` `{seq}` `{YYYY-MM}`）の意味は [`deliverables/README.md`](../../deliverables/README.md) の命名規約に従う。
-- レビュー系の `verdict` は **`問題あり` / `問題なし` / `確認不能`** の3値のみ。`risk_level` は **`high` / `medium` / `low`** のみ。
+- **JSON phải là JSON nghiêm ngặt** (cấm comment, cấm dấu phẩy thừa ở cuối). Một file một root object.
+- Bảng mã là UTF-8. Giá trị có thể viết bằng tiếng Việt. Tên field (key) cố định theo khoá tiếng Anh định nghĩa ở đây.
+- Giá trị chưa rõ / chưa chốt thì **không được lược bỏ**, phải ghi rõ bằng `null` hoặc chuỗi `"(cần xác nhận)..."` (không lấp bằng im lặng).
+- Ý nghĩa của các placeholder trong path (`{feature}` `{task_id}` `{region}` `{perspective}` `{decision_id}` `{phase}` `{target}` `{runN}` `{YYYY-MM-DD}` `{seq}` `{YYYY-MM}`) tuân theo quy ước đặt tên trong [`deliverables/README.md`](../../deliverables/README.md).
+- `verdict` của nhóm review chỉ nhận đúng 3 giá trị **`có vấn đề` / `không vấn đề` / `không kiểm chứng được`**. `risk_level` chỉ nhận **`high` / `medium` / `low`**.
 
 ---
 
-## §1 実装自己チェックレポート — implementer
+## §1 Báo cáo tự kiểm tra implementation — implementer
 
-**生成元**：[`implementer`](../agents/implementer.md)（[`implement`](../commands/implement.md) コマンド経由含む）
-**出力先**：`deliverables/03_implementation/{task_id}.report.json`
-**目的**：承認済み仕様から実装したコードについて、推測箇所・要確認箇所・人レビュー必要箇所を構造化申告する。自然言語の「できました」を信用せず、このJSONを根拠に次へ進むためのもの。
+**Nguồn sinh**: [`implementer`](../agents/implementer.md) (gồm cả khi đi qua command [`implement`](../commands/implement.md))
+**Nơi xuất**: `deliverables/03_implementation/{task_id}.report.json`
+**Mục đích**: với code được viết từ spec đã duyệt, khai báo có cấu trúc các chỗ suy đoán, chỗ cần xác nhận, và chỗ cần người review. Dùng để đi tiếp dựa trên JSON này chứ không tin câu "xong rồi" bằng ngôn ngữ tự nhiên.
 
 ```json
 {
   "task_id": "form_001_convert",
   "spec_source": "deliverables/01_requirements/order-create.spec.md",
-  "summary": "注文作成フォームのサーバ側バリデーションと永続化を実装",
+  "summary": "Đã implement validation phía server và phần lưu trữ cho form tạo đơn hàng",
   "status": "completed",
   "todo_remaining": 0,
   "changed_files": [
-    { "path": "src/order/create.ts", "change": "added", "reason": "仕様§3の入力検証と保存" }
+    { "path": "src/order/create.ts", "change": "added", "reason": "Kiểm tra input và lưu theo spec §3" }
   ],
   "scope_adherence": {
     "in_scope_only": true,
@@ -42,22 +42,22 @@ description: 成果物の構造化フォーマット契約（§1〜§9）。各�
     {
       "id": "A1",
       "location": "src/order/create.ts:42",
-      "description": "（推測）数量上限が仕様に無いため 9999 を上限とした",
+      "description": "(suy đoán) spec không có giới hạn số lượng nên lấy 9999 làm cận trên",
       "risk": "high",
-      "basis": "spec に上限記述なし。業務ルール未確認"
+      "basis": "spec không ghi cận trên. Chưa xác nhận business rule"
     }
   ],
   "human_review_required": [
     {
       "location": "src/order/create.ts:88",
       "category": "numeric-precision",
-      "description": "金額計算の丸め方向が仕様未定義。risk-categories.md の数値精度に該当",
+      "description": "Hướng làm tròn khi tính tiền chưa được spec định nghĩa. Rơi vào mục độ chính xác số của risk-categories.md",
       "risk_level": "high",
-      "question_for_human": "金額の丸めは切り捨て・四捨五入・切り上げのどれですか？"
+      "question_for_human": "Làm tròn số tiền là cắt xuống, làm tròn thường, hay làm tròn lên?"
     }
   ],
   "questions": [
-    "仕様書と既存実装で在庫減算のタイミングが矛盾。どちらに合わせるか要確認"
+    "Spec và code có sẵn mâu thuẫn nhau về thời điểm trừ tồn kho. Cần xác nhận theo bên nào"
   ],
   "tests_written": false,
   "self_check": {
@@ -67,64 +67,64 @@ description: 成果物の構造化フォーマット契約（§1〜§9）。各�
 }
 ```
 
-- `status` は `completed` / `in_progress` / `blocked`、`todo_remaining` は残タスク数。**ゲート③（[`gates.md`](gates.md)）は `status: completed` かつ `todo_remaining: 0` を必須とする**。
-- `assumptions` の各 `description` は実装コード側にも `（推測）[内容]` コメントとして残す（二重記録）。各 `risk` は `high/medium/low`。
-- `human_review_required` の各項目は **`location` / `category`（[`risk-categories.md`](risk-categories.md) のキー）/ `description` / `risk_level`（high/medium/low）/ `question_for_human`** を必ず持つ。該当箇所は必ず列挙する（空配列で済ませない）。
-- `questions` は無理に実装せず保留した判断（仕様と既存の矛盾・スコープ外改善）を入れる。
-- `tests_written` は常に `false`（テストは `test-implementer` の責務）。
+- `status` là `completed` / `in_progress` / `blocked`, `todo_remaining` là số task còn lại. **Gate ③ ([`gates.md`](gates.md)) bắt buộc phải là `status: completed` và `todo_remaining: 0`**.
+- Mỗi `description` trong `assumptions` cũng phải để lại dưới dạng comment `(suy đoán) [nội dung]` bên phía code (ghi kép). Mỗi `risk` là `high/medium/low`.
+- Mỗi mục trong `human_review_required` bắt buộc có đủ **`location` / `category` (khoá trong [`risk-categories.md`](risk-categories.md)) / `description` / `risk_level` (high/medium/low) / `question_for_human`**. Chỗ nào rơi vào diện đó thì bắt buộc liệt kê (không được cho qua bằng mảng rỗng).
+- `questions` chứa các phán đoán đã tạm gác lại chứ không cố code (mâu thuẫn giữa spec và cái có sẵn, cải tiến ngoài scope).
+- `tests_written` luôn là `false` (test là trách nhiệm của `test-implementer`).
 
 ---
 
-## §2 観点別レビュー結果 — implementation-reviewer / design-reviewer / test-reviewer / focused-review
+## §2 Kết quả review theo perspective — implementation-reviewer / design-reviewer / test-reviewer / focused-review
 
-**生成元**：[`implementation-reviewer`](../agents/implementation-reviewer.md)、[`design-reviewer`](../agents/design-reviewer.md)、[`test-reviewer`](../agents/test-reviewer.md)、[`focused-review`](../skills/focused-review/SKILL.md)
-**出力先**：
-- 実装レビュー：`deliverables/reviews/impl-{観点}-{task_id}.json`
-- 設計レビュー：`deliverables/reviews/design-{観点}-{feature}.json`
-- テストレビュー：`deliverables/reviews/test-{feature}.json`（観点配列に下記5観点を入れる）
+**Nguồn sinh**: [`implementation-reviewer`](../agents/implementation-reviewer.md), [`design-reviewer`](../agents/design-reviewer.md), [`test-reviewer`](../agents/test-reviewer.md), [`focused-review`](../skills/focused-review/SKILL.md)
+**Nơi xuất**:
+- Review implementation: `deliverables/reviews/impl-{perspective}-{task_id}.json`
+- Review design: `deliverables/reviews/design-{perspective}-{feature}.json`
+- Review test: `deliverables/reviews/test-{feature}.json` (đưa 5 perspective dưới đây vào mảng perspective)
 
-**目的**：1呼び出し1観点で、対象外を明示しつつ `問題あり / 問題なし / 確認不能` の3値で構造化レビューする。「良い点」は出さず指摘のみ。
+**Mục đích**: mỗi lần gọi 1 perspective, vừa nói rõ phần nằm ngoài phạm vi, vừa review có cấu trúc theo 3 giá trị `có vấn đề / không vấn đề / không kiểm chứng được`. Không xuất "điểm tốt", chỉ nêu vấn đề.
 
 ```json
 {
   "target": "src/order/create.ts",
   "review_type": "implementation",
   "perspective": "transaction-boundary",
-  "verdict": "問題あり",
-  "out_of_scope_note": "命名・フォーマット・正常系の妥当性は対象外",
+  "verdict": "có vấn đề",
+  "out_of_scope_note": "Đặt tên, format, và tính hợp lý của happy path nằm ngoài phạm vi",
   "findings": [
     {
       "id": "F1",
       "location": "src/order/create.ts:120-138",
       "risk_level": "high",
-      "issue": "在庫減算と注文保存が別トランザクション。途中失敗で不整合が残る",
-      "evidence": "saveOrder() 後に decrementStock() を別 await で呼んでいる",
-      "suggested_direction": "同一トランザクション境界に統合（解決策の断定はしない）"
+      "issue": "Trừ tồn kho và lưu đơn hàng nằm ở hai transaction khác nhau. Thất bại giữa chừng sẽ để lại dữ liệu bất nhất",
+      "evidence": "Sau saveOrder() lại gọi decrementStock() bằng một await riêng",
+      "suggested_direction": "Gộp vào cùng một transaction boundary (không khẳng định chắc chắn giải pháp)"
     }
   ],
   "unverifiable": [
     {
       "location": "src/order/create.ts:88",
-      "reason": "丸め方向の業務ルールが不明",
-      "need": "docs/domain/business_rules.md の金額計算セクション、または人への確認"
+      "reason": "Không rõ business rule về hướng làm tròn",
+      "need": "Section tính tiền trong docs/domain/business_rules.md, hoặc hỏi người"
     }
   ],
   "observed_but_out_of_scope": []
 }
 ```
 
-- `review_type` は `implementation` / `design` / `test` のいずれか。
-- `verdict` が `問題あり` → `findings` に最低1件。`確認不能` → `unverifiable` に必要情報を明記。`問題なし` でも `perspective` を必ず明示。
-- 各 finding に `risk_level`（`high/medium/low`）を必須。
-- **test-reviewer の場合**：`perspective` 単一の代わりに、シナリオ網羅性 / モック妥当性 / 同義反復 / 追跡可能性 / レベル整合の5観点を `findings[].perspective` に持たせ、ルートは `"review_type": "test"` とする。
+- `review_type` là một trong `implementation` / `design` / `test`.
+- `verdict` là `có vấn đề` → `findings` phải có tối thiểu 1 mục. `không kiểm chứng được` → ghi rõ thông tin cần thiết vào `unverifiable`. Kể cả `không vấn đề` cũng bắt buộc nói rõ `perspective`.
+- Mỗi finding bắt buộc có `risk_level` (`high/medium/low`).
+- **Trường hợp test-reviewer**: thay vì một `perspective` đơn, đưa 5 perspective (độ phủ scenario / tính hợp lý của mock / lặp thừa / khả năng truy vết / khớp level) vào `findings[].perspective`, còn ở root thì để `"review_type": "test"`.
 
 ---
 
-## §3 不確実性レポート（ABCD分類） — uncertainty-auditor / uncertainty-report
+## §3 Báo cáo độ bất định (phân loại ABCD) — uncertainty-auditor / uncertainty-report
 
-**生成元**：[`uncertainty-auditor`](../agents/uncertainty-auditor.md)、[`uncertainty-report`](../skills/uncertainty-report/SKILL.md)
-**出力先**：`deliverables/{phase}/{target}.uncertainty.json`（例：`deliverables/01_requirements/order-create.uncertainty.json`）
-**目的**：成果物作成時に「明示されていない情報を推測で補った箇所」を申告し、影響度順に並べて人レビューゲートで確認すべき点を絞り込む。
+**Nguồn sinh**: [`uncertainty-auditor`](../agents/uncertainty-auditor.md), [`uncertainty-report`](../skills/uncertainty-report/SKILL.md)
+**Nơi xuất**: `deliverables/{phase}/{target}.uncertainty.json` (ví dụ: `deliverables/01_requirements/order-create.uncertainty.json`)
+**Mục đích**: khai báo những "chỗ đã lấp bằng suy đoán vì thông tin không được nói rõ" lúc tạo deliverable, sắp theo mức ảnh hưởng để lọc ra những điểm cần kiểm ở human review gate.
 
 ```json
 {
@@ -136,41 +136,41 @@ description: 成果物の構造化フォーマット契約（§1〜§9）。各�
       "id": "U1",
       "category": "A",
       "impact": "high",
-      "location": "spec §3 入力検証",
-      "description": "数量上限が記載されていなかったため 9999 と推測した",
-      "question": "注文1件あたりの数量上限はいくつですか？",
-      "chosen": "上限 9999",
+      "location": "spec §3 kiểm tra input",
+      "description": "Vì không ghi cận trên của số lượng nên đã suy đoán là 9999",
+      "question": "Cận trên của số lượng trên mỗi đơn hàng là bao nhiêu?",
+      "chosen": "Cận trên 9999",
       "alternatives": []
     },
     {
       "id": "U2",
       "category": "B",
       "impact": "medium",
-      "location": "spec §5 キャンセル",
-      "description": "「キャンセル可能」が出荷前のみか出荷後も含むか2解釈ある",
-      "question": "キャンセルは出荷後も可能ですか？",
-      "chosen": "出荷前のみ",
-      "alternatives": ["出荷後も返品扱いで可能"]
+      "location": "spec §5 huỷ đơn",
+      "description": "\"Có thể huỷ\" có 2 cách hiểu: chỉ trước khi xuất hàng, hay bao gồm cả sau khi xuất hàng",
+      "question": "Sau khi xuất hàng có huỷ được không?",
+      "chosen": "Chỉ trước khi xuất hàng",
+      "alternatives": ["Sau khi xuất hàng vẫn được, tính là trả hàng"]
     }
   ]
 }
 ```
 
-- `category` は **A**（情報不足で推測）/ **B**（複数解釈から選択）/ **C**（業務ルール不明で一般動作）/ **D**（完全には理解できていない）のいずれか。迷ったら **D**。
-- `impact` は `high/medium/low`。迷ったら一段上に倒す。`impact: high` を配列の上位に並べる。
-- 各項目に「人に聞くべき1文の質問」（`question`）を必須。
-- 推測が本当に無い場合のみ `has_uncertainty: false` かつ `items: []`。
+- `category` là một trong **A** (suy đoán vì thiếu thông tin) / **B** (chọn một trong nhiều cách diễn giải) / **C** (không rõ business rule nên làm theo hành vi thông thường) / **D** (chưa hiểu hoàn toàn). Phân vân thì chọn **D**.
+- `impact` là `high/medium/low`. Phân vân thì nghiêng lên một bậc. Xếp `impact: high` lên đầu mảng.
+- Mỗi mục bắt buộc có "một câu hỏi nên hỏi người" (`question`).
+- Chỉ khi thật sự không có suy đoán nào thì mới để `has_uncertainty: false` và `items: []`.
 
 ---
 
-## §4 テストシナリオ — test-scenario-designer / test-scenario
+## §4 Test scenario — test-scenario-designer / test-scenario
 
-**生成元**：[`test-scenario-designer`](../agents/test-scenario-designer.md)、[`test-scenario`](../skills/test-scenario/SKILL.md)
-**出力先**：
-- 単体：`deliverables/04_test/scenarios-{feature}.unit.json`
-- e2e：`deliverables/04_test/scenarios-{feature}.e2e.json`
+**Nguồn sinh**: [`test-scenario-designer`](../agents/test-scenario-designer.md), [`test-scenario`](../skills/test-scenario/SKILL.md)
+**Nơi xuất**:
+- Unit: `deliverables/04_test/scenarios-{feature}.unit.json`
+- e2e: `deliverables/04_test/scenarios-{feature}.e2e.json`
 
-**目的**：異常系・境界値・部分失敗・競合・業務ルール境界・ユーザ動線に絞ったシナリオを仕様書ベースで設計する。**正常系（happy-path）は生成しない**。単体とe2eを1ファイルに混ぜない。
+**Mục đích**: thiết kế scenario dựa trên spec, gói gọn vào error path, boundary value, thất bại một phần, tranh chấp, ranh giới business rule, và luồng thao tác của người dùng. **Không sinh happy path**. Không trộn unit và e2e trong cùng một file.
 
 ```json
 {
@@ -181,163 +181,163 @@ description: 成果物の構造化フォーマット契約（§1〜§9）。各�
     {
       "id": "UT-001",
       "category": "boundary-value",
-      "title": "数量が上限+1のとき検証エラー",
-      "preconditions": ["商品が在庫あり"],
+      "title": "Lỗi kiểm tra khi số lượng là cận trên + 1",
+      "preconditions": ["Sản phẩm còn tồn kho"],
       "input": "quantity = 10000",
-      "expected": "400 とエラーコード QTY_OVER",
-      "miss_impact": "上限超過注文が通り在庫がマイナスになる"
+      "expected": "400 kèm mã lỗi QTY_OVER",
+      "miss_impact": "Đơn vượt cận trên lọt qua và tồn kho bị âm"
     }
   ]
 }
 ```
 
-e2e の場合（`"level": "e2e"`）は各シナリオに `entry_point` と `actors` を追加する：
+Trường hợp e2e (`"level": "e2e"`) thì mỗi scenario thêm `entry_point` và `actors`:
 
 ```json
 {
   "id": "E2E-001",
   "category": "auth-boundary",
-  "title": "他ユーザの注文を閲覧しようとして拒否される",
-  "entry_point": "GET /orders/{id} 注文詳細画面",
-  "actors": ["一般ユーザB（注文の所有者ではない）"],
-  "expected": "403。他人の注文データが表示されない",
-  "miss_impact": "権限外データ漏洩（IDOR）"
+  "title": "Bị từ chối khi cố xem đơn hàng của người dùng khác",
+  "entry_point": "GET /orders/{id} màn hình chi tiết đơn hàng",
+  "actors": ["Người dùng thường B (không phải chủ đơn hàng)"],
+  "expected": "403. Không hiển thị dữ liệu đơn hàng của người khác",
+  "miss_impact": "Rò rỉ dữ liệu ngoài quyền (IDOR)"
 }
 ```
 
-- `level` は `unit` / `e2e`。**`category: happy-path` は禁止**。
-- unit カテゴリ：`boundary-value` / `business-rule-boundary` / `processing-order` / `partial-failure` / `concurrency`。
-- e2e カテゴリ：`user-flow-error` / `cross-module-state` / `integration-failure` / `auth-boundary` / `data-leak`。
-- 全シナリオに `miss_impact`（見落とした場合の影響）を1行で必須。業務ルール不明時は `title` 等に `（要確認）` を付ける。
+- `level` là `unit` / `e2e`. **Cấm `category: happy-path`**.
+- Category của unit: `boundary-value` / `business-rule-boundary` / `processing-order` / `partial-failure` / `concurrency`.
+- Category của e2e: `user-flow-error` / `cross-module-state` / `integration-failure` / `auth-boundary` / `data-leak`.
+- Mọi scenario bắt buộc có 1 dòng `miss_impact` (ảnh hưởng nếu bỏ sót). Khi không rõ business rule thì gắn `(cần xác nhận)` vào `title` v.v.
 
 ---
 
-## §5 設計判断ディベート — design-decision / design-architect
+## §5 Tranh luận quyết định thiết kế — design-decision / design-architect
 
-**生成元**：[`design-decision`](../skills/design-decision/SKILL.md)、[`design-architect`](../agents/design-architect.md)（複数候補のある判断ごと）
-**出力先**：`deliverables/02_design/{decision_id}.debate.md`
-**目的**：複数候補のある設計判断を、推進者A・推進者B（・C・D）と中立な審判のディベート形式で並べる。**AIは結論を出さず、人が判断する**ための材料を均等に提示する。
+**Nguồn sinh**: [`design-decision`](../skills/design-decision/SKILL.md), [`design-architect`](../agents/design-architect.md) (cho mỗi quyết định có nhiều phương án)
+**Nơi xuất**: `deliverables/02_design/{decision_id}.debate.md`
+**Mục đích**: bày các quyết định thiết kế có nhiều phương án ra dưới dạng tranh luận giữa người ủng hộ A, người ủng hộ B (và C, D) cùng một trọng tài trung lập. **AI không đưa ra kết luận**, mà trình bày nguyên liệu đều tay để người quyết.
 
 ```markdown
-# 設計判断ディベート: {decision_id}
+# Tranh luận quyết định thiết kế: {decision_id}
 
-## 論点
-[何を決めるのか。1〜2文]
+## Vấn đề cần quyết
+[Quyết cái gì. 1–2 câu]
 
-## 前提条件
-- 規模: [例: 月間注文1万件]
-- チームスキル: [例: TypeScript中心、SQL中級]
-- 制約: [例: オンプレ、外部SaaS不可]
-- 将来計画: [例: 1年後に多テナント化]
-（不足している前提は「（要確認）」と明記し、推測で埋めない）
+## Điều kiện tiền đề
+- Quy mô: [ví dụ: 10.000 đơn hàng/tháng]
+- Kỹ năng team: [ví dụ: chủ yếu TypeScript, SQL mức trung]
+- Ràng buộc: [ví dụ: on-premise, không dùng được SaaS ngoài]
+- Kế hoạch tương lai: [ví dụ: 1 năm nữa chuyển sang multi-tenant]
+(Tiền đề nào còn thiếu thì ghi rõ "(cần xác nhận)", không lấp bằng suy đoán)
 
-## 選択肢
-- 案A: [名称]
-- 案B: [名称]
+## Các phương án
+- Phương án A: [tên]
+- Phương án B: [tên]
 
-## 推進者A（案A推し）
-1. [主張1]
-2. [主張2]
-3. [主張3]
+## Người ủng hộ A (đẩy phương án A)
+1. [Lập luận 1]
+2. [Lập luận 2]
+3. [Lập luận 3]
 
-## 推進者B（案B推し）
-1. [主張1]
-2. [主張2]
-3. [主張3]
+## Người ủng hộ B (đẩy phương án B)
+1. [Lập luận 1]
+2. [Lập luận 2]
+3. [Lập luận 3]
 
-## 中立な審判
-- 案Aが有利になる条件: [...]
-- 案Bが有利になる条件: [...]
-- 判断に必要だが不足している情報: [...]
+## Trọng tài trung lập
+- Điều kiện khiến phương án A có lợi: [...]
+- Điều kiện khiến phương án B có lợi: [...]
+- Thông tin cần để quyết nhưng đang thiếu: [...]
 
-## 人が決めること
-[ここはAIが結論を書かない。人が選んで追記する欄]
+## Phần người quyết
+[Chỗ này AI không viết kết luận. Là ô để người chọn rồi ghi thêm vào]
 ```
 
-- 各推進者の主張は**3点ずつ均等**に出す（片方が薄くならない）。
-- 「中立な審判」セクションでも**どちらが良いと断言しない**。条件と不足情報の提示に留める。
-- 選択肢は最大4つ。3つ以上なら推進者セクションを案の数だけ用意する。
+- Lập luận của mỗi người ủng hộ phải ra **đều tay, mỗi bên 3 điểm** (không để một bên mỏng hơn).
+- Ngay cả trong section "Trọng tài trung lập" cũng **không khẳng định bên nào tốt hơn**. Chỉ dừng ở việc nêu điều kiện và thông tin còn thiếu.
+- Tối đa 4 phương án. Từ 3 phương án trở lên thì chuẩn bị số section người ủng hộ bằng số phương án.
 
 ---
 
-## §6 セッション引き継ぎ — handoff-writer / handoff
+## §6 Handoff giữa các session — handoff-writer / handoff
 
-**生成元**：[`handoff-writer`](../agents/handoff-writer.md)、[`handoff`](../skills/handoff/SKILL.md)
-**出力先**：`deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md`
-**目的**：次セッションが同じ状態から再開できるよう、現状・重要な事実・次の作業・注意事項を構造化する。**4セクションを必ずすべて含める**（空でも見出しを残す）。
+**Nguồn sinh**: [`handoff-writer`](../agents/handoff-writer.md), [`handoff`](../skills/handoff/SKILL.md)
+**Nơi xuất**: `deliverables/handoff/handoff-{YYYY-MM-DD}-{seq}.md`
+**Mục đích**: cấu trúc hoá tình hình hiện tại, các sự kiện quan trọng, việc tiếp theo, và lưu ý, để session sau tiếp tục được từ đúng trạng thái đó. **Bắt buộc có đủ cả 4 section** (rỗng thì vẫn giữ tiêu đề).
 
 ```markdown
-# 引き継ぎ: {YYYY-MM-DD}-{seq}
+# Handoff: {YYYY-MM-DD}-{seq}
 
-## 現在の状態
-- 完了: [...]
-- 未完了: [...]
-- 進行中: [...]
+## Trạng thái hiện tại
+- Xong: [...]
+- Chưa xong: [...]
+- Đang làm dở: [...]
 
-## このセッションで確認した重要な事実
-- [仕様の解釈・業務ルールの確認]
-- [**AIが最初に誤解していたが訂正された点**を必ず書く ← 誤解の再発防止]
+## Sự kiện quan trọng đã xác nhận trong session này
+- [Cách hiểu spec, kết quả xác nhận business rule]
+- [Bắt buộc viết **những chỗ AI hiểu sai lúc đầu rồi được sửa lại** ← chống tái phát hiểu lầm]
 
-## 次のセッションで最初にやること
-1. [具体的に。番号付き]
+## Việc phải làm đầu tiên ở session sau
+1. [Cụ thể. Có đánh số]
 2. [...]
 
-## 注意事項
-- [このセッションで発生した問題と対処]
-- [踏みやすい落とし穴]
+## Lưu ý
+- [Vấn đề phát sinh trong session này và cách xử lý]
+- [Những cái bẫy dễ giẫm phải]
 ```
 
-- 「重要な事実」には**ユーザに訂正された箇所**を必ず起点として書く。
-- 推測・要約は最小限。再開に必要な情報を網羅する。
-- **機密情報（パスワード・トークン等）は書かない。**
+- Trong "sự kiện quan trọng", bắt buộc lấy **những chỗ bị người dùng sửa lại** làm điểm xuất phát.
+- Suy đoán và tóm lược ở mức tối thiểu. Phủ đủ thông tin cần để tiếp tục.
+- **Không viết thông tin nhạy cảm (mật khẩu, token, v.v.).**
 
 ---
 
-## §7 パイプライン改善提案（Before/After） — pipeline-improve
+## §7 Đề xuất cải thiện pipeline (Before/After) — pipeline-improve
 
-**生成元**：[`pipeline-improve`](../skills/pipeline-improve/SKILL.md)
-**出力先**：`deliverables/reviews/pipeline-improve-{YYYY-MM}.md`
-**目的**：「人が修正した箇所と理由」を分析し、ルール・パイプラインの改善案を**具体的な文言**の Before/After で出す。追加ばかりでルールが肥大化しないよう、**廃止できるルールも必ず探す**。
+**Nguồn sinh**: [`pipeline-improve`](../skills/pipeline-improve/SKILL.md)
+**Nơi xuất**: `deliverables/reviews/pipeline-improve-{YYYY-MM}.md`
+**Mục đích**: phân tích "những chỗ người đã sửa và lý do", rồi đưa ra phương án cải thiện rule và pipeline bằng Before/After với **câu chữ cụ thể**. Để rule không phình lên vì chỉ toàn thêm mới, **bắt buộc phải đi tìm cả những rule có thể bỏ đi**.
 
 ```markdown
-# パイプライン改善レポート: {YYYY-MM}
+# Báo cáo cải thiện pipeline: {YYYY-MM}
 
-## 分析対象
-- reviews/*.json の `verdict: 問題あり`: [N件]
-- *.report.json の `assumptions(risk: high)`: [N件]
-- 人が訂正した git diff: [対象範囲]
+## Đối tượng phân tích
+- `verdict: có vấn đề` trong reviews/*.json: [N mục]
+- `assumptions(risk: high)` trong *.report.json: [N mục]
+- git diff do người sửa lại: [phạm vi đối tượng]
 
-## 繰り返し発生したパターン
-| # | 症状 | 発生回数 | 根本原因（推定） |
+## Các pattern lặp lại nhiều lần
+| # | Triệu chứng | Số lần xảy ra | Nguyên nhân gốc (ước đoán) |
 |---|---|---|---|
-| 1 | [例: 数値の丸め方向ミス] | 4 | risk-categories に丸め観点が無い |
+| 1 | [ví dụ: sai hướng làm tròn số] | 4 | risk-categories không có perspective về làm tròn |
 
-## 改善案（Before / After）
-### 改善1: [タイトル]
-- 対象ファイル: `.claude/rules/risk-categories.md`
+## Phương án cải thiện (Before / After)
+### Cải thiện 1: [tiêu đề]
+- File đối tượng: `.claude/rules/risk-categories.md`
 - Before:
-  > [現状の文言、または「該当記述なし」]
+  > [câu chữ hiện tại, hoặc "không có mô tả tương ứng"]
 - After:
-  > [追加・変更する具体的な文言。「気を付ける」等の抽象表現は禁止]
-- 根拠: [上の表の#何番に対応するか]
+  > [câu chữ cụ thể sẽ thêm/sửa. Cấm diễn đạt trừu tượng kiểu "cần chú ý"]
+- Căn cứ: [tương ứng mục số mấy trong bảng trên]
 
-## 廃止・統合の候補
-- [使われていない／重複しているルールを必ず1つ以上検討する。無ければ「検討したが無し」と明記]
+## Ứng viên bỏ đi / gộp lại
+- [Bắt buộc cân nhắc tối thiểu 1 rule không còn dùng hoặc bị trùng. Không có thì ghi rõ "đã cân nhắc nhưng không có"]
 
-## 過去レポートとの重複チェック
-- [前回までと同じ改善案を繰り返していないかの確認結果]
+## Kiểm tra trùng lặp với báo cáo cũ
+- [Kết quả kiểm tra xem có đang lặp lại đúng phương án cải thiện của các lần trước không]
 ```
 
-- ルール変更案は必ず**そのまま貼れる具体文言**で書く。
-- 本レポートの内容を**直接 `.claude/agents/*.md` や `rules/*.md` に書き込まない**（人の承認が前提）。
+- Phương án sửa rule bắt buộc viết bằng **câu chữ cụ thể có thể dán thẳng vào**.
+- **Không ghi thẳng** nội dung báo cáo này vào `.claude/agents/*.md` hay `rules/*.md` (tiền đề là phải có người duyệt).
 
 ---
 
-## §8 既存コード解析レポート（1領域・1run） — legacy-analyzer
+## §8 Báo cáo phân tích code có sẵn (1 region, 1 run) — legacy-analyzer
 
-**生成元**：[`legacy-analyzer`](../agents/legacy-analyzer.md)
-**出力先**：`deliverables/00_onboarding/{region}/analysis-{runN}.json`（`runN` = `run1` / `run2`）
-**目的**：指定1領域のコードを固定6観点で解析する。同一領域を別runでもう一度解析し、§8b で突き合わせる前提。観点の順番も固定。
+**Nguồn sinh**: [`legacy-analyzer`](../agents/legacy-analyzer.md)
+**Nơi xuất**: `deliverables/00_onboarding/{region}/analysis-{runN}.json` (`runN` = `run1` / `run2`)
+**Mục đích**: phân tích code của 1 region được chỉ định theo 6 perspective cố định. Tiền đề là cùng region đó sẽ được phân tích thêm một run nữa rồi đem đối chiếu ở §8b. Thứ tự perspective cũng cố định.
 
 ```json
 {
@@ -345,42 +345,42 @@ e2e の場合（`"level": "e2e"`）は各シナリオに `entry_point` と `acto
   "run": "run1",
   "paths_analyzed": ["src/order/**"],
   "responsibilities": [
-    { "module": "src/order/create.ts", "responsibility": "注文の作成と検証" }
+    { "module": "src/order/create.ts", "responsibility": "Tạo và kiểm tra đơn hàng" }
   ],
   "dependencies": [
     { "from": "src/order/create.ts", "to": "src/stock/index.ts", "direction": "calls" }
   ],
   "implicit_preconditions": [
-    "create() 呼び出し前にユーザ認証済みであることが暗黙の前提"
+    "Tiền đề ngầm là người dùng đã xác thực trước khi gọi create()"
   ],
   "dead_code": [
-    { "location": "src/order/legacy.ts:10-40", "note": "コメントアウト。参照なし" }
+    { "location": "src/order/legacy.ts:10-40", "note": "Bị comment. Không có chỗ nào tham chiếu" }
   ],
   "business_rule_evidence": [
-    { "location": "src/order/create.ts:88", "magic": "0.08", "meaning": "（推測）消費税率8%" }
+    { "location": "src/order/create.ts:88", "magic": "0.08", "meaning": "(suy đoán) thuế suất tiêu thụ 8%" }
   ],
   "high_risk_changes": [
-    { "location": "src/order/create.ts:120", "why": "在庫減算と密結合。変更で不整合の恐れ" }
+    { "location": "src/order/create.ts:120", "why": "Gắn chặt với việc trừ tồn kho. Sửa vào là có nguy cơ bất nhất" }
   ],
-  "assumptions": ["（推測）税率はハードコードだが設定化されている可能性あり"],
+  "assumptions": ["(suy đoán) thuế suất đang hardcode nhưng có khả năng đã được đưa ra cấu hình"],
   "interpretations": [
-    { "location": "src/order/create.ts:88", "options": ["税率固定", "地域別税率"] }
+    { "location": "src/order/create.ts:88", "options": ["Thuế suất cố định", "Thuế suất theo vùng"] }
   ],
-  "uncertainty": ["税率の根拠資料を確認できていない"]
+  "uncertainty": ["Chưa kiểm chứng được tài liệu làm căn cứ cho thuế suất"]
 }
 ```
 
-- 6観点（責務 / 依存 / 暗黙の前提 / デッドコード / 業務ルールの根拠 / 高リスク箇所）をこの順で必ず埋める。
-- 推測は `（推測）` を付けて `assumptions` に記録。複数解釈は `interpretations` に**両方**列挙し自分で選ばない。
-- 断言しない。確証のない点は `uncertainty` に積む。読み取り専用（コード変更禁止）。
+- Bắt buộc điền đủ 6 perspective (trách nhiệm / phụ thuộc / tiền đề ngầm / dead code / căn cứ của business rule / chỗ rủi ro cao) theo đúng thứ tự này.
+- Phần suy đoán thì gắn `(suy đoán)` và ghi vào `assumptions`. Nhiều cách diễn giải thì liệt kê **cả hai** vào `interpretations`, không tự chọn.
+- Không khẳng định. Điểm nào chưa có bằng chứng chắc chắn thì dồn vào `uncertainty`. Chỉ đọc (cấm sửa code).
 
 ---
 
-## §8b 解析突き合わせレポート — analysis-aggregator
+## §8b Báo cáo đối chiếu kết quả phân tích — analysis-aggregator
 
-**生成元**：[`analysis-aggregator`](../agents/analysis-aggregator.md)
-**出力先**：`deliverables/00_onboarding/{region}/aggregation.json`
-**目的**：同一領域の `analysis-run1.json` と `analysis-run2.json` を突き合わせ、一致（confirmed）/ 不一致（divergent）/ 片側のみ（partial）に分類し、人レビュー対象を絞る。解析自体はやり直さない。
+**Nguồn sinh**: [`analysis-aggregator`](../agents/analysis-aggregator.md)
+**Nơi xuất**: `deliverables/00_onboarding/{region}/aggregation.json`
+**Mục đích**: đối chiếu `analysis-run1.json` và `analysis-run2.json` của cùng một region, phân loại thành khớp nhau (confirmed) / lệch nhau (divergent) / chỉ một bên có (partial), để thu hẹp phạm vi cần người review. Không phân tích lại từ đầu.
 
 ```json
 {
@@ -390,83 +390,83 @@ e2e の場合（`"level": "e2e"`）は各シナリオに `entry_point` と `acto
     "deliverables/00_onboarding/order/analysis-run2.json"
   ],
   "confirmed": [
-    { "topic": "create.ts の責務", "statement": "注文の作成と検証" }
+    { "topic": "Trách nhiệm của create.ts", "statement": "Tạo và kiểm tra đơn hàng" }
   ],
   "divergent": [
     {
-      "topic": "税率の意味",
-      "run1": "消費税率8%（推測）",
-      "run2": "地域別税率（断定）",
-      "note": "片方推測・片方断定のため要人ゲート"
+      "topic": "Ý nghĩa của thuế suất",
+      "run1": "Thuế suất tiêu thụ 8% (suy đoán)",
+      "run2": "Thuế suất theo vùng (khẳng định)",
+      "note": "Một bên suy đoán, một bên khẳng định nên cần human gate"
     }
   ],
   "partial": [
-    { "topic": "legacy.ts のデッドコード", "mentioned_in": "run1", "statement": "参照なし" }
+    { "topic": "Dead code trong legacy.ts", "mentioned_in": "run1", "statement": "Không có chỗ nào tham chiếu" }
   ],
   "uncomparable": [
-    { "topic": "...", "reason": "観点の粒度が両runで異なり比較不能" }
+    { "topic": "...", "reason": "Độ mịn của perspective khác nhau giữa hai run nên không so sánh được" }
   ],
   "confidence_rate": 0.62
 }
 ```
 
-- 分類は `confirmed` / `divergent` / `partial` の3値に必ずマッピング。**完全に同じ場合のみ confirmed**（「ほぼ同じ」は不可）。
-- `divergent` は**両方の主張を保存**（一方を選ばない）。一方が `（推測）`・他方が断定なら `divergent` 扱い。
-- `confidence_rate` = `confirmed 項目数 / 総項目数`。
-- 突き合わせ不能な項目は `uncomparable` に退避し理由を明記。
+- Bắt buộc map phân loại vào 3 giá trị `confirmed` / `divergent` / `partial`. **Chỉ giống hoàn toàn mới là confirmed** ("gần giống" thì không được).
+- `divergent` thì **giữ lập luận của cả hai bên** (không chọn bên nào). Một bên là `(suy đoán)` còn bên kia khẳng định thì xử lý như `divergent`.
+- `confidence_rate` = `số mục confirmed / tổng số mục`.
+- Mục không đối chiếu được thì đưa vào `uncomparable` và ghi rõ lý do.
 
 ---
 
-## §9 SIer受領設計書 読み取りレポート — sier-spec-reader
+## §9 Báo cáo đọc design doc nhận từ SIer — sier-spec-reader
 
-**生成元**：[`sier-spec-reader`](../agents/sier-spec-reader.md)
-**出力先**：`deliverables/01_requirements/{feature}.sier-readout.json`
-**目的**：外部受領設計書から、矛盾・未定義・暗黙前提を抽出して `issues` に積む。これらは**派生仕様（`{feature}.derived-spec.md`）には含めず**、人ゲート①' を必ず通すための材料。
+**Nguồn sinh**: [`sier-spec-reader`](../agents/sier-spec-reader.md)
+**Nơi xuất**: `deliverables/01_requirements/{feature}.sier-readout.json`
+**Mục đích**: rút ra mâu thuẫn, chỗ chưa định nghĩa, và tiền đề ngầm từ design doc nhận từ bên ngoài rồi dồn vào `issues`. Những thứ này **không được đưa vào derived spec (`{feature}.derived-spec.md`)**, mà là nguyên liệu để bắt buộc đi qua human gate ①'.
 
 ```json
 {
   "feature": "order-create",
   "source_documents": [
-    { "file": "inputs/sier-design/基本設計書_v2.docx", "version": "v2" }
+    { "file": "inputs/sier-design/basic-design_v2.docx", "version": "v2" }
   ],
   "extracted_points": {
-    "io": ["リクエスト: 商品ID・数量", "レスポンス: 注文ID・合計金額"],
-    "business_rules": ["合計 = 単価 × 数量 × (1 + 税率)"],
-    "error_handling": ["在庫不足時の挙動が（未記載）"],
-    "transaction_idempotency": ["二重送信時のべき等性は未記載"]
+    "io": ["Request: ID sản phẩm, số lượng", "Response: ID đơn hàng, tổng tiền"],
+    "business_rules": ["Tổng = đơn giá × số lượng × (1 + thuế suất)"],
+    "error_handling": ["Hành vi khi thiếu tồn kho (không được ghi)"],
+    "transaction_idempotency": ["Tính idempotent khi gửi trùng chưa được ghi"]
   },
   "issues": {
     "conflicts": [
       {
         "id": "C1",
-        "documents": ["基本設計書_v2 §3", "画面設計書 §5"],
-        "description": "数量上限が一方は1000、他方は9999",
-        "both_statements": ["基本設計: 1000", "画面設計: 9999"]
+        "documents": ["basic-design_v2 §3", "screen-design §5"],
+        "description": "Cận trên số lượng: một bên ghi 1000, bên kia ghi 9999",
+        "both_statements": ["Thiết kế cơ bản: 1000", "Thiết kế màn hình: 9999"]
       }
     ],
     "undefined": [
-      { "id": "U1", "topic": "在庫不足時のエラー応答", "need": "コードとメッセージの指定が必要" }
+      { "id": "U1", "topic": "Phản hồi lỗi khi thiếu tồn kho", "need": "Cần chỉ định mã lỗi và message" }
     ],
     "implicit_assumptions": [
-      { "id": "I1", "description": "業界慣行として注文確定前に与信チェックがある前提と思われる" }
+      { "id": "I1", "description": "Có vẻ đang giả định là theo thông lệ ngành thì có bước kiểm tra tín dụng trước khi chốt đơn" }
     ]
   },
   "version_diff": [
-    { "from": "v1", "to": "v2", "change": "税率の記述が固定→設定参照に変更" }
+    { "from": "v1", "to": "v2", "change": "Mô tả thuế suất đổi từ cố định sang tham chiếu cấu hình" }
   ]
 }
 ```
 
-- 受領設計書を**要約・翻案しない**。実装に必要な情報のみ `extracted_points` に抽出。
-- 矛盾は `issues.conflicts` に**両方の記述を保存**。未定義は `issues.undefined`、暗黙前提は `issues.implicit_assumptions`。
-- 複数バージョンがある場合は最新を優先しつつ差分を `version_diff` に記録。
-- ここで挙げた `issues` は派生仕様に混ぜず、人ゲート①' で解消する。
+- **Không tóm tắt, không phóng tác lại** design doc nhận được. Chỉ rút thông tin cần cho việc code vào `extracted_points`.
+- Mâu thuẫn thì **giữ mô tả của cả hai bên** trong `issues.conflicts`. Chỗ chưa định nghĩa vào `issues.undefined`, tiền đề ngầm vào `issues.implicit_assumptions`.
+- Có nhiều phiên bản thì ưu tiên bản mới nhất, đồng thời ghi phần khác biệt vào `version_diff`.
+- Những `issues` nêu ở đây không được trộn vào derived spec, mà phải giải quyết ở human gate ①'.
 
 ---
 
-## 参照される側のクイックマップ
+## Bản đồ nhanh phía được tham chiếu
 
-| §  | 成果物 | 生成元 |
+| §  | Deliverable | Nguồn sinh |
 |----|--------|--------|
 | §1  | `03_implementation/{task_id}.report.json` | implementer / implement |
 | §2  | `reviews/{impl,design,test}-*.json` | implementation-reviewer / design-reviewer / test-reviewer / focused-review |

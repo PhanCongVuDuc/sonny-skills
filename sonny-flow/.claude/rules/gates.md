@@ -1,130 +1,130 @@
 ---
-description: フェーズ移行の判定基準。AIの自然言語の「完了報告」を信用せず、構造化成果物に対する自動ゲートと人ゲートで進行可否を判断する。`paths:` なし（各 command / agent から明示参照される）。
+description: Criteria for phase transitions. Never trust an AI's natural-language "done" report — decide whether work may proceed via automated gates and human gates over structured deliverables. No `paths:` (referenced explicitly from each command / agent).
 ---
 
-# Gates Rules（フェーズ移行ゲート）
+# Gates Rules (gate chuyển phase)
 
-`paths:` frontmatter なし — このルールは特定ファイルに紐づかず、各 command・agent から明示的に参照される。
+Không có frontmatter `paths:` — rule này không gắn với file cụ thể nào, mà được từng command và agent tham chiếu tường minh.
 
-このプロジェクトのワークフローは **フェーズごとにゲートを通過しないと次へ進めない**。
-ゲートには2種類ある。
+Workflow của project này là **không qua được gate của phase thì không đi tiếp được**.
+Có 2 loại gate.
 
-- **自動ゲート（machine-checkable）**：`deliverables/` 配下の構造化ファイル（JSON / Markdown）に対して、AI／スクリプトが機械的に判定できる条件。**満たさなければ次フェーズに進ませない。**
-- **人ゲート（human approval）**：人が成果物を確認して承認する checkpoint。AIは自動で通過できない。
+- **Gate tự động (machine-checkable)**: các điều kiện mà AI/script phán định được một cách máy móc, dựa trên file có cấu trúc (JSON / Markdown) nằm dưới `deliverables/`. **Không thoả thì không cho sang phase kế tiếp.**
+- **Human gate (human approval)**: checkpoint để người kiểm tra deliverable rồi duyệt. AI không tự động vượt qua được.
 
-> **大原則：AIエージェントの自然言語の「できました」「問題ありません」を進行根拠にしない。** 必ず `deliverables/` の構造化ファイルを根拠に、下記のゲート条件で判定する。
+> **Nguyên tắc lớn: không lấy câu "xong rồi", "không có vấn đề gì" bằng ngôn ngữ tự nhiên của AI agent làm căn cứ để đi tiếp.** Luôn lấy file có cấu trúc trong `deliverables/` làm căn cứ, và phán định theo các điều kiện gate dưới đây.
 
 ---
 
-## ゲート番号とフェーズの対応
+## Đối chiếu số hiệu gate và phase
 
-| ゲート | フェーズ | 自動ゲート（対象ファイル） | それに続く人ゲート |
+| Gate | Phase | Gate tự động (file đối tượng) | Human gate đi kèm sau đó |
 |---|---|---|---|
-| ゲート⓪ | Phase 0（オンボーディング / ブートストラップ） | `deliverables/00_onboarding/*.json` | 人ゲート⓪-1 / ⓪-2 / ⓪-3 |
-| ゲート① | Phase 1（要件・仕様） | `deliverables/01_requirements/{feature}.spec.md` ＋ `{feature}.uncertainty.json`（SIer経由は `{feature}.derived-spec.md` ＋ `{feature}.sier-readout.json`） | 人ゲート①（SIer経由は ①'） |
-| ゲート② | Phase 2（設計） | `deliverables/reviews/design-{観点}-{feature}.json` ＋ `devils-advocate-*.md` | 人ゲート② |
-| ゲート③ | Phase 3（実装） | `deliverables/03_implementation/{task_id}.report.json` | （Phase 4 通過後の）人ゲート③ |
-| ゲート④ | Phase 4（テスト） | `deliverables/04_test/scenarios-*.json` ＋ `deliverables/reviews/test-*.json` ＋ テスト実行結果 | 人ゲート③（実装＋テスト総合判定） |
+| Gate ⓪ | Phase 0 (onboarding / bootstrap) | `deliverables/00_onboarding/*.json` | Human gate ⓪-1 / ⓪-2 / ⓪-3 |
+| Gate ① | Phase 1 (requirement, spec) | `deliverables/01_requirements/{feature}.spec.md` + `{feature}.uncertainty.json` (đi qua SIer thì là `{feature}.derived-spec.md` + `{feature}.sier-readout.json`) | Human gate ① (đi qua SIer thì là ①') |
+| Gate ② | Phase 2 (design) | `deliverables/reviews/design-{perspective}-{feature}.json` + `devils-advocate-*.md` | Human gate ② |
+| Gate ③ | Phase 3 (implementation) | `deliverables/03_implementation/{task_id}.report.json` | Human gate ③ (sau khi qua Phase 4) |
+| Gate ④ | Phase 4 (test) | `deliverables/04_test/scenarios-*.json` + `deliverables/reviews/test-*.json` + kết quả chạy test | Human gate ③ (đánh giá tổng hợp implementation + test) |
 
-> 観点キー（`{観点}`）の定義は [`.claude/rules/risk-categories.md`](risk-categories.md) を参照。
-> 構造化ファイルの詳細フォーマットは [`.claude/rules/output-formats.md`](output-formats.md) を参照。
-
----
-
-## ゲート⓪ — オンボーディング / ブートストラップ
-
-既存コード解析パスでのみ通過する（新規プロジェクトでは不要）。
-
-**自動ゲート条件**
-- `deliverables/00_onboarding/{region}/aggregation.json` が全リージョン分そろっている
-- 解析結果の各項目に `status: confirmed / partial / divergent` が付いている
-
-**人ゲート（自動では通過不可）**
-- **人ゲート⓪-1**：`divergent` と `partial` を人が確認し、`human_verdict` 列を埋める（`confirmed` は基本通す）
-- **人ゲート⓪-2**：生成3ファイル（ドメインドキュメント雛形）の妥当性を確認
-- **人ゲート⓪-3**：業務ルール候補（`confidence: guess` 含む）を有識者承認 → `docs/domain/business_rules.md` に反映
+> Định nghĩa khoá perspective (`{perspective}`): xem [`.claude/rules/risk-categories.md`](risk-categories.md).
+> Định dạng chi tiết của file có cấu trúc: xem [`.claude/rules/output-formats.md`](output-formats.md).
 
 ---
 
-## ゲート① — 要件・仕様
+## Gate ⓪ — onboarding / bootstrap
 
-`/spec`（通常）または `/from-sier`（SIer受領設計書経由）が出力する仕様を判定する。
+Chỉ đi qua trong existing-analysis path (project mới thì không cần).
 
-**自動ゲート条件**
-- 仕様書 `{feature}.spec.md` が10セクション固定で、「未決定事項」セクションを含む
-- `{feature}.uncertainty.json` が存在し、各推測項目に `impact: high/medium/low` と「人に聞くべき1文の質問」が付いている
-- SIer経由の場合：`{feature}.derived-spec.md` が存在し、`{feature}.sier-readout.json` の `issues`（矛盾・未定義）が列挙されている
+**Điều kiện gate tự động**
+- `deliverables/00_onboarding/{region}/aggregation.json` đã đủ cho tất cả các region
+- Mỗi mục trong kết quả phân tích đều có gắn `status: confirmed / partial / divergent`
 
-**人ゲート（自動では通過不可）**
-- **人ゲート①**：`impact: high` の推測箇所と「未決定事項」を人が確認・承認
-- **人ゲート①'**（SIer経由）：`sier-readout.json` の `issues` への対処方針 ＋ `uncertainty.json` の `impact: high` 項目を人が確認
-
----
-
-## ゲート② — 設計
-
-`/design` が出力する設計書とレビュー結果を判定する。
-
-**自動ゲート条件**
-- `{feature}.design.md` が存在する
-- `design-reviewer` を観点別に実行した結果 `deliverables/reviews/design-{観点}-{feature}.json` が存在し、各項目が `verdict: 問題あり / 問題なし / 確認不能` の3値で分類されている
-- `devils-advocate-*.md`（失敗シナリオ）が存在する
-
-**人ゲート（自動では通過不可）**
-- **人ゲート②**：`risk_level: high` の指摘と失敗シナリオへの対応方針を人が確認・承認 → 通過すれば `/implement` へ
+**Human gate (không thể tự động vượt qua)**
+- **Human gate ⓪-1**: người kiểm tra các mục `divergent` và `partial`, rồi điền cột `human_verdict` (`confirmed` thì về cơ bản cho qua)
+- **Human gate ⓪-2**: kiểm tra tính hợp lý của 3 file được sinh ra (khung tài liệu domain)
+- **Human gate ⓪-3**: người có chuyên môn duyệt các business rule ứng viên (kể cả loại `confidence: guess`) → phản ánh vào `docs/domain/business_rules.md`
 
 ---
 
-## ゲート③ — 実装（自動ゲート）
+## Gate ① — requirement, spec
 
-`/implement` が出力する `deliverables/03_implementation/{task_id}.report.json` を判定する。
-**`/implement` Step 3 がこのゲートを参照する。**
+Phán định phần spec do `/spec` (thông thường) hoặc `/from-sier` (đi qua design doc nhận từ SIer) xuất ra.
 
-**自動ゲート条件（すべて満たすこと）**
+**Điều kiện gate tự động**
+- Spec `{feature}.spec.md` cố định 10 section, và có chứa section "Các điểm chưa chốt"
+- `{feature}.uncertainty.json` tồn tại, và mỗi mục suy đoán đều có `impact: high/medium/low` cùng "một câu hỏi nên hỏi người"
+- Trường hợp đi qua SIer: `{feature}.derived-spec.md` tồn tại, và `issues` (mâu thuẫn / chưa định nghĩa) trong `{feature}.sier-readout.json` đã được liệt kê
 
-| # | 条件 | 判定 |
+**Human gate (không thể tự động vượt qua)**
+- **Human gate ①**: người kiểm tra và duyệt các chỗ suy đoán có `impact: high` cùng mục "Các điểm chưa chốt"
+- **Human gate ①'** (đi qua SIer): người kiểm tra hướng xử lý cho `issues` trong `sier-readout.json` + các mục `impact: high` trong `uncertainty.json`
+
+---
+
+## Gate ② — design
+
+Phán định design doc và kết quả review do `/design` xuất ra.
+
+**Điều kiện gate tự động**
+- `{feature}.design.md` tồn tại
+- Kết quả chạy `design-reviewer` theo từng perspective, tức `deliverables/reviews/design-{perspective}-{feature}.json`, tồn tại, và mỗi mục được phân loại theo 3 giá trị `verdict: có vấn đề / không vấn đề / không kiểm chứng được`
+- `devils-advocate-*.md` (kịch bản thất bại) tồn tại
+
+**Human gate (không thể tự động vượt qua)**
+- **Human gate ②**: người kiểm tra và duyệt các điểm `risk_level: high` cùng hướng xử lý cho các kịch bản thất bại → qua được thì sang `/implement`
+
+---
+
+## Gate ③ — implementation (gate tự động)
+
+Phán định `deliverables/03_implementation/{task_id}.report.json` do `/implement` xuất ra.
+**Step 3 của `/implement` tham chiếu gate này.**
+
+**Điều kiện gate tự động (phải thoả tất cả)**
+
+| # | Điều kiện | Phán định |
 |---|---|---|
-| 3-1 | `status: completed` であること | `in_progress` / `blocked` のまま次へ進まない |
-| 3-2 | `todo_remaining: 0` であること | 1以上なら未完了として差し戻し |
-| 3-3 | `assumptions` のうち `risk: high` が **ゼロ**、または**人による承認済み**であること | 未承認の高リスク推測が残っていたら通過不可 |
-| 3-4 | `human_review_required` が空でない場合、各項目に `category`（[risk-categories.md](risk-categories.md) のキー）・`question_for_human`・`risk_level` がそろっていること | 1つでも欠けていたらレポート不備として差し戻し |
+| 3-1 | Phải là `status: completed` | Còn đang `in_progress` / `blocked` thì không cho đi tiếp |
+| 3-2 | Phải là `todo_remaining: 0` | Từ 1 trở lên thì coi là chưa xong, trả về |
+| 3-3 | Trong `assumptions`, số mục `risk: high` phải bằng **không**, hoặc **đã được người duyệt** | Còn sót suy đoán rủi ro cao chưa được duyệt thì không cho qua |
+| 3-4 | Nếu `human_review_required` không rỗng, mỗi mục phải có đủ `category` (khoá trong [risk-categories.md](risk-categories.md)), `question_for_human`, và `risk_level` | Thiếu dù chỉ một cái cũng coi là báo cáo khuyết, trả về |
 
-> いずれか満たさない場合は **Phase 3 に差し戻す**（人の確認なしに次フェーズへ進ませない）。
-> このゲートは「実装が正しい」ことを保証するものではなく、「人が確認すべき箇所がレポートに正しく申告されているか」を保証するもの。実装の妥当性判定は人ゲート③で行う。
-
----
-
-## ゲート④ — テスト（自動ゲート）
-
-`/test` が出力するシナリオ・テスト・実行結果を判定する。
-
-**自動ゲート条件**
-- `scenarios-{feature}.{level}.json`（unit / e2e）が存在し、**正常系のみのシナリオになっていない**（異常系・境界値を含む）
-- `deliverables/reviews/test-{feature}.json` が存在し、`verdict` の3値で分類されている
-- テスト実行結果が記録され、**全テストがパス**している（失敗テストが残ったまま次へ進まない）
-- `scenario-map.json` でシナリオ⇔テストの対応が取れている（追跡可能性）
-
-**人ゲート（自動では通過不可）**
-- **人ゲート③（総合判定）**：`implementation-reviewer` の観点別レビュー結果 ＋ テスト結果を**併せて**人が確認する。
-  - 実装バグ → Phase 3 へ差し戻し
-  - テスト側の問題 → Phase 4 で修正
-  - カバレッジ不足 → Phase 4 でシナリオ追加
-  - 問題なし → **PR 作成へ進む**
+> Thiếu bất kỳ điều kiện nào thì **trả về Phase 3** (không cho sang phase kế tiếp mà chưa có người kiểm tra).
+> Gate này không bảo đảm "code viết đúng", mà bảo đảm "những chỗ người cần kiểm tra đã được khai báo đúng trong báo cáo". Việc phán định tính hợp lý của phần code thì làm ở human gate ③.
 
 ---
 
-## ゲート判定の基本ルール
+## Gate ④ — test (gate tự động)
 
-- **自動ゲートを満たさない限り、人ゲートに上げない。** 機械的に弾けるものは機械で弾く。
-- **人ゲートはAIが代行しない。** AIは「人が確認すべき項目」を絞り込んで提示するところまで。承認の判断は人が行う。
-- **「問題なし」を返すときも観点・確認済み項目を明示する**（沈黙で通過しない）。
-- **`risk: high` / `impact: high` / `risk_level: high` は必ず人ゲートに上げる。** 影響度判定に迷ったら一段上に倒す（保守側）。
-- ゲート通過の根拠は常に `deliverables/` の構造化ファイル。自然言語の完了報告は根拠にしない。
+Phán định scenario, test, và kết quả chạy do `/test` xuất ra.
+
+**Điều kiện gate tự động**
+- `scenarios-{feature}.{level}.json` (unit / e2e) tồn tại, và **không phải là loại scenario chỉ có happy path** (phải có error path, boundary value)
+- `deliverables/reviews/test-{feature}.json` tồn tại, và được phân loại theo 3 giá trị `verdict`
+- Kết quả chạy test đã được ghi lại, và **toàn bộ test đều pass** (không cho đi tiếp khi còn test fail)
+- `scenario-map.json` đã ánh xạ được scenario ⇔ test (khả năng truy vết)
+
+**Human gate (không thể tự động vượt qua)**
+- **Human gate ③ (đánh giá tổng hợp)**: người kiểm tra **đồng thời** kết quả review theo perspective của `implementation-reviewer` + kết quả test.
+  - Bug ở implementation → trả về Phase 3
+  - Vấn đề nằm ở phía test → sửa trong Phase 4
+  - Thiếu coverage → thêm scenario trong Phase 4
+  - Không vấn đề gì → **sang bước tạo PR**
 
 ---
 
-## 参照
+## Quy tắc nền của việc phán định gate
 
-- 観点キー・リスクカテゴリの定義：[`.claude/rules/risk-categories.md`](risk-categories.md)
-- 構造化ファイルのフォーマット：[`.claude/rules/output-formats.md`](output-formats.md)
-- 各フェーズの起動手順：`.claude/commands/spec.md`・`design.md`・`implement.md`・`test.md`・`review.md`・`from-sier.md`
+- **Chưa thoả gate tự động thì chưa đẩy lên human gate.** Cái gì máy loại được thì để máy loại.
+- **AI không làm thay human gate.** AI chỉ làm tới mức lọc ra và trình bày "những mục người cần kiểm tra". Quyết định duyệt là của người.
+- **Kể cả khi trả về "không vấn đề" cũng phải nói rõ perspective và các mục đã kiểm tra** (không im lặng cho qua).
+- **`risk: high` / `impact: high` / `risk_level: high` bắt buộc phải đẩy lên human gate.** Phân vân khi đánh giá mức ảnh hưởng thì nghiêng lên một bậc (phía an toàn).
+- Căn cứ để qua gate luôn là file có cấu trúc trong `deliverables/`. Không lấy báo cáo hoàn thành bằng ngôn ngữ tự nhiên làm căn cứ.
+
+---
+
+## Tham chiếu
+
+- Định nghĩa khoá perspective và risk category: [`.claude/rules/risk-categories.md`](risk-categories.md)
+- Định dạng của file có cấu trúc: [`.claude/rules/output-formats.md`](output-formats.md)
+- Thủ tục khởi động từng phase: `.claude/commands/spec.md`, `design.md`, `implement.md`, `test.md`, `review.md`, `from-sier.md`

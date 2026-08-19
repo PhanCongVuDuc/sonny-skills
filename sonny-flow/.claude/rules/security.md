@@ -60,7 +60,7 @@ calls, and data persisted in the Revit model.
 
 ## When in doubt
 
-Delegate to the `design-reviewer` subagent (security観点; model: opus) — or run
+Delegate to the `design-reviewer` subagent (security perspective; model: opus) — or run
 `/arent-workflow:review security`. Especially for changes that touch:
 - The Auth project / login flow / `AUTH_DISABLED` behavior
 - External file import (CSV, Excel, DWG, zip) or process execution

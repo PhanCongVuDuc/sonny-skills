@@ -1,145 +1,145 @@
 ---
-description: レビュー観点キー・リスクカテゴリ・重大度レベルの正典定義。実装/設計レビュー、risk-flag、uncertainty、pipeline-improve が共通参照する。`paths:` なし（各 command / agent / skill から明示参照される）。
+description: Canonical definition of review-perspective keys, risk categories and severity levels. Shared reference for implementation/design review, risk-flag, uncertainty and pipeline-improve. No `paths:` (referenced explicitly from each command / agent / skill).
 ---
 
-# Risk Categories Rules（観点キー・リスクカテゴリ・重大度）
+# Risk Categories Rules (khoá perspective, risk category, mức nghiêm trọng)
 
-`paths:` frontmatter なし — このルールは特定ファイルに紐づかず、各 command・agent・skill から明示的に参照される。
+Không có frontmatter `paths:` — rule này không gắn với file cụ thể nào, mà được từng command, agent, skill tham chiếu tường minh.
 
-このファイルは、ハーネス全体で使う **レビュー観点キー** と **リスクカテゴリ** と **重大度レベル** の唯一の定義元（single source of truth）。
-`deliverables/` のファイル名 `{観点}` や、各 JSON の `category` / `risk_level` / `impact` フィールドの値は、ここで定義したキーと**必ず一致させる**こと。
+File này là nơi định nghĩa duy nhất (single source of truth) cho **khoá perspective review**, **risk category**, và **mức nghiêm trọng** dùng trong toàn bộ harness.
+Phần `{perspective}` trong tên file thuộc `deliverables/`, cũng như giá trị của các field `category` / `risk_level` / `impact` trong từng JSON, **bắt buộc phải khớp** với khoá định nghĩa ở đây.
 
-参照元：
-- [`implementation-reviewer`](../agents/implementation-reviewer.md)・[`design-reviewer`](../agents/design-reviewer.md)（観点別レビュー）
-- [`risk-flag`](../skills/risk-flag/SKILL.md) Skill（`human_review_required` のカテゴリ）
-- [`focused-review`](../skills/focused-review/SKILL.md) Skill（1観点レビュー）
-- [`uncertainty-auditor`](../agents/uncertainty-auditor.md)（推測箇所の影響度）
-- [`pipeline-improve`](../skills/pipeline-improve/SKILL.md) Skill（失敗カテゴリ分類）
-- [`deliverables/README.md`](../../deliverables/README.md)（`{観点}` 命名規約）
+Nơi tham chiếu:
+- [`implementation-reviewer`](../agents/implementation-reviewer.md), [`design-reviewer`](../agents/design-reviewer.md) (review theo perspective)
+- Skill [`risk-flag`](../skills/risk-flag/SKILL.md) (category của `human_review_required`)
+- Skill [`focused-review`](../skills/focused-review/SKILL.md) (review 1 perspective)
+- [`uncertainty-auditor`](../agents/uncertainty-auditor.md) (mức ảnh hưởng của các chỗ suy đoán)
+- Skill [`pipeline-improve`](../skills/pipeline-improve/SKILL.md) (phân loại category thất bại)
+- [`deliverables/README.md`](../../deliverables/README.md) (quy ước đặt tên `{perspective}`)
 
 ---
 
-## 重大度レベル（severity）
+## Mức nghiêm trọng (severity)
 
-ハーネス全体で **3段階** に統一する。フィールド名は文脈によって異なるが、値は常に `high / medium / low`。
+Thống nhất **3 bậc** trong toàn bộ harness. Tên field khác nhau tuỳ ngữ cảnh, nhưng giá trị luôn là `high / medium / low`.
 
-| フィールド | 使う場所 | 意味 |
+| Field | Chỗ dùng | Ý nghĩa |
 |---|---|---|
-| `risk_level` | レビュー指摘・`human_review_required`（`implementation-reviewer` / `design-reviewer` / `risk-flag` / `focused-review`） | その指摘・フラグの危険度 |
-| `impact` | 推測箇所（`uncertainty-auditor` / `uncertainty.json`） | 推測が外れたときの影響度 |
-| `risk` | 実装レポートの `assumptions`（`{task_id}.report.json`） | その前提が崩れたときのリスク |
+| `risk_level` | Điểm nêu ra khi review và `human_review_required` (`implementation-reviewer` / `design-reviewer` / `risk-flag` / `focused-review`) | Mức nguy hiểm của điểm nêu ra / flag đó |
+| `impact` | Chỗ suy đoán (`uncertainty-auditor` / `uncertainty.json`) | Mức ảnh hưởng khi suy đoán đó sai |
+| `risk` | `assumptions` trong báo cáo implementation (`{task_id}.report.json`) | Rủi ro khi tiền đề đó sụp đổ |
 
-### high の判定基準
-次のいずれかに該当すれば `high`：
-- **業務影響**：誤ると業務上の意思決定・金額・帳票が狂う
-- **データ破損**：データの不整合・消失・二重計上が起きうる
-- **セキュリティ**：認証・認可・情報漏洩に関わる
+### Tiêu chí phán định `high`
+Rơi vào bất kỳ mục nào sau đây thì là `high`:
+- **Ảnh hưởng nghiệp vụ**: sai là lệch quyết định nghiệp vụ, lệch số tiền, lệch chứng từ
+- **Hỏng dữ liệu**: có thể gây bất nhất, mất dữ liệu, hoặc ghi nhận trùng
+- **Bảo mật**: liên quan tới xác thực, phân quyền, rò rỉ thông tin
 
-→ `high` は**必ず人ゲートに上げる**（[`.claude/rules/gates.md`](gates.md) 参照）。
+→ `high` thì **bắt buộc đẩy lên human gate** (xem [`.claude/rules/gates.md`](gates.md)).
 
-### 判定に迷ったとき
-- 影響度判定に迷う：**一段上**を選ぶ（保守側に倒す）。
-- 推測か断定か自分でも分からない：隠さず最も低い確度として記録する。
+### Khi phân vân
+- Phân vân khi đánh giá mức ảnh hưởng: chọn **cao hơn một bậc** (nghiêng về phía an toàn).
+- Chính mình cũng không rõ đó là suy đoán hay khẳng định: không giấu, ghi lại ở mức độ tin cậy thấp nhất.
 
 ---
 
-## レビュー判定（verdict）
+## Kết quả phán định review (verdict)
 
-観点別レビュー（`design-reviewer` / `implementation-reviewer` / `focused-review`）の出力は **3値** で必ず分類する。
+Output của review theo perspective (`design-reviewer` / `implementation-reviewer` / `focused-review`) bắt buộc phân loại theo **3 giá trị**.
 
-| verdict | 意味 |
+| verdict | Ý nghĩa |
 |---|---|
-| `問題あり` | 指摘あり。`location` と `issue`、`risk_level` を付ける |
-| `問題なし` | 確認した観点を `scope` で明示する（沈黙で済ませない） |
-| `確認不能` | 判断に必要な情報（業務ルール等）が不足。`needed_info` を明示する |
+| `có vấn đề` | Có điểm cần nêu. Gắn kèm `location`, `issue`, `risk_level` |
+| `không vấn đề` | Nói rõ perspective đã kiểm tra bằng `scope` (không im lặng cho qua) |
+| `không kiểm chứng được` | Thiếu thông tin cần để phán đoán (business rule v.v.). Nói rõ `needed_info` |
 
-- **1呼び出し1観点**を厳守する。観点に該当しない問題に気づいても黙殺（別呼び出しで対応）。
-- 「良い点・推奨」は出さない（指摘のみ）。
+- Nghiêm ngặt **1 lần gọi 1 perspective**. Có nhận ra vấn đề không thuộc perspective đó cũng bỏ qua (xử lý ở lần gọi khác).
+- Không xuất "điểm tốt / khuyến nghị" (chỉ nêu vấn đề).
 
 ---
 
-## 実装レビュー観点キー（implementation review）
+## Khoá perspective review implementation (implementation review)
 
-`implementation-reviewer` / `/review`（実装）/ `focused-review`（コード）で使う。
-ファイル名は `deliverables/reviews/impl-{観点}-{task_id}.json`。
+Dùng cho `implementation-reviewer` / `/review` (implementation) / `focused-review` (code).
+Tên file là `deliverables/reviews/impl-{perspective}-{task_id}.json`.
 
-| キー | 観点 | 主な確認ポイント |
+| Khoá | Perspective | Điểm kiểm tra chính |
 |---|---|---|
-| `transaction-boundary` | トランザクション境界 | 複数DB操作の分割、部分失敗時のリカバリ、ネストトランザクションの要否 |
-| `error-business-logic` | エラー処理内の業務ロジック | catch内に「ログ・再スロー」以外の処理、エラー種別による業務分岐、エラー時の別テーブル書込・通知・補正 |
-| `numeric-precision` | 数値精度 | int/float と decimal の混在、整数除算による切り捨て、丸め方式が業務ルールと合うか |
-| `performance` | 性能 | ループ内DBクエリ（N+1）、全件取得後のアプリ側フィルタ、大量データの一括メモリ展開 |
-| `non-functional` | 非機能 | ログ・監視・タイムアウト・リトライ・リソース上限 |
-| `security` | セキュリティ | 認証・認可・入力検証・情報漏洩（詳細は [`.claude/rules/security.md`](security.md)） |
-| `spec-conformance` | 仕様適合 | 仕様書に記載のない処理・最適化・リファクタの混入（P10違反）、仕様の取りこぼし |
-| `cross-file-flow` | ファイル横断フロー | 複数ファイルにまたがる処理の整合、呼び出し側と実装側の前提ズレ |
-| `concurrency` | 並行性 | 非同期・スレッド安全性、競合・デッドロック、共有状態の保護 |
-| `config-branch` | 設定・分岐 | 設定値による分岐網羅、環境差分、フィーチャーフラグの取り扱い |
+| `transaction-boundary` | Transaction boundary | Việc tách nhiều thao tác DB, khôi phục khi thất bại một phần, có cần nested transaction không |
+| `error-business-logic` | Business logic nằm trong phần xử lý lỗi | Trong catch có xử lý gì ngoài "log và re-throw", nhánh nghiệp vụ theo loại lỗi, việc ghi bảng khác / gửi thông báo / bù trừ khi có lỗi |
+| `numeric-precision` | Độ chính xác số | Trộn lẫn int/float với decimal, bị cắt cụt do chia số nguyên, cách làm tròn có khớp business rule không |
+| `performance` | Hiệu năng | Query DB trong vòng lặp (N+1), lấy toàn bộ rồi lọc ở phía app, nạp lượng lớn dữ liệu vào memory một lần |
+| `non-functional` | Phi chức năng | Log, giám sát, timeout, retry, giới hạn tài nguyên |
+| `security` | Bảo mật | Xác thực, phân quyền, kiểm tra input, rò rỉ thông tin (chi tiết xem [`.claude/rules/security.md`](security.md)) |
+| `spec-conformance` | Tuân thủ spec | Có lẫn vào xử lý / tối ưu hoá / refactor không ghi trong spec không (vi phạm P10), có bỏ sót spec không |
+| `cross-file-flow` | Luồng xuyên file | Tính nhất quán của xử lý trải qua nhiều file, lệch tiền đề giữa phía gọi và phía implement |
+| `concurrency` | Tính đồng thời | Bất đồng bộ và an toàn luồng, tranh chấp và deadlock, bảo vệ trạng thái dùng chung |
+| `config-branch` | Cấu hình và rẽ nhánh | Độ phủ các nhánh theo giá trị cấu hình, khác biệt giữa các môi trường, cách xử lý feature flag |
 
 ---
 
-## 設計レビュー観点キー（design review）
+## Khoá perspective review design (design review)
 
-`design-reviewer` / `/design` / `focused-review`（設計）で使う。
-ファイル名は `deliverables/reviews/design-{観点}-{feature}.json`。
+Dùng cho `design-reviewer` / `/design` / `focused-review` (design).
+Tên file là `deliverables/reviews/design-{perspective}-{feature}.json`.
 
-| キー | 観点 | 主な確認ポイント |
+| Khoá | Perspective | Điểm kiểm tra chính |
 |---|---|---|
-| `data-integrity` | データ整合性 | 一意制約・参照整合性・状態遷移の妥当性、不変条件の維持 |
-| `error-handling` | エラーハンドリング | 失敗パスの設計、リトライ・補償・ロールバック方針 |
-| `transaction-boundary` | トランザクション境界 | トランザクションの単位設計、整合性スコープ |
-| `security` | セキュリティ | 認証・認可境界、信頼境界での検証（詳細は [`.claude/rules/security.md`](security.md)） |
-| `non-functional` | 非機能 | 可用性・性能・拡張性・運用性の設計上の考慮 |
+| `data-integrity` | Tính toàn vẹn dữ liệu | Ràng buộc duy nhất, toàn vẹn tham chiếu, tính hợp lý của chuyển trạng thái, duy trì điều kiện bất biến |
+| `error-handling` | Error handling | Thiết kế các nhánh thất bại, phương châm retry / bù trừ / rollback |
+| `transaction-boundary` | Transaction boundary | Thiết kế đơn vị transaction, phạm vi nhất quán |
+| `security` | Bảo mật | Ranh giới xác thực và phân quyền, việc kiểm tra tại biên tin cậy (chi tiết xem [`.claude/rules/security.md`](security.md)) |
+| `non-functional` | Phi chức năng | Cân nhắc về tính sẵn sàng, hiệu năng, khả năng mở rộng, khả năng vận hành trong thiết kế |
 
 ---
 
-## リスクカテゴリキー（risk-flag / human_review_required）
+## Khoá risk category (risk-flag / human_review_required)
 
-`risk-flag` Skill が `human_review_required` に立てるフラグのカテゴリ。
-`implementer` の `human_review_required` もこのキーを使う。
+Category của các flag mà skill `risk-flag` cắm vào `human_review_required`.
+`human_review_required` của `implementer` cũng dùng bộ khoá này.
 
-| キー | 抽出対象 |
+| Khoá | Đối tượng cần rút ra |
 |---|---|
-| `numeric-precision` | 丸め・型変換・整数除算 |
-| `transaction-boundary` | 複数DB操作・部分失敗 |
-| `error-business-logic` | catch内のビジネスロジック |
-| `business-rule` | 暗黙の業務ルールへの依存 |
-| `concurrency` | 非同期・スレッド安全性 |
-| `security` | 認証・認可・入力検証・情報漏洩 |
+| `numeric-precision` | Làm tròn, ép kiểu, chia số nguyên |
+| `transaction-boundary` | Nhiều thao tác DB, thất bại một phần |
+| `error-business-logic` | Business logic nằm trong catch |
+| `business-rule` | Phụ thuộc vào business rule ngầm |
+| `concurrency` | Bất đồng bộ, an toàn luồng |
+| `security` | Xác thực, phân quyền, kiểm tra input, rò rỉ thông tin |
 
-`human_review_required` の各項目には `location` / `category` / `description` / `risk_level` / `question_for_human` を必ず付ける。
-「フラグなし」を返す場合は確認したカテゴリを `confirmed_categories: [...]` で明示する。
+Mỗi mục trong `human_review_required` bắt buộc kèm `location` / `category` / `description` / `risk_level` / `question_for_human`.
+Khi trả về "không có flag" thì phải nói rõ các category đã kiểm tra qua `confirmed_categories: [...]`.
 
 ---
 
-## 推測カテゴリ（uncertainty）
+## Category suy đoán (uncertainty)
 
-`uncertainty-auditor` が推測箇所を分類する **ABCD** ラベル。各項目に `impact: high/medium/low` と「人に聞くべき1文の質問」を必ず付ける。
+Nhãn **ABCD** mà `uncertainty-auditor` dùng để phân loại các chỗ suy đoán. Mỗi mục bắt buộc kèm `impact: high/medium/low` và "một câu hỏi nên hỏi người".
 
-| ラベル | 意味 |
+| Nhãn | Ý nghĩa |
 |---|---|
-| `A` | 情報不足で推測した |
-| `B` | 複数解釈が可能でどちらかを選んだ |
-| `C` | 業務ルール不明で一般動作にした |
-| `D` | 完全に理解できていない |
+| `A` | Suy đoán vì thiếu thông tin |
+| `B` | Có nhiều cách diễn giải, đã chọn một trong số đó |
+| `C` | Không rõ business rule nên làm theo hành vi thông thường |
+| `D` | Hoàn toàn chưa hiểu |
 
-- 推測かどうか自分でも分からない項目は `D` として記録（隠さない）。
-- `impact: high` は人ゲート①のレビュー対象になる。
-
----
-
-## カテゴリ運用ルール
-
-- **新しい観点キーを追加するときは、まずこのファイルに定義する。** 定義のないキーをファイル名や JSON に使わない。
-- `pipeline-improve` の失敗カテゴリ分類は、このファイルのキーを使う（独自カテゴリを発明しない）。
-- キーが増えすぎたら `pipeline-improve` で**廃止・統合候補**を検討する（肥大化防止）。
-- 重複する指摘（同一ファイル内の同種問題）は1つにまとめてよい。
+- Mục mà chính mình cũng không rõ có phải suy đoán hay không thì ghi là `D` (không giấu).
+- `impact: high` sẽ trở thành đối tượng review của human gate ①.
 
 ---
 
-## 参照
+## Quy tắc vận hành category
 
-- フェーズ移行ゲートと人レビューのタイミング：[`.claude/rules/gates.md`](gates.md)
-- セキュリティ観点の詳細基準：[`.claude/rules/security.md`](security.md)
-- 構造化ファイルのフォーマット：[`.claude/rules/output-formats.md`](output-formats.md)
-- 成果物の命名規約（`{観点}`）：[`deliverables/README.md`](../../deliverables/README.md)
+- **Muốn thêm khoá perspective mới thì trước hết phải định nghĩa trong file này.** Không dùng khoá chưa có định nghĩa trong tên file hay trong JSON.
+- Phần phân loại category thất bại của `pipeline-improve` dùng đúng bộ khoá trong file này (không tự phát minh category riêng).
+- Khi khoá tăng lên quá nhiều thì dùng `pipeline-improve` để cân nhắc **các ứng viên bỏ đi hoặc gộp lại** (chống phình).
+- Các điểm nêu ra bị trùng nhau (cùng loại vấn đề trong cùng một file) thì có thể gộp lại làm một.
+
+---
+
+## Tham chiếu
+
+- Gate chuyển phase và thời điểm human review: [`.claude/rules/gates.md`](gates.md)
+- Tiêu chí chi tiết của perspective bảo mật: [`.claude/rules/security.md`](security.md)
+- Định dạng của file có cấu trúc: [`.claude/rules/output-formats.md`](output-formats.md)
+- Quy ước đặt tên deliverable (`{perspective}`): [`deliverables/README.md`](../../deliverables/README.md)
