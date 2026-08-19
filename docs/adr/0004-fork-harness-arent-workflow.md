@@ -23,9 +23,15 @@ downstream: không còn đường merge ngược lên upstream. Đường cập 
 `agents/` `commands/` `skills/` `hooks/` ở gốc plugin. Nhưng file nguồn tham chiếu chéo bằng đường
 dẫn tương đối — ví dụ [implementer.md](../../sonny-flow/.claude/agents/implementer.md) trỏ
 `../../docs/domain/generated/code_map.md`. Đặt agent ở `sonny-flow/agents/` sẽ làm mọi link đó lệch
-một cấp. Đặt ở `sonny-flow/.claude/agents/` thì link phân giải đúng, đổi lại plugin nạp được **con
-số không**. Đã chọn tính đúng đắn của link, vì mục tiêu trước mắt là *giữ đúng bản gốc*, chưa phải
-*chạy được*. `plugin.json` chỉ để giữ chỗ.
+một cấp. Đặt ở `sonny-flow/.claude/agents/` thì **169/173 link phân giải đúng**, đổi lại plugin nạp
+được **con số không**. Đã chọn tính đúng đắn của link, vì mục tiêu trước mắt là *giữ đúng bản gốc*,
+chưa phải *chạy được*. `plugin.json` chỉ để giữ chỗ.
+
+4 link còn lại trỏ `docs/domain/generated/{code_map,module_index}.md` — chúng gãy vì **ranh giới
+phạm vi**, không phải vì bố cục. Commit `eaf0c2953d` chỉ tạo `generated/.gitkeep` và `README.md`;
+3 file thật (`code_map.md` 22KB, `dependencies.md` 10KB, `module_index.md` 9KB) vào repo gốc bằng
+commit sau — `3eba9a025b`, chính là **kết quả chạy thật** của Phase 0-3 trên codebase ArentInc.
+Đây cũng là nội dung nội bộ nặng nhất trong cả bộ (bản đồ module của mã nguồn thật). Chưa lấy về.
 
 **Đăng ký marketplace nhưng không đưa vào `skills.json`.** 14 skill này giả định có `deliverables/`,
 `docs/domain/generated/`, và quy trình nhận thầu SIer. Đưa vào `skills.json` là để `/setup-skills`
