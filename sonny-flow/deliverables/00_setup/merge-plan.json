@@ -10,59 +10,59 @@
       "existing_file": ".claude/skills/feature-design/SKILL.md",
       "harness_command": "/arent-workflow:design",
       "action": "keep",
-      "note": "既存は Revit 特化で成熟。arent:design はプラグインコマンドとして利用可。既存は無変更。"
+      "note": "Cái có sẵn đã trưởng thành và chuyên cho Revit. arent:design dùng được như plugin command. Cái có sẵn giữ nguyên."
     },
     {
       "topic": "implementation (Revit impl+test vs generic implement-from-spec)",
       "existing_file": ".claude/skills/implementation/SKILL.md",
       "harness_command": "/arent-workflow:implement",
       "action": "keep",
-      "note": "既存は MVVM/DI/テスト規約に特化。arent:implement はプラグインコマンドで利用可。"
+      "note": "Cái có sẵn chuyên về quy ước MVVM/DI/test. arent:implement dùng được như plugin command."
     },
     {
       "topic": "spec authoring (program/external spec docs vs requirements->spec draft)",
       "existing_file": ".claude/skills/spec-writer/SKILL.md",
       "harness_command": "/arent-workflow:spec",
       "action": "keep",
-      "note": "目的が異なる(既存=コマンド仕様書生成 / arent=要件→仕様ドラフト)。併存可。"
+      "note": "Mục đích khác nhau (có sẵn = sinh spec cho command / arent = requirement → nháp spec). Cùng tồn tại được."
     },
     {
       "topic": "PR review + autofix vs dimension-based review",
       "existing_file": ".claude/skills/ai-review-and-fix/SKILL.md",
       "harness_command": "/arent-workflow:review",
       "action": "keep",
-      "note": "既存は PR レビュー+自動修正オーケストレーション。arent:review は観点別レビュー。補完関係。"
+      "note": "Cái có sẵn là điều phối review PR + tự động sửa. arent:review là review theo perspective. Quan hệ bổ trợ."
     }
   ],
   "agent_conflicts": [],
   "additions": [
-    { "topic": "rules (契約/セキュリティ/ドメイン: gates, output-formats, risk-categories, security, domain-knowledge)", "target": ".claude/rules/*.md", "active": true },
-    { "topic": "rules (web/JS 向けで .NET では休眠: api-design, database, lsp-navigation, testing)", "target": ".claude/rules/*.md", "active": false, "note": "path-scoped で .cs には発火しない。将来 C# 向けカスタマイズ余地。" },
-    { "topic": "agents 17件 (legacy-analyzer, implementer, reviewers 等)", "target": ".claude/agents/*.md" },
-    { "topic": "commands 12件 (bootstrap/design/implement/review/spec/test 等)", "target": ".claude/commands/*.md" },
-    { "topic": "utility skills 14件 (focused-review, risk-flag, spec-draft, test-scenario 等)", "target": ".claude/skills/**" },
-    { "topic": "docs 運用ガイド (agent-rules, ai-docs, onboarding)", "target": "docs/*.md" },
-    { "topic": "docs/domain テンプレート 7件", "target": "docs/domain/*" },
-    { "topic": "scripts (install-enabled-lsps, update-ai-docs の sh/ps1)", "target": "scripts/*" },
-    { "topic": "deliverables ディレクトリ構造 + .gitkeep", "target": "deliverables/**" },
-    { "topic": ".done フラグ置き場", "target": ".done/" },
-    { "topic": "AGENTS.md (新規・[REPLACE] を CLAUDE.md 由来で充填)", "target": "AGENTS.md" },
+    { "topic": "rules (contract/bảo mật/domain: gates, output-formats, risk-categories, security, domain-knowledge)", "target": ".claude/rules/*.md", "active": true },
+    { "topic": "rules (dành cho web/JS nên ngủ đông với .NET: api-design, database, lsp-navigation, testing)", "target": ".claude/rules/*.md", "active": false, "note": "Vì path-scoped nên không kích hoạt với .cs. Còn dư địa tuỳ biến cho C# về sau." },
+    { "topic": "17 agents (legacy-analyzer, implementer, reviewers, v.v.)", "target": ".claude/agents/*.md" },
+    { "topic": "12 commands (bootstrap/design/implement/review/spec/test, v.v.)", "target": ".claude/commands/*.md" },
+    { "topic": "14 utility skill (focused-review, risk-flag, spec-draft, test-scenario, v.v.)", "target": ".claude/skills/**" },
+    { "topic": "Hướng dẫn vận hành docs (agent-rules, ai-docs, onboarding)", "target": "docs/*.md" },
+    { "topic": "7 file khung mẫu docs/domain", "target": "docs/domain/*" },
+    { "topic": "scripts (bản sh/ps1 của install-enabled-lsps, update-ai-docs)", "target": "scripts/*" },
+    { "topic": "Cấu trúc thư mục deliverables + .gitkeep", "target": "deliverables/**" },
+    { "topic": "Nơi đặt cờ .done", "target": ".done/" },
+    { "topic": "AGENTS.md (tạo mới, [REPLACE] được điền từ nguồn CLAUDE.md)", "target": "AGENTS.md" },
     { "topic": ".mcp.json.example / settings.local.json.example", "target": "root + .claude/" },
     { "topic": ".devcontainer", "target": ".devcontainer/" },
-    { "topic": "Claude CI 例 (.example のまま、有効化しない)", "target": ".github/workflows/ai-docs.yml.example" }
+    { "topic": "Ví dụ Claude CI (giữ nguyên .example, không kích hoạt)", "target": ".github/workflows/ai-docs.yml.example" }
   ],
   "merges": [
-    { "file": "CLAUDE.md", "strategy": "existing-first append", "note": "既存内容は温存。末尾にハーネス参照セクション(deliverables/gates/rules/workflow)を追記。19 [REPLACE] の充填は行わない(テンプレ再生成しない)。" },
-    { "file": ".claude/settings.json", "strategy": "key-merge", "note": "permissions は allow/deny/ask を和集合。env(CLAUDE_AUTOCOMPACT_PCT_OVERRIDE, ENABLE_LSP_TOOL)・claudeMdExcludes・autoMemoryEnabled を追加。model は既存に無いので sonnet を追加。既存 deny(curl, .cursor 等)は保持。" },
-    { "file": ".gitignore", "strategy": "append-merge", "note": "未収録のハーネス行のみ末尾追加。重複行は作らない。" }
+    { "file": "CLAUDE.md", "strategy": "existing-first append", "note": "Giữ nguyên nội dung có sẵn. Thêm vào cuối section tham chiếu harness (deliverables/gates/rules/workflow). Không điền 19 chỗ [REPLACE] (không sinh lại khung mẫu)." },
+    { "file": ".claude/settings.json", "strategy": "key-merge", "note": "permissions thì hợp nhất allow/deny/ask. Thêm env(CLAUDE_AUTOCOMPACT_PCT_OVERRIDE, ENABLE_LSP_TOOL), claudeMdExcludes, autoMemoryEnabled. model chưa có sẵn nên thêm sonnet. Giữ lại phần deny có sẵn (curl, .cursor, v.v.)." },
+    { "file": ".gitignore", "strategy": "append-merge", "note": "Chỉ thêm vào cuối những dòng harness chưa có. Không tạo dòng trùng lặp." }
   ],
   "skipped": [
-    { "topic": "既存 CI/CD 9ファイル", "reason": "never_touch (不可侵)" },
-    { "topic": "既存 skills 6件", "reason": "existing-first により無変更で保持" },
-    { "topic": "hooks の実体有効化", "reason": ".example のまま注入し、有効化は人判断" },
-    { "topic": ".cursor/rules/*.mdc", "reason": "存在しないため対象外" }
+    { "topic": "9 file CI/CD có sẵn", "reason": "never_touch (bất khả xâm phạm)" },
+    { "topic": "6 skill có sẵn", "reason": "Giữ nguyên không đổi theo nguyên tắc existing-first" },
+    { "topic": "Kích hoạt thực thể của hooks", "reason": "Inject nguyên dạng .example, việc kích hoạt do người quyết" },
+    { "topic": ".cursor/rules/*.mdc", "reason": "Nằm ngoài phạm vi vì không tồn tại" }
   ],
   "cicd_additions_proposed": [
-    { "file": ".github/workflows/ai-docs.yml.example", "description": "AI向けドキュメント自動更新CI(任意)。.example のまま注入し有効化(.yml化)は別途人確認。" }
+    { "file": ".github/workflows/ai-docs.yml.example", "description": "CI tự động cập nhật docs dành cho AI (tuỳ chọn). Inject nguyên dạng .example, việc kích hoạt (đổi thành .yml) cần người xác nhận riêng." }
   ]
 }

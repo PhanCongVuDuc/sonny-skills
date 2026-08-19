@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# update-ai-docs.sh — AI生成ドキュメントを git diff に基づいて更新する
+# update-ai-docs.sh — cập nhật bộ docs do AI sinh, dựa trên git diff
 #
-# 使い方:
-#   update-ai-docs.sh dry-run   差分のみ表示（更新しない）
-#   update-ai-docs.sh apply     実際に docs-keeper エージェントを呼び出して更新
-#   update-ai-docs.sh force     差分なしでも強制的に全更新
+# Cách dùng:
+#   update-ai-docs.sh dry-run   chỉ hiện diff (không cập nhật)
+#   update-ai-docs.sh apply     thật sự gọi agent docs-keeper để cập nhật
+#   update-ai-docs.sh force     cưỡng bức cập nhật toàn bộ kể cả khi không có diff
 
 set -euo pipefail
 
@@ -13,10 +13,10 @@ PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(git rev-parse --show-toplevel 2>/dev/null |
 GENERATED_DIR="${PROJECT_DIR}/docs/domain/generated"
 HANDOFF_DIR="${PROJECT_DIR}/deliverables/handoff"
 
-# 監視対象: この repo の実プロジェクト配下の C# ソース・プロジェクトファイル・XAML
+# Đối tượng theo dõi: source C#, project file, và XAML nằm dưới các project thật của repo này
 SRC_PATTERN='^(Arent3d\.Architecture\.Routing[^/]*|Tests)/.*\.(cs|csproj|xaml)$'
 
-# ─── ヘルパー ──────────────────────────────────────────────────
+# ─── Hàm phụ trợ ──────────────────────────────────────────────────
 
 log() {
   echo "[arent-workflow/update-ai-docs] $*" >&2
@@ -25,16 +25,16 @@ log() {
 
 require_git() {
   if ! git -C "${PROJECT_DIR}" rev-parse --git-dir &>/dev/null; then
-    log "git リポジトリが見つかりません。スキップします。"
+    log "Không tìm thấy git repository. Bỏ qua."
     exit 0
   fi
   return 0
 }
 
 get_diff_range() {
-  # ローカル実行: 作業ツリーが dirty なら HEAD との差分（ステージ済み＋未ステージ）。
-  # CI 実行: checkout 直後は作業ツリーがクリーンなため、コミット済み範囲へフォールバック
-  #          （PR は base ブランチとの差分、push は HEAD~1..HEAD。fetch-depth: 2 前提）。
+  # Chạy ở máy local: nếu working tree dirty thì lấy diff so với HEAD (đã stage + chưa stage).
+  # Chạy trên CI: ngay sau checkout thì working tree sạch, nên fallback về khoảng đã commit
+  #          (PR thì lấy diff so với base branch, push thì HEAD~1..HEAD. Tiền đề là fetch-depth: 2).
   if [[ -n "$(git -C "${PROJECT_DIR}" status --porcelain 2>/dev/null)" ]]; then
     echo "HEAD"
   elif [[ -n "${GITHUB_BASE_REF:-}" ]] && git -C "${PROJECT_DIR}" rev-parse --verify --quiet "origin/${GITHUB_BASE_REF}" >/dev/null; then
@@ -54,7 +54,7 @@ get_changed_src_files() {
   return 0
 }
 
-# ─── モード別処理 ────────────────────────────────────────────
+# ─── Xử lý theo từng chế độ ────────────────────────────────────────────
 
 case "${MODE}" in
 
@@ -62,41 +62,41 @@ case "${MODE}" in
     require_git
     CHANGED=$(get_changed_src_files)
     if [[ -z "${CHANGED}" ]]; then
-      log "変更対象ファイルなし。ドキュメント更新は不要です。"
+      log "Không có file nào trong phạm vi bị thay đổi. Không cần cập nhật tài liệu."
       exit 0
     fi
-    log "以下のファイルが変更されました（dry-run）:"
+    log "Các file sau đã bị thay đổi (dry-run):"
     echo "${CHANGED}" | while read -r f; do log "  ${f}"; done
-    log "docs/domain/generated/ の更新が必要な可能性があります。"
-    log "/handoff 実行時または手動で 'update-ai-docs.sh apply' を呼び出してください。"
+    log "Có khả năng cần cập nhật docs/domain/generated/."
+    log "Hãy gọi 'update-ai-docs.sh apply' lúc chạy /handoff hoặc gọi tay."
     ;;
 
   apply)
     require_git
     CHANGED=$(get_changed_src_files)
     if [[ -z "${CHANGED}" ]]; then
-      log "変更対象ファイルなし。スキップします。"
+      log "Không có file nào trong phạm vi bị thay đổi. Bỏ qua."
       exit 0
     fi
 
-    log "docs-keeper エージェントを起動して generated/ ドキュメントを更新します..."
+    log "Khởi động agent docs-keeper để cập nhật tài liệu trong generated/..."
 
-    DIFF_SUMMARY=$(git -C "${PROJECT_DIR}" diff --stat "$(get_diff_range)" 2>/dev/null | tail -1 || echo "不明")
+    DIFF_SUMMARY=$(git -C "${PROJECT_DIR}" diff --stat "$(get_diff_range)" 2>/dev/null | tail -1 || echo "không rõ")
     PROMPT="$(cat <<PROMPT
-docs-keeper エージェントとして、以下の変更に基づいて docs/domain/generated/ のドキュメントを更新してください。
+Với tư cách agent docs-keeper, hãy cập nhật tài liệu trong docs/domain/generated/ dựa trên các thay đổi sau.
 
-変更サマリ: ${DIFF_SUMMARY}
+Tóm tắt thay đổi: ${DIFF_SUMMARY}
 
-変更ファイル:
+File thay đổi:
 ${CHANGED}
 
-手順:
-1. 変更されたファイルを読み込み、影響範囲を特定する
-2. docs/domain/generated/code_map.md を更新（変更モジュールの記述）
-3. docs/domain/generated/dependencies.md を更新（依存関係の変化）
-4. docs/domain/generated/module_index.md を更新（エントリポイント・公開APIの変化）
+Thủ tục:
+1. Đọc các file đã thay đổi, xác định phạm vi ảnh hưởng
+2. Cập nhật docs/domain/generated/code_map.md (mô tả của module bị thay đổi)
+3. Cập nhật docs/domain/generated/dependencies.md (thay đổi về quan hệ phụ thuộc)
+4. Cập nhật docs/domain/generated/module_index.md (thay đổi về entry point và API công khai)
 
-注意: 既存の確認済み情報を消さないこと。変更された箇所のみ更新する。
+Lưu ý: không được xoá thông tin đã được xác nhận từ trước. Chỉ cập nhật đúng những chỗ bị thay đổi.
 PROMPT
 )"
 
@@ -106,25 +106,25 @@ PROMPT
         --output-format text \
         2>&1 | while read -r line; do log "${line}"; done
     else
-      log "ERROR: claude CLI が見つかりません。CI では Claude Code をインストールしてください（npm install -g @anthropic-ai/claude-code）。"
-      log "手動で docs-keeper エージェントを起動する場合のプロンプト:"
+      log "ERROR: không tìm thấy claude CLI. Trên CI hãy cài Claude Code (npm install -g @anthropic-ai/claude-code)."
+      log "Prompt để khởi động agent docs-keeper bằng tay:"
       echo "${PROMPT}"
       exit 1
     fi
     ;;
 
   force)
-    log "全ドキュメントを強制再生成します..."
+    log "Cưỡng bức sinh lại toàn bộ tài liệu..."
 
     PROMPT="$(cat <<PROMPT
-docs-keeper エージェントとして、プロジェクト全体のコードを走査して
-docs/domain/generated/ の全ドキュメントを再生成してください。
+Với tư cách agent docs-keeper, hãy quét toàn bộ code của project
+và sinh lại toàn bộ tài liệu trong docs/domain/generated/.
 
-1. docs/domain/generated/code_map.md — 全モジュール・クラス・関数の地図
-2. docs/domain/generated/dependencies.md — 依存関係グラフ（内部・外部）
-3. docs/domain/generated/module_index.md — エントリポイント・公開API一覧
+1. docs/domain/generated/code_map.md — bản đồ toàn bộ module, class, hàm
+2. docs/domain/generated/dependencies.md — đồ thị phụ thuộc (nội bộ và bên ngoài)
+3. docs/domain/generated/module_index.md — danh sách entry point và API công khai
 
-注意: 既存ファイルが存在する場合は上書きする。
+Lưu ý: nếu file đã tồn tại thì ghi đè.
 PROMPT
 )"
 
@@ -134,13 +134,13 @@ PROMPT
         --output-format text \
         2>&1 | while read -r line; do log "${line}"; done
     else
-      log "ERROR: claude CLI が見つかりません。CI では Claude Code をインストールしてください（npm install -g @anthropic-ai/claude-code）。"
+      log "ERROR: không tìm thấy claude CLI. Trên CI hãy cài Claude Code (npm install -g @anthropic-ai/claude-code)."
       exit 1
     fi
     ;;
 
   *)
-    echo "使い方: $0 [dry-run|apply|force]" >&2
+    echo "Cách dùng: $0 [dry-run|apply|force]" >&2
     exit 1
     ;;
 esac

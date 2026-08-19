@@ -1052,19 +1052,19 @@
   "skipped_files": [
     {
       "path": ".claude/settings.json :: permissions allow/deny union",
-      "reason": "既存permissions保持。グローバル方針(各リポでallowを増やさない)に従い git/gh wildcard 等の追加はスキップ"
+      "reason": "Giữ nguyên permissions có sẵn. Theo phương châm toàn cục (không nới allow ở từng repo), bỏ qua việc thêm git/gh wildcard v.v."
     },
     {
       "path": ".github/workflows/*.yml (existing 9)",
-      "reason": "never_touch (不可侵)"
+      "reason": "never_touch (bất khả xâm phạm)"
     },
     {
       "path": ".claude/skills/{ai-review-and-fix,feature-design,impact-analysis,implementation,sonarqube-auto-fix,spec-writer}",
-      "reason": "既存優先・無変更で保持(ハーネスに同名スキルなし)"
+      "reason": "Ưu tiên cái có sẵn, giữ nguyên không đổi (harness không có skill trùng tên)"
     },
     {
-      "path": ".claude/hooks/*.example の有効化",
-      "reason": ".exampleのまま注入。settings.json hooksは空{}、有効化は人判断"
+      "path": "Kích hoạt .claude/hooks/*.example",
+      "reason": "Inject nguyên dạng .example. hooks trong settings.json để rỗng {}, việc kích hoạt do người quyết"
     }
   ]
 }

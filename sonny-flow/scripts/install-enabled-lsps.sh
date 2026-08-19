@@ -59,7 +59,7 @@ check_or_install() {
   run "$install_cmd"
 }
 
-# here-string で回す（`echo | while` のパイプはサブシェルになり count の加算が親に反映されない）
+# chạy bằng here-string (dùng pipe `echo | while` sẽ tạo subshell nên phép cộng count không phản ánh về shell cha)
 count=0
 while IFS= read -r plugin_id; do
   [[ -z "$plugin_id" ]] && continue
