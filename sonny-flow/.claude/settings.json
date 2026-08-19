@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git log)",
+      "Bash(dotnet build*)",
+      "Read",
+      "Grep",
+      "Glob"
+    ],
+    "deny": [
+      "Read(.cursor/**)",
+      "Read(.vs/**)",
+      "Read(.idea/**)",
+      "Read(artifact/**)",
+      "Read(.run/**)",
+      "Read(create-installer/**)"
+    ]
+  },
+  "autoMemoryEnabled": true,
+  "claudeMdExcludes": [
+    "deliverables/**",
+    ".done/**",
+    "docs/domain/**"
+  ],
+  "env": {
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "ENABLE_LSP_TOOL": "1"
+  },
+  "hooks": {}
+}

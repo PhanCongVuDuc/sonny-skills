@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# PreToolUse hook: block obviously dangerous Bash commands before they execute.
+#
+# Register in .claude/settings.json:
+#   "PreToolUse": [{ "matcher": "Bash",
+#     "hooks": [{ "type": "command",
+#                 "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/pre-bash-guard.sh" }] }]
+#
+# Input: JSON tool-call payload on stdin, containing tool_input.command.
+# Exit code:
+#   0 = allow the command to proceed
+#   2 = BLOCK — the command will not run. stderr is shown to Claude as the reason.
+#
+# This is a safety net, not a substitute for the permissions config in settings.json.
+# Tune the patterns below to match what your team considers unacceptable.
+
+set -u
+
+payload="$(cat || true)"
+
+# Extract the bash command from the payload
+cmd=""
+if command -v jq >/dev/null 2>&1; then
+  cmd="$(echo "$payload" | jq -r '.tool_input.command // empty')"
+else
+  cmd="$(echo "$payload" | sed -n 's/.*"command"[[:space:]]*:[[:space:]]*"\(.*\)".*/\1/p' | head -1)"
+fi
+
+# Nothing to inspect — allow
+[ -z "$cmd" ] && exit 0
+
+# --- block patterns (extend as needed) ---
+block() {
+  echo "pre-bash-guard: blocked — $1" >&2
+  exit 2
+}
+
+# Recursive deletion of root or home
+echo "$cmd" | grep -Eq 'rm[[:space:]]+-[a-zA-Z]*r[a-zA-Z]*f?[[:space:]]+/($|[[:space:]])'  && block "rm -rf /"
+echo "$cmd" | grep -Eq 'rm[[:space:]]+-[a-zA-Z]*r[a-zA-Z]*f?[[:space:]]+~($|[[:space:]])' && block "rm -rf ~"
+echo "$cmd" | grep -Eq 'rm[[:space:]]+-[a-zA-Z]*r[a-zA-Z]*f?[[:space:]]+\$HOME'           && block "rm -rf \$HOME"
+
+# Force push to protected branches
+echo "$cmd" | grep -Eq 'git[[:space:]]+push[[:space:]]+.*--force.*(main|master|production|release)' && block "force-push to protected branch"
+echo "$cmd" | grep -Eq 'git[[:space:]]+push[[:space:]]+.*-f[[:space:]].*(main|master|production|release)'  && block "force-push to protected branch"
+
+# Hard reset on shared branches
+echo "$cmd" | grep -Eq 'git[[:space:]]+reset[[:space:]]+--hard[[:space:]]+(origin/)?(main|master|production)' && block "git reset --hard on protected branch"
+
+# Piping curl/wget to a shell
+echo "$cmd" | grep -Eq '(curl|wget)[[:space:]]+.*\|[[:space:]]*(bash|sh|zsh)' && block "piping remote content to a shell"
+
+# Writing to /etc or system dirs
+echo "$cmd" | grep -Eq '>[[:space:]]*/etc/' && block "redirect into /etc"
+
+# Skipping commit hooks (uncomment if your team forbids this)
+# echo "$cmd" | grep -Eq 'git[[:space:]]+commit.*--no-verify' && block "--no-verify is forbidden"
+
+exit 0

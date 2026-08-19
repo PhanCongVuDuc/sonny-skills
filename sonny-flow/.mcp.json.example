@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/mcp.json",
+
+  "_security_notes": [
+    "MCP servers run with the trust level of Claude Code itself. Only connect to servers you trust.",
+    "Servers that fetch external content (web pages, third-party APIs) raise the risk of prompt-injection attacks. Treat their output as untrusted.",
+    "Never commit real API keys/tokens. Use ${VAR_NAME} placeholders and store values in .env, the OS keychain, or a secret manager.",
+    "Project-scoped .mcp.json is shared via git. Personal credentials belong in .claude/settings.local.json (.env) instead.",
+    "This repo's primary MCP (RevitBridge, for driving a live Revit instance) is configured at user level on Windows dev machines, not in this project file.",
+    "Remove this _security_notes key before use (JSON spec ignores it, but it's noisy)."
+  ],
+
+  "mcpServers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PAT}"
+      }
+    }
+  }
+}

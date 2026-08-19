@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+
+  "_notes": [
+    "Personal (gitignored) overrides for this repo — copy to .claude/settings.local.json and edit.",
+    "Example values below match THIS .NET/Revit project. Real tokens never go into tracked files."
+  ],
+
+  "env": {
+    "GITHUB_PAT": "ghp_your_personal_token_here",
+    "SONAR_TOKEN": "your_sonarqube_token_here"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build:*)",
+      "Bash(dotnet format:*)",
+      "Bash(dotnet test:*)"
+    ]
+  }
+}

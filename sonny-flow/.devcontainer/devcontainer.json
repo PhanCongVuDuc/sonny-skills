@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "Claude Code Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "lts" },
+    "ghcr.io/devcontainers/features/python:1": { "version": "3.12" },
+    "ghcr.io/devcontainers/features/dotnet:2": { "version": "8.0" },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+
+  "// .NET note": [
+    "The dotnet SDK here is for tooling only: csharp-ls (installed via install-enabled-lsps when enabled), scripts, and analyzers.",
+    "A full build of the Revit add-in ('dotnet build -c \"Debug 2024\"') requires Windows + the Revit SDK DLLs and cannot run in this Linux container."
+  ],
+
+  "mounts": [
+    "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+  ],
+
+  "containerEnv": {
+    "DISABLE_AUTOUPDATER": "1",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "80",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
+  },
+
+  "remoteUser": "vscode",
+
+  "// LSP installation strategy": [
+    "We do NOT hardcode which LSP servers to install. Instead, /setup-lsp (run by the project lead) writes the chosen LSP plugins into .claude/settings.json's enabledPlugins, that file gets committed, and this container reads that committed list to install only what's actually needed.",
+    "This keeps 'which languages does this project use' as a single source of truth in the repo. New team members get the right LSPs automatically when they spin up the container.",
+    "If .claude/settings.json doesn't exist yet (fresh repo), the install script is a no-op and the container still works."
+  ],
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y jq && chmod +x ./scripts/install-enabled-lsps.sh && ./scripts/install-enabled-lsps.sh && claude --version && echo 'Claude Code ready'",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Anthropic.claude-code"
+      ]
+    }
+  }
+}

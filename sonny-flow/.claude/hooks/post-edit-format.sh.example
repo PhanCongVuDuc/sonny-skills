@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# PostToolUse hook: auto-format files after Claude edits them.
+#
+# Register in .claude/settings.json:
+#   "PostToolUse": [{ "matcher": "Edit|Write",
+#     "hooks": [{ "type": "command",
+#                 "command": "${CLAUDE_PROJECT_DIR}/.claude/hooks/post-edit-format.sh" }] }]
+#
+# Input: JSON tool-call payload on stdin. Tool name and file_path can be read from it.
+# Exit code:
+#   0  = success (Claude continues normally)
+#   2  = blocking error (PostToolUse: still non-blocking but stderr is shown)
+#   1  = non-blocking error (stderr first line shown to Claude)
+#
+# Behavior: read the modified file path from the payload, format it with the
+# project's formatter, and exit 0. If the formatter fails, exit 1 with a useful
+# message — do not block, just inform.
+
+set -u
+
+# --- read tool payload from stdin ---
+payload="$(cat || true)"
+
+# Extract file_path from the JSON without requiring jq (best-effort).
+# If jq is available, use it for robustness.
+file_path=""
+if command -v jq >/dev/null 2>&1; then
+  file_path="$(echo "$payload" | jq -r '.tool_input.file_path // .tool_input.path // empty')"
+else
+  file_path="$(echo "$payload" | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -1)"
+fi
+
+# Nothing to do if the payload didn't reference a file
+if [ -z "$file_path" ] || [ ! -f "$file_path" ]; then
+  exit 0
+fi
+
+# --- dispatch by extension ---
+case "$file_path" in
+  *.ts|*.tsx|*.js|*.jsx|*.mjs|*.cjs)
+    # [REPLACE: e.g. npx prettier --write "$file_path"]
+    : ;;
+  *.py)
+    # [REPLACE: e.g. ruff format "$file_path" && ruff check --fix "$file_path"]
+    : ;;
+  *.go)
+    # [REPLACE: e.g. gofmt -w "$file_path"]
+    : ;;
+  *.rs)
+    # [REPLACE: e.g. rustfmt "$file_path"]
+    : ;;
+  *)
+    # Unknown extension — skip silently
+    exit 0 ;;
+esac
+
+exit 0

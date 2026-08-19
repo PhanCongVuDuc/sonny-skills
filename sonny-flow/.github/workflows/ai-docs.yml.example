@@ -1,0 +1,99 @@
+name: AI向けドキュメント自動更新
+
+# AI向けドキュメント（code_map / dependencies / module_index）を最新コードに追従させる。
+# 詳細運用は docs/ai-docs.md を参照。
+#
+# 動作モード：
+#   - push (develop)     : 自動更新→直push（fast-forward可能なら）
+#   - pull_request       : dry-run。生成と現状の差分が大きいとCIが失敗
+#   - workflow_dispatch  : 手動実行
+#   - schedule           : 夜間バッチ（差分検知漏れ対策）
+#
+# セキュリティ注意：
+#   diff 由来のファイルパスは docs-keeper への LLM プロンプトに埋め込まれる
+#   （プロンプトインジェクション面になり得る）。fork からの pull_request は
+#   dry-run のままとし、fork PR に対して apply/force を実行しないこと。
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'Arent3d.Architecture.Routing*/**'
+      - 'Tests/**'
+  pull_request:
+    paths:
+      - 'Arent3d.Architecture.Routing*/**'
+      - 'Tests/**'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'dry-run / apply / force'
+        required: false
+        default: 'dry-run'
+  schedule:
+    - cron: '0 18 * * *'  # 毎日 JST 03:00 (UTC 18:00)
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-ai-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # diff用に2世代取得
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run docs-keeper (dry-run on PR, apply on push)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          MODE="${{ github.event.inputs.mode || (github.event_name == 'pull_request' && 'dry-run' || 'apply') }}"
+          chmod +x scripts/update-ai-docs.sh
+          ./scripts/update-ai-docs.sh "$MODE"
+
+      - name: Check diff size (dry-run mode)
+        if: github.event_name == 'pull_request'
+        run: |
+          # --numstat は「追加 TAB 削除 TAB パス」形式で、挿入のみ/削除のみ/バイナリでも列がずれない
+          LINES_CHANGED=$(git diff --numstat docs/domain/generated/code_map.md docs/domain/generated/dependencies.md docs/domain/generated/module_index.md | awk '{s+=$1+$2} END {print s+0}')
+          LINES_CHANGED=${LINES_CHANGED:-0}
+          echo "AI docs diff lines: $LINES_CHANGED"
+          if [ "$LINES_CHANGED" -gt 200 ]; then
+            echo "::error::AI向けドキュメントの差分が大きすぎます ($LINES_CHANGED 行)。手動で /docs-update を実行して整合性を確認してください。"
+            exit 1
+          fi
+
+      - name: Commit & push (on develop)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        run: |
+          if [ -n "$(git status --porcelain docs/domain/)" ]; then
+            git config user.name "ai-docs-bot"
+            git config user.email "ai-docs-bot@users.noreply.github.com"
+            git add docs/domain/generated/code_map.md docs/domain/generated/dependencies.md docs/domain/generated/module_index.md
+            git commit -m "chore(docs): AI向けドキュメント自動更新
+
+            自動生成: docs-keeper エージェント
+            詳細: deliverables/00_onboarding/docs-update-*.json"
+            git push
+          else
+            echo "AI向けドキュメントに変更なし"
+          fi
+
+      - name: Upload update summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-update-summary
+          path: deliverables/00_onboarding/docs-update-*.json
+          if-no-files-found: ignore

@@ -1,0 +1,1070 @@
+{
+  "plugin_version": "1.0.0",
+  "manifest_schema": 2,
+  "injected_at": "2026-06-30",
+  "priority": "existing-first",
+  "project_type": "existing",
+  "profile_matched": null,
+  "never_touch_source": "fallback (web-product profile did not match a .NET/Revit repo)",
+  "settings_merge_note": "permissions(allow/deny) left untouched per the user's global policy (no per-repo allow widening, redundant with global Bash(*)+auto). Only functional keys added: env, claudeMdExcludes, autoMemoryEnabled, hooks{}, $schema.",
+  "injected_files": [
+    {
+      "path": ".devcontainer/README.md",
+      "source_template": "templates/inject/.devcontainer/README.md",
+      "source_template_hash": "b85d60e93175734571e112e777b491fafd5a6e10",
+      "injected_hash": "b85d60e93175734571e112e777b491fafd5a6e10",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".devcontainer/devcontainer.json",
+      "source_template": "templates/inject/.devcontainer/devcontainer.json",
+      "source_template_hash": "ac0ffbccebb782a5bc692af1b7efca7f7917f940",
+      "injected_hash": "ac0ffbccebb782a5bc692af1b7efca7f7917f940",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".done/.gitkeep",
+      "source_template": "templates/inject/.done/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".done/README.md",
+      "source_template": "templates/inject/.done/README.md",
+      "source_template_hash": "6ff3711e9b2e49d12171de62e39bd191a4837554",
+      "injected_hash": "6ff3711e9b2e49d12171de62e39bd191a4837554",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".github/workflows/ai-docs.yml.example",
+      "source_template": "templates/inject/.github/workflows/ai-docs.yml.example",
+      "source_template_hash": "1efdc33d8a792aa31512387d8d1cccfbebecad49",
+      "injected_hash": "1efdc33d8a792aa31512387d8d1cccfbebecad49",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".gitignore",
+      "source_template": "templates/inject/.gitignore",
+      "source_template_hash": "98a7c4388e6afcf9efae49c89549e2cd08c3a9a0",
+      "injected_hash": "68cd0b7199fbac89c094330ce129b5b707261273",
+      "action": "merge",
+      "has_template_vars": true,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".mcp.json.example",
+      "source_template": "templates/inject/.mcp.json.example",
+      "source_template_hash": "064a50c93a15464fbe74ff53aa8e69683077d12a",
+      "injected_hash": "064a50c93a15464fbe74ff53aa8e69683077d12a",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "AGENTS.md",
+      "source_template": "templates/inject/AGENTS.md.template",
+      "source_template_hash": "72c984b1d65cba2ad866591c1442b0dc058c5958",
+      "injected_hash": "fa684618a8b68ee013086e35632386a68366d610",
+      "action": "add",
+      "has_template_vars": true,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "CLAUDE.md",
+      "source_template": "templates/inject/CLAUDE.md.template",
+      "source_template_hash": "582c907586d852bcc187e7f550c71c36d319e844",
+      "injected_hash": "a643c76dd08b66d892a3ef282a30471d9b4b7aa3",
+      "action": "append",
+      "has_template_vars": true,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/analysis-aggregator.md",
+      "source_template": "templates/inject/claude/agents/analysis-aggregator.md",
+      "source_template_hash": "424d2acd0d00f02bc74adc9768342a73d0600b41",
+      "injected_hash": "424d2acd0d00f02bc74adc9768342a73d0600b41",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/design-architect.md",
+      "source_template": "templates/inject/claude/agents/design-architect.md",
+      "source_template_hash": "403674d36c172883eb324ae0ee5c4d397879faec",
+      "injected_hash": "403674d36c172883eb324ae0ee5c4d397879faec",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/design-reviewer.md",
+      "source_template": "templates/inject/claude/agents/design-reviewer.md",
+      "source_template_hash": "d1eb3cb31edd02cf34e2510b8ce9dceaa754cea6",
+      "injected_hash": "d1eb3cb31edd02cf34e2510b8ce9dceaa754cea6",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/devils-advocate.md",
+      "source_template": "templates/inject/claude/agents/devils-advocate.md",
+      "source_template_hash": "8836eceac2ec2fd4df7ddca7f44a47dfacb03cbf",
+      "injected_hash": "8836eceac2ec2fd4df7ddca7f44a47dfacb03cbf",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/docs-keeper.md",
+      "source_template": "templates/inject/claude/agents/docs-keeper.md",
+      "source_template_hash": "8f81a89b862668ad73848cb55543a400b6393da6",
+      "injected_hash": "8f81a89b862668ad73848cb55543a400b6393da6",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/handoff-writer.md",
+      "source_template": "templates/inject/claude/agents/handoff-writer.md",
+      "source_template_hash": "ef502a6d5aaf3a4e8a31640b829eec52384d90d0",
+      "injected_hash": "ef502a6d5aaf3a4e8a31640b829eec52384d90d0",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/implementation-reviewer.md",
+      "source_template": "templates/inject/claude/agents/implementation-reviewer.md",
+      "source_template_hash": "1fc0fd7a316e29d94f82a38fb0cbeb3b82b937cf",
+      "injected_hash": "1fc0fd7a316e29d94f82a38fb0cbeb3b82b937cf",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/implementer.md",
+      "source_template": "templates/inject/claude/agents/implementer.md",
+      "source_template_hash": "3f9d47c294e43f77f6b181b0ec11a2801e70d9cc",
+      "injected_hash": "3f9d47c294e43f77f6b181b0ec11a2801e70d9cc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/legacy-analyzer.md",
+      "source_template": "templates/inject/claude/agents/legacy-analyzer.md",
+      "source_template_hash": "ede7308ee42b5e5fe9af5fa94c5b32078c19a1eb",
+      "injected_hash": "ede7308ee42b5e5fe9af5fa94c5b32078c19a1eb",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/requirements-organizer.md",
+      "source_template": "templates/inject/claude/agents/requirements-organizer.md",
+      "source_template_hash": "c8f5bafd1050a6cafe59dce8fab6b314aabd140c",
+      "injected_hash": "c8f5bafd1050a6cafe59dce8fab6b314aabd140c",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/sier-spec-reader.md",
+      "source_template": "templates/inject/claude/agents/sier-spec-reader.md",
+      "source_template_hash": "91c587179aa03aec814d8d5c2ee62bc6ab5f9954",
+      "injected_hash": "91c587179aa03aec814d8d5c2ee62bc6ab5f9954",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/spec-drafter.md",
+      "source_template": "templates/inject/claude/agents/spec-drafter.md",
+      "source_template_hash": "a3f1df4047591d609220163bf00b0c09e3319d4d",
+      "injected_hash": "a3f1df4047591d609220163bf00b0c09e3319d4d",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/test-implementer.md",
+      "source_template": "templates/inject/claude/agents/test-implementer.md",
+      "source_template_hash": "937e8b68c70040563225bcdf178eb5c6767534b8",
+      "injected_hash": "937e8b68c70040563225bcdf178eb5c6767534b8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/test-reviewer.md",
+      "source_template": "templates/inject/claude/agents/test-reviewer.md",
+      "source_template_hash": "778f4556cbc3e8fccf498b67eb77573837dc10d8",
+      "injected_hash": "778f4556cbc3e8fccf498b67eb77573837dc10d8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/test-scenario-designer.md",
+      "source_template": "templates/inject/claude/agents/test-scenario-designer.md",
+      "source_template_hash": "e14bda42d8bc77a1b6d2468b3c30498e14f8156e",
+      "injected_hash": "e14bda42d8bc77a1b6d2468b3c30498e14f8156e",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/transcript-extractor.md",
+      "source_template": "templates/inject/claude/agents/transcript-extractor.md",
+      "source_template_hash": "a8c083ef0e902e540fd9858d582372ca7f368bf8",
+      "injected_hash": "a8c083ef0e902e540fd9858d582372ca7f368bf8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/agents/uncertainty-auditor.md",
+      "source_template": "templates/inject/claude/agents/uncertainty-auditor.md",
+      "source_template_hash": "52fd5697597b7e5c4dcbae2020306083ae2a1835",
+      "injected_hash": "52fd5697597b7e5c4dcbae2020306083ae2a1835",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/bootstrap.md",
+      "source_template": "templates/inject/claude/commands/bootstrap.md",
+      "source_template_hash": "97997ac17b506cfc138075ee4aa7c35d130d9cfc",
+      "injected_hash": "97997ac17b506cfc138075ee4aa7c35d130d9cfc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/design.md",
+      "source_template": "templates/inject/claude/commands/design.md",
+      "source_template_hash": "091622d3c6861f7d8ae29edd89f3e3a838160e06",
+      "injected_hash": "091622d3c6861f7d8ae29edd89f3e3a838160e06",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/docs-update.md",
+      "source_template": "templates/inject/claude/commands/docs-update.md",
+      "source_template_hash": "65ceade539060d3daac9032bae45d63b939d3c08",
+      "injected_hash": "65ceade539060d3daac9032bae45d63b939d3c08",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/from-sier.md",
+      "source_template": "templates/inject/claude/commands/from-sier.md",
+      "source_template_hash": "aa48b32025e2d16a0ffbbe83c5fafbcf09e581fc",
+      "injected_hash": "aa48b32025e2d16a0ffbbe83c5fafbcf09e581fc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/from-transcript.md",
+      "source_template": "templates/inject/claude/commands/from-transcript.md",
+      "source_template_hash": "62d25233e7ef8ec4d4c68e65e7a55d598ebe7122",
+      "injected_hash": "62d25233e7ef8ec4d4c68e65e7a55d598ebe7122",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/handoff.md",
+      "source_template": "templates/inject/claude/commands/handoff.md",
+      "source_template_hash": "4c835448ec8062b22a0934c6ff2571d1249f6271",
+      "injected_hash": "4c835448ec8062b22a0934c6ff2571d1249f6271",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/implement.md",
+      "source_template": "templates/inject/claude/commands/implement.md",
+      "source_template_hash": "9e8edfc5f58bee27bfc56e1adf9828a01e0dc182",
+      "injected_hash": "9e8edfc5f58bee27bfc56e1adf9828a01e0dc182",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/req.md",
+      "source_template": "templates/inject/claude/commands/req.md",
+      "source_template_hash": "b8c27d4cb82387ec20bc9a4d787d1b8a488b6244",
+      "injected_hash": "b8c27d4cb82387ec20bc9a4d787d1b8a488b6244",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/review.md",
+      "source_template": "templates/inject/claude/commands/review.md",
+      "source_template_hash": "4104c11a12695759281766871a99bfeb67327900",
+      "injected_hash": "4104c11a12695759281766871a99bfeb67327900",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/setup.md",
+      "source_template": "templates/inject/claude/commands/setup.md",
+      "source_template_hash": "545e583c4b87479120e1eccf07057b8d18d8351d",
+      "injected_hash": "545e583c4b87479120e1eccf07057b8d18d8351d",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/spec.md",
+      "source_template": "templates/inject/claude/commands/spec.md",
+      "source_template_hash": "1db67071e27ba2c0502ea7c23d74793f45c38d86",
+      "injected_hash": "1db67071e27ba2c0502ea7c23d74793f45c38d86",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/commands/test.md",
+      "source_template": "templates/inject/claude/commands/test.md",
+      "source_template_hash": "4078b3a5d978c59430d41dc5d651954c5c6937f4",
+      "injected_hash": "4078b3a5d978c59430d41dc5d651954c5c6937f4",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/hooks/README.md",
+      "source_template": "templates/inject/claude/hooks/README.md",
+      "source_template_hash": "3c5c145276f2f816c9414b22ff90e1a68ce9fa65",
+      "injected_hash": "3c5c145276f2f816c9414b22ff90e1a68ce9fa65",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/hooks/post-edit-format.sh.example",
+      "source_template": "templates/inject/claude/hooks/post-edit-format.sh.example",
+      "source_template_hash": "a32863211d172b97831375da9364c5049666dbfc",
+      "injected_hash": "a32863211d172b97831375da9364c5049666dbfc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/hooks/pre-bash-guard.sh.example",
+      "source_template": "templates/inject/claude/hooks/pre-bash-guard.sh.example",
+      "source_template_hash": "4ef6dfdfb474a4e2d3d82b3cf7cb4063a6b498b3",
+      "injected_hash": "4ef6dfdfb474a4e2d3d82b3cf7cb4063a6b498b3",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/README.md",
+      "source_template": "templates/inject/claude/rules/README.md",
+      "source_template_hash": "0853fafa9d07b2597d10d80ddaf18ee95459eaa3",
+      "injected_hash": "0853fafa9d07b2597d10d80ddaf18ee95459eaa3",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/api-design.md",
+      "source_template": "templates/inject/claude/rules/api-design.md",
+      "source_template_hash": "35516f3552ac4b4f2758fca19784aa23ce8e81c2",
+      "injected_hash": "35516f3552ac4b4f2758fca19784aa23ce8e81c2",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/database.md",
+      "source_template": "templates/inject/claude/rules/database.md",
+      "source_template_hash": "fe7e1dd21ff5abfb0799997cabee906e3f8dda25",
+      "injected_hash": "fe7e1dd21ff5abfb0799997cabee906e3f8dda25",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/domain-knowledge.md",
+      "source_template": "templates/inject/claude/rules/domain-knowledge.md",
+      "source_template_hash": "1fa54fcd5bfd16d1e98f6c0d789dc9e5b5e11e96",
+      "injected_hash": "1fa54fcd5bfd16d1e98f6c0d789dc9e5b5e11e96",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/gates.md",
+      "source_template": "templates/inject/claude/rules/gates.md",
+      "source_template_hash": "62b9e9a6ccf4f1df78e7a80949d38ac23b2bcb58",
+      "injected_hash": "62b9e9a6ccf4f1df78e7a80949d38ac23b2bcb58",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/lsp-navigation.md",
+      "source_template": "templates/inject/claude/rules/lsp-navigation.md",
+      "source_template_hash": "7f2ebed8541c83667f21bed819a0ea15d01c01b4",
+      "injected_hash": "7f2ebed8541c83667f21bed819a0ea15d01c01b4",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/output-formats.md",
+      "source_template": "templates/inject/claude/rules/output-formats.md",
+      "source_template_hash": "497ea3e7a1feff1678d20886f73f667cb8783f84",
+      "injected_hash": "497ea3e7a1feff1678d20886f73f667cb8783f84",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/risk-categories.md",
+      "source_template": "templates/inject/claude/rules/risk-categories.md",
+      "source_template_hash": "32afb03f7fd27fe3770251ec214ac152125a5b81",
+      "injected_hash": "32afb03f7fd27fe3770251ec214ac152125a5b81",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/security.md",
+      "source_template": "templates/inject/claude/rules/security.md",
+      "source_template_hash": "711c6e79f19c7f4e710e77feccc8830ba4899f80",
+      "injected_hash": "711c6e79f19c7f4e710e77feccc8830ba4899f80",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/rules/testing.md",
+      "source_template": "templates/inject/claude/rules/testing.md",
+      "source_template_hash": "e8e13ca54b8ba479780826c08b96cfb764b2153e",
+      "injected_hash": "e8e13ca54b8ba479780826c08b96cfb764b2153e",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/settings.json",
+      "source_template": "templates/inject/claude/settings.json",
+      "source_template_hash": "8f57dc0dc1b45684753fa555633de0e79f4fc02d",
+      "injected_hash": "d342c47d703725aed2d8d63202e26c4a5b80a1f9",
+      "action": "merge",
+      "has_template_vars": true,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/settings.local.json.example",
+      "source_template": "templates/inject/claude/settings.local.json.example",
+      "source_template_hash": "ea8a2b59739f67ac94f9e435ede5b5f1a81b6de4",
+      "injected_hash": "ea8a2b59739f67ac94f9e435ede5b5f1a81b6de4",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/code-archeology/SKILL.md",
+      "source_template": "templates/inject/claude/skills/code-archeology/SKILL.md",
+      "source_template_hash": "1802f3ef80829d03f60304fdfbeb7132d00a9074",
+      "injected_hash": "1802f3ef80829d03f60304fdfbeb7132d00a9074",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/code-archeology/reference.md",
+      "source_template": "templates/inject/claude/skills/code-archeology/reference.md",
+      "source_template_hash": "752e79c38dafa25058f063df18d2da5b1f5d091c",
+      "injected_hash": "752e79c38dafa25058f063df18d2da5b1f5d091c",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/design-decision/SKILL.md",
+      "source_template": "templates/inject/claude/skills/design-decision/SKILL.md",
+      "source_template_hash": "3bead863c983d0e8530db60e42f513b0f2148401",
+      "injected_hash": "3bead863c983d0e8530db60e42f513b0f2148401",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/design-decision/reference.md",
+      "source_template": "templates/inject/claude/skills/design-decision/reference.md",
+      "source_template_hash": "c7e05a6b85e241d426b9aff1a1107a82d5d384f1",
+      "injected_hash": "c7e05a6b85e241d426b9aff1a1107a82d5d384f1",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/doc-bootstrap/SKILL.md",
+      "source_template": "templates/inject/claude/skills/doc-bootstrap/SKILL.md",
+      "source_template_hash": "9d33dee4e01a14d6620b32fb381b4ce49d0520fc",
+      "injected_hash": "9d33dee4e01a14d6620b32fb381b4ce49d0520fc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/doc-bootstrap/reference.md",
+      "source_template": "templates/inject/claude/skills/doc-bootstrap/reference.md",
+      "source_template_hash": "8ad86a03aef5232aeddded6b4b653aae2f1a926d",
+      "injected_hash": "8ad86a03aef5232aeddded6b4b653aae2f1a926d",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/focused-review/SKILL.md",
+      "source_template": "templates/inject/claude/skills/focused-review/SKILL.md",
+      "source_template_hash": "efbfc669a33d6564e276b2743d63284ba5b974da",
+      "injected_hash": "efbfc669a33d6564e276b2743d63284ba5b974da",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/focused-review/reference.md",
+      "source_template": "templates/inject/claude/skills/focused-review/reference.md",
+      "source_template_hash": "18387873b22a92d85fe9ded8b415f53949ca7469",
+      "injected_hash": "18387873b22a92d85fe9ded8b415f53949ca7469",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/handoff/SKILL.md",
+      "source_template": "templates/inject/claude/skills/handoff/SKILL.md",
+      "source_template_hash": "b0ea404453472801edb351ad4a2a055e688596a8",
+      "injected_hash": "b0ea404453472801edb351ad4a2a055e688596a8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/handoff/reference.md",
+      "source_template": "templates/inject/claude/skills/handoff/reference.md",
+      "source_template_hash": "094478c8964cc8b93bb382a5463b53c722d728fb",
+      "injected_hash": "094478c8964cc8b93bb382a5463b53c722d728fb",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/parallel-analysis/SKILL.md",
+      "source_template": "templates/inject/claude/skills/parallel-analysis/SKILL.md",
+      "source_template_hash": "ab60c8e9f3d80a758e5a973e9fc313059e03076a",
+      "injected_hash": "ab60c8e9f3d80a758e5a973e9fc313059e03076a",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/parallel-analysis/reference.md",
+      "source_template": "templates/inject/claude/skills/parallel-analysis/reference.md",
+      "source_template_hash": "b802a494cf53f2fe11f4d67763bb668b45fe9226",
+      "injected_hash": "b802a494cf53f2fe11f4d67763bb668b45fe9226",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/pipeline-improve/SKILL.md",
+      "source_template": "templates/inject/claude/skills/pipeline-improve/SKILL.md",
+      "source_template_hash": "015417ee0b6bd25cee4f41659ca7855f3b5f6285",
+      "injected_hash": "015417ee0b6bd25cee4f41659ca7855f3b5f6285",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/pipeline-improve/reference.md",
+      "source_template": "templates/inject/claude/skills/pipeline-improve/reference.md",
+      "source_template_hash": "8dd1f1f133e648edc2627630a46d883f19f3cd65",
+      "injected_hash": "8dd1f1f133e648edc2627630a46d883f19f3cd65",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/risk-flag/SKILL.md",
+      "source_template": "templates/inject/claude/skills/risk-flag/SKILL.md",
+      "source_template_hash": "fdd77756cfe9ae20d62719e0a9ce32edc460e402",
+      "injected_hash": "fdd77756cfe9ae20d62719e0a9ce32edc460e402",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/risk-flag/reference.md",
+      "source_template": "templates/inject/claude/skills/risk-flag/reference.md",
+      "source_template_hash": "788c4c2005de45b72d3a0d31c22e2109c92bc5f8",
+      "injected_hash": "788c4c2005de45b72d3a0d31c22e2109c92bc5f8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/sier-spec-mapping/SKILL.md",
+      "source_template": "templates/inject/claude/skills/sier-spec-mapping/SKILL.md",
+      "source_template_hash": "e9fae3b572b831899794b951b134d100013333b6",
+      "injected_hash": "e9fae3b572b831899794b951b134d100013333b6",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/sier-spec-mapping/reference.md",
+      "source_template": "templates/inject/claude/skills/sier-spec-mapping/reference.md",
+      "source_template_hash": "a51e04901856848bd15ec2899cf2664cb36e28cf",
+      "injected_hash": "a51e04901856848bd15ec2899cf2664cb36e28cf",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/spec-draft/SKILL.md",
+      "source_template": "templates/inject/claude/skills/spec-draft/SKILL.md",
+      "source_template_hash": "128a74f82d380fe226610ce87a3c324c1f41370a",
+      "injected_hash": "128a74f82d380fe226610ce87a3c324c1f41370a",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/spec-draft/reference.md",
+      "source_template": "templates/inject/claude/skills/spec-draft/reference.md",
+      "source_template_hash": "042f54dce7e1cbb4b734265ce24149f33113b756",
+      "injected_hash": "042f54dce7e1cbb4b734265ce24149f33113b756",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/test-scenario/SKILL.md",
+      "source_template": "templates/inject/claude/skills/test-scenario/SKILL.md",
+      "source_template_hash": "3b4b2b7f0adad01c4651acba40a74be6325feec0",
+      "injected_hash": "3b4b2b7f0adad01c4651acba40a74be6325feec0",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/test-scenario/reference.md",
+      "source_template": "templates/inject/claude/skills/test-scenario/reference.md",
+      "source_template_hash": "8ee64e9c871dda1f1aace428bd7474fc897c08d2",
+      "injected_hash": "8ee64e9c871dda1f1aace428bd7474fc897c08d2",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/transcript-to-usecase/SKILL.md",
+      "source_template": "templates/inject/claude/skills/transcript-to-usecase/SKILL.md",
+      "source_template_hash": "a3090a9320d4bb5a235a46420597091aef633612",
+      "injected_hash": "a3090a9320d4bb5a235a46420597091aef633612",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/transcript-to-usecase/reference.md",
+      "source_template": "templates/inject/claude/skills/transcript-to-usecase/reference.md",
+      "source_template_hash": "09cf5f6fd329b5485a5d7ee87c346150d8e5620f",
+      "injected_hash": "09cf5f6fd329b5485a5d7ee87c346150d8e5620f",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/uncertainty-report/SKILL.md",
+      "source_template": "templates/inject/claude/skills/uncertainty-report/SKILL.md",
+      "source_template_hash": "ef4c43c6da0133da9494d8b5306c26c5a6cc2dff",
+      "injected_hash": "ef4c43c6da0133da9494d8b5306c26c5a6cc2dff",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/uncertainty-report/reference.md",
+      "source_template": "templates/inject/claude/skills/uncertainty-report/reference.md",
+      "source_template_hash": "9160f8b5d1fca6a92aafc3cb9f1efd5eacdb8905",
+      "injected_hash": "9160f8b5d1fca6a92aafc3cb9f1efd5eacdb8905",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/usecase-interview/SKILL.md",
+      "source_template": "templates/inject/claude/skills/usecase-interview/SKILL.md",
+      "source_template_hash": "0336d8ee2d2862eda26285e3ce14b9c8e6e1f561",
+      "injected_hash": "0336d8ee2d2862eda26285e3ce14b9c8e6e1f561",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": ".claude/skills/usecase-interview/reference.md",
+      "source_template": "templates/inject/claude/skills/usecase-interview/reference.md",
+      "source_template_hash": "131f82c5d354e8f85d70cf6d79b6b18eec7a20f0",
+      "injected_hash": "131f82c5d354e8f85d70cf6d79b6b18eec7a20f0",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/00_onboarding/.gitkeep",
+      "source_template": "templates/inject/deliverables/00_onboarding/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/00_setup/.gitkeep",
+      "source_template": "templates/inject/deliverables/00_setup/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/01_requirements/.gitkeep",
+      "source_template": "templates/inject/deliverables/01_requirements/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/02_design/.gitkeep",
+      "source_template": "templates/inject/deliverables/02_design/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/03_implementation/.gitkeep",
+      "source_template": "templates/inject/deliverables/03_implementation/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/04_test/.gitkeep",
+      "source_template": "templates/inject/deliverables/04_test/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/README.md",
+      "source_template": "templates/inject/deliverables/README.md",
+      "source_template_hash": "43e68fab9e6cbe9d8ed3762adf495aee5cb9d2eb",
+      "injected_hash": "43e68fab9e6cbe9d8ed3762adf495aee5cb9d2eb",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/handoff/.gitkeep",
+      "source_template": "templates/inject/deliverables/handoff/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "deliverables/reviews/.gitkeep",
+      "source_template": "templates/inject/deliverables/reviews/.gitkeep",
+      "source_template_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "injected_hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/agent-rules.md",
+      "source_template": "templates/inject/docs/agent-rules.md",
+      "source_template_hash": "41fb07539cec613a314d420a8452962bf0d9c41b",
+      "injected_hash": "41fb07539cec613a314d420a8452962bf0d9c41b",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/ai-docs.md",
+      "source_template": "templates/inject/docs/ai-docs.md",
+      "source_template_hash": "c1522894a44607eecae54ea7803bb630e180da4f",
+      "injected_hash": "c1522894a44607eecae54ea7803bb630e180da4f",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/README.md",
+      "source_template": "templates/inject/docs/domain/README.md",
+      "source_template_hash": "1880282b159901f7453e2d87f6261f9d9f119fec",
+      "injected_hash": "1880282b159901f7453e2d87f6261f9d9f119fec",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/business_rules.md",
+      "source_template": "templates/inject/docs/domain/business_rules.md",
+      "source_template_hash": "1de731f98557841defaa576ac8a97a8eee5a209e",
+      "injected_hash": "1de731f98557841defaa576ac8a97a8eee5a209e",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/generated/.gitkeep",
+      "source_template": "templates/inject/docs/domain/generated/.gitkeep",
+      "source_template_hash": "8b137891791fe96927ad78e64b0aad7bded08bdc",
+      "injected_hash": "8b137891791fe96927ad78e64b0aad7bded08bdc",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/generated/README.md",
+      "source_template": "templates/inject/docs/domain/generated/README.md",
+      "source_template_hash": "cd170f6803dbda852d71f10f4eb42503e13b54db",
+      "injected_hash": "cd170f6803dbda852d71f10f4eb42503e13b54db",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/glossary.md",
+      "source_template": "templates/inject/docs/domain/glossary.md",
+      "source_template_hash": "58a1c62693c88873eb144b2222c69c1ea78249b8",
+      "injected_hash": "58a1c62693c88873eb144b2222c69c1ea78249b8",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/known_patterns.md",
+      "source_template": "templates/inject/docs/domain/known_patterns.md",
+      "source_template_hash": "2b7c878c2eecc0db9ed8bdfe7a27323541700218",
+      "injected_hash": "2b7c878c2eecc0db9ed8bdfe7a27323541700218",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/domain/tech_stack.md",
+      "source_template": "templates/inject/docs/domain/tech_stack.md",
+      "source_template_hash": "d8b206587ca6d8c52cca8c86bd795f5d86c7e27b",
+      "injected_hash": "d8b206587ca6d8c52cca8c86bd795f5d86c7e27b",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "docs/onboarding.md",
+      "source_template": "templates/inject/docs/onboarding.md",
+      "source_template_hash": "7d10d5574a769ba25d61c3864eb59fcfcceef5fb",
+      "injected_hash": "7d10d5574a769ba25d61c3864eb59fcfcceef5fb",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "scripts/install-enabled-lsps.ps1",
+      "source_template": "templates/inject/scripts/install-enabled-lsps.ps1",
+      "source_template_hash": "b446edd4f1d3473e68a056cd3c43218c5cd96e89",
+      "injected_hash": "b446edd4f1d3473e68a056cd3c43218c5cd96e89",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "scripts/install-enabled-lsps.sh",
+      "source_template": "templates/inject/scripts/install-enabled-lsps.sh",
+      "source_template_hash": "bd8dd41c3cfbfd274cfad5bcf75b11a26dc30c09",
+      "injected_hash": "bd8dd41c3cfbfd274cfad5bcf75b11a26dc30c09",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "scripts/update-ai-docs.ps1",
+      "source_template": "templates/inject/scripts/update-ai-docs.ps1",
+      "source_template_hash": "fea3671037c3c8de872b26747ab9bee5bdf8840f",
+      "injected_hash": "fea3671037c3c8de872b26747ab9bee5bdf8840f",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    },
+    {
+      "path": "scripts/update-ai-docs.sh",
+      "source_template": "templates/inject/scripts/update-ai-docs.sh",
+      "source_template_hash": "4da8713cd92213fd067329f0972e4c1805607d29",
+      "injected_hash": "4da8713cd92213fd067329f0972e4c1805607d29",
+      "action": "add",
+      "has_template_vars": false,
+      "synthetic": false,
+      "protected": false
+    }
+  ],
+  "skipped_files": [
+    {
+      "path": ".claude/settings.json :: permissions allow/deny union",
+      "reason": "既存permissions保持。グローバル方針(各リポでallowを増やさない)に従い git/gh wildcard 等の追加はスキップ"
+    },
+    {
+      "path": ".github/workflows/*.yml (existing 9)",
+      "reason": "never_touch (不可侵)"
+    },
+    {
+      "path": ".claude/skills/{ai-review-and-fix,feature-design,impact-analysis,implementation,sonarqube-auto-fix,spec-writer}",
+      "reason": "既存優先・無変更で保持(ハーネスに同名スキルなし)"
+    },
+    {
+      "path": ".claude/hooks/*.example の有効化",
+      "reason": ".exampleのまま注入。settings.json hooksは空{}、有効化は人判断"
+    }
+  ]
+}

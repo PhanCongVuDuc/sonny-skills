@@ -1,0 +1,86 @@
+{
+  "project_type_detected": "existing",
+  "claude_md": {
+    "exists": true,
+    "files": ["CLAUDE.md"],
+    "sections": [
+      "CLAUDE.md",
+      "Project Overview",
+      "Build Commands",
+      "Code Formatting",
+      "Testing",
+      "Architecture",
+      "Coding Conventions",
+      "Revit-Specific Patterns",
+      "Git Workflow"
+    ]
+  },
+  "rules": [],
+  "skills": [
+    {
+      "name": "ai-review-and-fix",
+      "file": ".claude/skills/ai-review-and-fix/SKILL.md",
+      "purpose": "AI review and auto-fix workflow. Ensures Copilot review, runs an independent Claude Code review, cross-checks for similar/missed issue patterns, then delivers fixes as a separate follow-up PR stacked on the reviewed PR. Project-level replacement for the user-level /fix-review (renamed to avoid skill-name collision). Args: [PR_NUMBER] [--skip-copilot] [--no-crosscheck]."
+    },
+    {
+      "name": "feature-design",
+      "file": ".claude/skills/feature-design/SKILL.md",
+      "purpose": "Create design documents for Revit add-in features from requirement specifications. Used to design a feature, create a design document, investigate existing implementations, and determine module assignments. Does NOT generate implementation code; humans review the output."
+    },
+    {
+      "name": "impact-analysis",
+      "file": ".claude/skills/impact-analysis/SKILL.md",
+      "purpose": "Analyze the diff of a PR to determine impact scope, then post a checklist and detail report as a PR comment (and optionally save the report to a file). PR number can be auto-resolved from the current branch. Args: [PR_NUMBER] [--no-post] [--depth 1|2|3|auto] [--output <path>]."
+    },
+    {
+      "name": "implementation",
+      "file": ".claude/skills/implementation/SKILL.md",
+      "purpose": "Implement and test Revit add-in features based on requirement and design documents. Used to write code, create tests, and perform implementation self-review. Follows strict architecture constraints, MVVM patterns, DI rules, and test conventions."
+    },
+    {
+      "name": "sonarqube-auto-fix",
+      "file": ".claude/skills/sonarqube-auto-fix/SKILL.md",
+      "purpose": "Fetch SonarQube issues for a PR (server https://sonar.arent3d.com, ArentInc/architecture_routing), fix genuine issues, resolve false-positives via refactoring or NOSONAR, then deliver fixes as a follow-up PR. Used when the SonarQube Quality Gate fails or to clean up static-analysis findings. Args: <PR_NUMBER> [--dry-run] [--direct-push] [--pre-check]."
+    },
+    {
+      "name": "spec-writer",
+      "file": ".claude/skills/spec-writer/SKILL.md",
+      "purpose": "Create internal program specification documents and external (user-facing) specification documents for Revit add-in commands or feature groups. Used to write, update, or regenerate spec documents. Args: [internal|external|both] [--group <group-name>] [--update]. (Currently untracked in git.)"
+    }
+  ],
+  "agents": [],
+  "commands": [],
+  "hooks": [],
+  "cicd_files": [
+    ".github/workflows/autotest.yml",
+    ".github/workflows/autotest-by-pr-comment.yml",
+    ".github/workflows/_reusable-autotest.yml",
+    ".github/workflows/_reusable-autotest-with-pr-comment.yml",
+    ".github/workflows/_reusable_post_test_result.yml",
+    ".github/workflows/format.yml",
+    ".github/workflows/sonarqube.yml",
+    ".github/workflows/static-analysis-for-workflows.yml",
+    ".github/workflows/version-update-for-aqua.yml"
+  ],
+  "other_configs": [
+    "ArchitectureRouting.slnx",
+    "Directory.Build.props",
+    ".editorconfig",
+    "aqua.yaml",
+    ".claude/settings.json",
+    "Arent3d.Architecture.Routing/Arent3d.Architecture.Routing.csproj",
+    "Arent3d.Architecture.Routing.AppBase/Arent3d.Architecture.Routing.AppBase.csproj",
+    "Arent3d.Architecture.Routing.Electrical.App/Arent3d.Architecture.Routing.Electrical.App.csproj",
+    "Arent3d.Architecture.Routing.Presentation/Arent3d.Architecture.Routing.Presentation.csproj",
+    "Arent3d.Architecture.Routing.Auth/Arent3d.Architecture.Routing.Auth.csproj",
+    "Arent3d.Architecture.Routing.RevitTest/Arent3d.Architecture.Routing.RevitTest.csproj",
+    "Tests/Arent3d.Architecture.Routing.Tests/Arent3d.Architecture.Routing.Tests.csproj",
+    "Tests/Arent3d.Architecture.Routing.AppBase.Tests/Arent3d.Architecture.Routing.AppBase.Tests.csproj",
+    "Tests/Arent3d.Architecture.Routing.Electrical.App.Tests/Arent3d.Architecture.Routing.Electrical.App.Tests.csproj"
+  ],
+  "build_test_commands": {
+    "build": "dotnet build -c \"Debug 2023\"  (also: dotnet build -c \"Release 2023\"; output to bin/Debug|Release/2023/, post-build copies .addin to %ProgramData%\\Autodesk\\Revit\\Addins\\{VERSION})",
+    "format": "dotnet format  (enforced via .github/workflows/format.yml; manual workflow_dispatch trigger; uses ArchitectureRouting.slnx)",
+    "test": "Unit tests in Tests/ (NSubstitute mocking); integration tests in Arent3d.Architecture.Routing.RevitTest/ require a running Revit; automated runs via .github/workflows/autotest.yml on self-hosted runners (PR-comment / manual workflow_dispatch triggers)"
+  }
+}
