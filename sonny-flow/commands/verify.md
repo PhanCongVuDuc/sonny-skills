@@ -5,6 +5,12 @@ argument-hint: <Feature>
 
 **Bước 5/6 — verify.** Cổng duy nhất quyết định "code có đúng không".
 
+## Chế độ Inner loop — khi CLAUDE.md của project khai `loopCommand`
+
+G5 chạy đúng lệnh đó và đọc verdict theo [`rules/revit-loop.md`](../rules/revit-loop.md):
+exit `0` = **pass** · exit `1` = **fail** · exit `2` = chạy lại một lần, lặp lại thì là **không kiểm
+chứng được** (môi trường, không phải code). Phần còn lại của file này vẫn áp dụng nguyên.
+
 ## Lệnh test
 
 Lấy từ `CLAUDE.md` của project (mục build/test). **Không tự đoán** — cấu hình build hay có bẫy (tên

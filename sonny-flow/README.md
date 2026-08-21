@@ -91,6 +91,14 @@ xong.** Không cần schema JSON, không cần thư mục sản phẩm trung gia
 Chi tiết: [`rules/gates.md`](rules/gates.md). Template doc + ví dụ diagram:
 [`skills/feature-doc/reference.md`](skills/feature-doc/reference.md).
 
+## Inner loop — tự trị sau gate plan (tuỳ chọn theo project)
+
+Project khai `loopCommand:` trong `CLAUDE.md` (một lệnh build+test trả verdict **0** = GREEN /
+**1** = RED / **2** = không thấy test) thì sau khi người duyệt plan, bước 4+5 chạy **tự trị**: test
+trước phải RED → code → lặp đến GREEN, agent tự lo môi trường (kể cả tự mở/restart Revit), tự chẩn
+đoán khi kẹt. Đổi lại là luật dừng cứng — 3 RED cùng task thì dừng báo cáo, cấm nới test. Toàn bộ
+luật: [`rules/revit-loop.md`](rules/revit-loop.md). Không khai `loopCommand` thì không có gì thay đổi.
+
 ## Section tạm vs vĩnh viễn
 
 **Tạm** — `## Decisions` (b1) · `## Spec` (b2) · `## Plan` (b3). Cả ba bị xoá ở bước 6.

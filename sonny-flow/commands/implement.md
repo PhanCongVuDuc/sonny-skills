@@ -26,6 +26,19 @@ thứ tự trong plan.
 3. **Chạy** những test chạy được ngay mà không cần môi trường đặc biệt.
 4. Đổi `- [ ]` thành `- [x]`.
 
+## Chế độ Inner loop — khi CLAUDE.md của project khai `loopCommand`
+
+Luật đầy đủ: [`rules/revit-loop.md`](../rules/revit-loop.md). Khác với mặc định ở ba điểm:
+
+- **Thứ tự đảo và siết lại**: viết test trước (vẫn rút từ `## Contract`) → chạy `loopCommand` → **phải
+  thấy RED** → viết code → lặp `loopCommand` đến GREEN → tick. Test chưa từng fail chưa chứng minh nó
+  test cái gì.
+- **Không dừng hỏi giữa các task.** Tiếng nói duy nhất được dừng flow là luật dừng trong rule
+  (3-RED-thì-dừng, exit-2 hai lần). "Ba lúc phải dừng lại hỏi" bên dưới vẫn nguyên hiệu lực — đó là
+  chuyện phạm vi, không phải chuyện môi trường.
+- **Môi trường agent tự lo** theo rule: tự khởi động / restart process host (Revit…), tự chẩn đoán khi
+  RED khó hiểu theo escalation ladder. Không hỏi người về môi trường.
+
 ## Ba lúc phải dừng lại hỏi
 
 - **Việc vượt ra ngoài plan.** Đừng mở rộng lặng lẽ.
