@@ -13,13 +13,6 @@
       "source": { "source": "github", "repo": "mattpocock/skills" },
       "autoUpdate": true,
       "plugins": ["mattpocock-skills"]
-    },
-
-    "addy-agent-skills": {
-      "$comment": "24 skill vòng đời spec→ship + 8 slash command. Plugin gói cả cụm, không cài lẻ được.",
-      "source": { "source": "github", "repo": "addyosmani/agent-skills" },
-      "autoUpdate": true,
-      "plugins": ["agent-skills"]
     }
   },
 

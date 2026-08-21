@@ -1,18 +1,22 @@
+---
+status: superseded by [[0005-bo-harness-giu-lai-y-gate]]
+---
+
 # Fork harness arent-workflow thành kho lưu trữ tiếng Việt, không phải plugin chạy được
 
-`sonny-flow/` chứa bản sao 108 file của harness phát triển bằng AI mà plugin `arent-workflow` đã
+`arent-mirror/` chứa bản sao 108 file của harness phát triển bằng AI mà plugin `arent-workflow` đã
 inject vào `ArentInc/architecture_routing` (commit `eaf0c2953d`), đã dịch toàn bộ sang tiếng Việt.
 Nó là **kho lưu trữ để đọc**, cố ý chưa chạy được.
 
 Harness này không phải một bộ skill rời. Nó là pipeline 5 phase — `/setup` → `/req` → `/spec` →
 `/design` → `/implement` → `/test` → `/review` → `/handoff` — với 17 agent, 13 command, 12 rule,
-14 skill, và một khung `deliverables/` 8 thư mục. Ý tưởng cốt lõi nằm ở [gates.md](../../sonny-flow/.claude/rules/gates.md):
+14 skill, và một khung `deliverables/` 8 thư mục. Ý tưởng cốt lõi nằm ở [gates.md](../../arent-mirror/.claude/rules/gates.md):
 *không lấy câu "xong rồi" bằng ngôn ngữ tự nhiên của AI làm căn cứ để đi tiếp* — mỗi phase chỉ qua
 được khi có file JSON/Markdown đúng schema trong `deliverables/`.
 
 ## Ba quyết định
 
-**Nguồn là bản inject, không phải plugin gốc.** [rules/README.md](../../sonny-flow/.claude/rules/README.md)
+**Nguồn là bản inject, không phải plugin gốc.** [rules/README.md](../../arent-mirror/.claude/rules/README.md)
 nói rõ nguồn chuẩn nằm ở `templates/inject/claude/rules/` của plugin `arent-workflow`, cập nhật bằng
 `/arent-workflow:re-setup` với so sánh 3 chiều bảo vệ phần sửa tay. Plugin đó **không có trên máy
 này** — chỉ có 2 file HTML hướng dẫn trong `Workspace/Arent/`. Nên đây là fork một snapshot
@@ -21,9 +25,9 @@ downstream: không còn đường merge ngược lên upstream. Đường cập 
 
 **Mirror nguyên cây `.claude/`, không dùng bố cục plugin.** Plugin Claude Code chỉ tự nạp
 `agents/` `commands/` `skills/` `hooks/` ở gốc plugin. Nhưng file nguồn tham chiếu chéo bằng đường
-dẫn tương đối — ví dụ [implementer.md](../../sonny-flow/.claude/agents/implementer.md) trỏ
-`../../docs/domain/generated/code_map.md`. Đặt agent ở `sonny-flow/agents/` sẽ làm mọi link đó lệch
-một cấp. Đặt ở `sonny-flow/.claude/agents/` thì **169/173 link phân giải đúng**, đổi lại plugin nạp
+dẫn tương đối — ví dụ [implementer.md](../../arent-mirror/.claude/agents/implementer.md) trỏ
+`../../docs/domain/generated/code_map.md`. Đặt agent ở `arent-mirror/agents/` sẽ làm mọi link đó lệch
+một cấp. Đặt ở `arent-mirror/.claude/agents/` thì **169/173 link phân giải đúng**, đổi lại plugin nạp
 được **con số không**. Đã chọn tính đúng đắn của link, vì mục tiêu trước mắt là *giữ đúng bản gốc*,
 chưa phải *chạy được*. `plugin.json` chỉ để giữ chỗ.
 
@@ -49,9 +53,9 @@ repo không liên quan. Cần thì cài tay bằng `/plugin install sonny-flow@s
   sang plugin-native và sửa lại toàn bộ đường dẫn tương đối.
 - Nội dung vẫn gắn chặt vào Revit add-in, C#, MVVM/DI, SonarQube, và quy trình SIer. Đó là fidelity
   có chủ đích, không phải sót.
-- Có `sonny-flow/CLAUDE.md` và `sonny-flow/AGENTS.md`. Claude Code **sẽ nạp** chúng khi làm việc
-  bên trong `sonny-flow/`. Chấp nhận vì chúng mô tả chính harness này.
-- `sonny-flow/.gitignore` có hiệu lực thật trên cây con đó. Đã kiểm: nó không nuốt file nào trong
+- Có `arent-mirror/CLAUDE.md` và `arent-mirror/AGENTS.md`. Claude Code **sẽ nạp** chúng khi làm việc
+  bên trong `arent-mirror/`. Chấp nhận vì chúng mô tả chính harness này.
+- `arent-mirror/.gitignore` có hiệu lực thật trên cây con đó. Đã kiểm: nó không nuốt file nào trong
   108 file, vì các thư mục nó ignore hiện chỉ chứa `.gitkeep`. Thêm file vào `deliverables/` sau
   này thì phải kiểm lại.
 

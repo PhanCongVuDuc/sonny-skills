@@ -1,6 +1,7 @@
 {
   "name": "sonny-flow",
-  "description": "Bản mirror tiếng Việt của harness arent-workflow. Hiện là KHO LƯU TRỮ ĐỂ ĐỌC, không phải plugin chạy được — agents/commands/skills nằm dưới .claude/ để giữ đúng đường dẫn tương đối của bản gốc, nên Claude Code không tự nạp chúng. Xem docs/adr/0004.",
+  "version": "0.3.1",
+  "description": "Quy trinh lam mot feature co gate bang file that: orient qua graphify+codegraph -> grill hoi cho het cho chua ro -> spec+contract -> plan -> implement+test -> test pass -> feature doc kem diagram Mermaid. Can graphify, codegraph va plugin mattpocock-skills.",
   "author": {
     "name": "Duc Phan"
   },

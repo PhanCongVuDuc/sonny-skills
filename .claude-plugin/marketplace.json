@@ -15,7 +15,7 @@
     {
       "name": "sonny-flow",
       "source": "./sonny-flow",
-      "description": "Bản mirror tiếng Việt của harness arent-workflow. Kho lưu trữ để đọc, chưa chạy được — không có trong skills.json nên /setup-skills sẽ không cài. Xem docs/adr/0004.",
+      "description": "Quy trinh lam mot feature co gate bang file that: orient qua graphify+codegraph -> spec+contract -> plan -> implement+test -> dotnet test -> feature doc kem diagram. Khong co trong skills.json, cai tay o project co graphify + codegraph.",
       "category": "productivity"
     }
   ]
