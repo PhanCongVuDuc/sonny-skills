@@ -1,6 +1,6 @@
 {
   "name": "sonny-flow",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Quy trinh lam mot feature co gate bang file that: orient qua graphify+codegraph -> grill hoi cho het cho chua ro -> spec+contract -> plan -> implement+test -> test pass -> feature doc kem diagram Mermaid. Can graphify, codegraph va plugin mattpocock-skills.",
   "author": {
     "name": "Duc Phan"

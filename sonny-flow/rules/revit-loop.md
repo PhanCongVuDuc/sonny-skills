@@ -29,6 +29,26 @@ cứu và confirm là đúng** (test đến RED trong cùng một process Revit,
 Revit nạp lúc đầu — sửa code mấy vẫn chạy bản cũ. Đây là trường hợp **duy nhất** phải tắt/mở Revit mỗi
 lần, và là tín hiệu csproj test cần refactor theo một trong hai cách trên.
 
+## Bốn bẫy của chế độ attach — xác nhận trên Sonny (2026-08-22, 5 vòng reload trong một Revit)
+
+Repack đã chạy thật trên Sonny (`RepackForRevitReload` trong test csproj, bật bằng
+`-p:RevitTestKeepOpen=true`). Bốn thứ vỡ trước khi xanh — mỗi cái là điều kiện bắt buộc của attach:
+
+1. **Build dev-loop phải tắt deploy add-in** (`-p:DeployRevitAddin=false`): Revit đang mở khoá thư mục
+   Addins, target deploy của Nice3point fail cả build. Add-in cũ trong Revit không sao — code mới đi
+   trong DLL test đã repack.
+2. **Merge cả Nice3point.Revit.\*** vào DLL test: add-in khác trên máy (AlphaBIM, PentaOcean…) ship bản
+   Nice3point CŨ, resolve theo simple-name trúng bản đó → `MissingMethodException`. Merge ghim đúng bản
+   repo compile.
+3. **Attach chỉ copy assembly, KHÔNG copy thư mục `Resources\`** (khác cold start) — helper tìm fixture
+   phải có fallback về thư mục source qua `[CallerFilePath]`.
+4. **Cấm NSubstitute trong test chạy attach**: mỗi lần attach nạp thêm một bản test assembly cùng tên;
+   Castle proxy resolve interface theo tên assembly → trúng bản nạp ĐẦU → `InvalidCastException
+   (ObjectProxy_2)`. Dùng fake viết tay (`TestDoubles.cs`) — `new` trực tiếp thì không có tầng
+   resolve nào.
+
+Đổi lại: một vòng sửa-code-chạy-test còn ~30 giây thay vì ~2 phút tắt/mở Revit.
+
 ## Verdict — ba mã, không có mã thứ tư
 
 | Exit | Nghĩa | Làm gì |

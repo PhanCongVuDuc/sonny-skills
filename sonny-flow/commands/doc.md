@@ -36,7 +36,18 @@ mỗi phase có branching thật), `## What a test should prove`, `## Related`.
 Bỏ mọi thứ code đã nói rõ. Giữ: silent behaviour, order dependency, unit boundary, và những chỗ **trông
 như bug mà là cố ý** — nói rõ là cố ý, không thì người sau sẽ "sửa".
 
-## 3. Làm mới graph
+## 3. Retro — output bắt buộc, không phải tuỳ hứng
+
+Tạo/cập nhật `docs/retro/{Feature}-sonny-flow-retro.md` với đúng ba mục: **(a)** chỗ nào flow chạy mượt,
+**(b)** chỗ nào phải tự xoay ngoài kịch bản — kèm đề xuất sửa skill cụ thể (file nào, thêm câu gì),
+**(c)** bài học kỹ thuật trả giá bằng nhiều vòng chạy. File này là backlog nâng cấp skill; không có nó
+thì bài học chết theo phiên chat. Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế.
+
+Bug phát hiện trong lượt làm mà chưa fix → phải có dòng trong `## Known bugs` của feature doc
+(luật ở [`rules/gates.md`](../rules/gates.md)) — `## Known bugs` là section **vĩnh viễn**, không bị xoá
+cùng ba section tạm.
+
+## 4. Làm mới graph
 
 Chạy lệnh mà project khai trong `docs/README.md` (thường `graphify update .` rồi `graphify export wiki`),
 để prose mới thành node liên kết với code nó mô tả.

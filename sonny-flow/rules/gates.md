@@ -60,6 +60,19 @@ G5 ra **fail** hoặc **không kiểm chứng được** thì dừng ở đó.
 **Cấm tự sửa doc theo code ở G6.** Khi `## Contract` không khớp code, có hai khả năng: doc cũ, hoặc **code
 sai**. Báo cả hai ra cho người chọn.
 
+## Bug phát hiện giữa chừng — ghi vào `## Known bugs`, không fix im lặng
+
+Đang làm việc mà phát hiện một defect **ngoài phạm vi task hiện tại** thì có đúng một việc phải làm:
+thêm nó vào mục **`## Known bugs`** của feature doc bị ảnh hưởng (bảng: mã `XX-NNN` · mô tả một dòng ·
+status `open` · phần repro chi tiết bên dưới bảng). Ba điều cấm: **cấm fix im lặng** (fix là một task
+có spec, không phải việc tiện tay), **cấm bỏ quên** (không có dòng Known bugs = bug chết theo phiên
+chat), **cấm xoá dòng khi chưa fix**.
+
+Fix bug = chạy lại chính flow này trên feature đó (`/sonny-flow:feature <F>` — doc đã có `## Behaviour`
+nên rơi vào nhánh "việc mới trên feature cũ"), với ba ràng buộc: spec chuyển bug thành failure mode
+trong `## Contract` · implement viết test **tái hiện bug RED trước** rồi mới sửa · doc xoá dòng Known
+bugs sau khi hành vi đúng đã vào Contract kèm test khoá.
+
 ## Khi không kiểm được
 
 Nói thẳng "không kiểm chứng được" kèm lý do. Đúng ba giá trị được phép dùng khi báo kết quả một gate:

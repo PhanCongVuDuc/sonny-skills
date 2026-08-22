@@ -39,6 +39,11 @@ Luật đầy đủ: [`rules/revit-loop.md`](../rules/revit-loop.md). Khác vớ
 - **Môi trường agent tự lo** theo rule: tự khởi động / restart process host (Revit…), tự chẩn đoán khi
   RED khó hiểu theo escalation ladder. Không hỏi người về môi trường.
 
+## Task cần fixture .rvt mới
+
+Đọc [`rules/revit-fixture.md`](../rules/revit-fixture.md) **trước khi viết dòng builder nào** — pattern
+builder-tự-vẽ + các bẫy môi trường đã trả giá, và luật cứng: **đụng family phải hỏi người trước**.
+
 ## Ba lúc phải dừng lại hỏi
 
 - **Việc vượt ra ngoài plan.** Đừng mở rộng lặng lẽ.
