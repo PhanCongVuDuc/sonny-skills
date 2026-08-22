@@ -45,6 +45,9 @@ in ra ở đầu lượt để lấy đường dẫn tuyệt đối).
 
 7. **`.claude/settings.json`** — bảo đảm `claudeMdExcludes` chứa `"docs/features/**"`.
 
+8. **`docs/bugs/README.md`** — chưa có thì tạo khung index (bảng: Mã · Mô tả một dòng · Feature ·
+   Status) kèm hai câu luật từ `rules/gates.md` mục Bugs.
+
 ## Checklist cuối lượt
 
 In bảng: mục · trạng thái (`đã có` / `vừa tạo` / `bỏ qua — lý do`). Có mục `vừa tạo` ở 3 thì nhắc: lần

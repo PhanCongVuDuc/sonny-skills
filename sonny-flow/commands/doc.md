@@ -43,9 +43,9 @@ Tạo/cập nhật `docs/retro/{Feature}-sonny-flow-retro.md` với đúng ba m�
 **(c)** bài học kỹ thuật trả giá bằng nhiều vòng chạy. File này là backlog nâng cấp skill; không có nó
 thì bài học chết theo phiên chat. Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế.
 
-Bug phát hiện trong lượt làm mà chưa fix → phải có dòng trong `## Known bugs` của feature doc
-(luật ở [`rules/gates.md`](../rules/gates.md)) — `## Known bugs` là section **vĩnh viễn**, không bị xoá
-cùng ba section tạm.
+Bug phát hiện trong lượt làm mà chưa fix → phải có file trong `docs/bugs/` + dòng index + một dòng
+link trong `## Related` của feature doc (luật ở [`rules/gates.md`](../rules/gates.md)). Bug không nằm
+trong feature doc — file này là *hành vi hiện tại* và bị viết đè.
 
 ## 4. Làm mới graph
 

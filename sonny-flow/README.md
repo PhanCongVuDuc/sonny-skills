@@ -7,7 +7,7 @@ bằng mắt người — không lấy câu "xong rồi" của AI làm căn cứ
 ```
 FEATURE   0 orient → 1 grill → 2 spec     → 3 plan ─NGƯỜI DUYỆT→ 4 implement → 5 verify → 6 doc
 REFACTOR  0 orient → 1 grill → 2 baseline → 3 plan ─NGƯỜI DUYỆT→ 4 implement → 5 verify → 6 sync-docs
-BUG FIX   = chạy lại FEATURE trên feature đó (điểm vào: dòng trong ## Known bugs của feature doc)
+BUG FIX   = chạy lại FEATURE trên feature đó (điểm vào: file trong docs/bugs/, link từ ## Related)
 ```
 
 ## Gõ gì
@@ -40,7 +40,7 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 |---|---|
 | Chạy/viết test trong Revit, project có `loopCommand:` trong CLAUDE.md | [`rules/revit-loop.md`](rules/revit-loop.md) — reload trước restart sau, verdict 0/1/2, 3-RED-thì-dừng |
 | Task cần fixture `.rvt` mới | [`rules/revit-fixture.md`](rules/revit-fixture.md) — builder-tự-vẽ, bẫy môi trường, **family phải hỏi người trước** |
-| Phát hiện bug ngoài scope | [`rules/gates.md`](rules/gates.md) mục Known bugs — ghi vào feature doc, cấm fix im lặng |
+| Phát hiện bug ngoài scope | [`rules/gates.md`](rules/gates.md) mục Bugs — ghi vào `docs/bugs/`, link từ feature doc, cấm fix im lặng |
 | Bất kỳ gate nào | [`rules/gates.md`](rules/gates.md) |
 
 ## Cài & lắp
