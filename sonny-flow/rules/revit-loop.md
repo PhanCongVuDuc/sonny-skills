@@ -17,8 +17,8 @@ giữa chừng. Không khai → hành vi mặc định, không có gì thay đ�
 lần chạy, tức là nạp lại code mới. Chỉ khi reload không ăn hoặc Revit kẹt mới đóng model và tắt/mở
 Revit.**
 
-Điều kiện để reload hoạt động: code đang test phải nằm **bên trong DLL test**. Hai cách, cả hai đã
-được test đến RED trong cùng một process Revit không restart (ADR-0006/0007 của ResearchFlow):
+Điều kiện để reload hoạt động: code đang test phải nằm **bên trong DLL test**. Hai cách — **đã nghiên
+cứu và confirm là đúng** (test đến RED trong cùng một process Revit, không restart), cứ theo thế mà chạy:
 
 | Cách | Dùng khi | Cơ chế |
 |---|---|---|
