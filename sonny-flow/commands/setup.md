@@ -23,6 +23,7 @@ dẫn từ "Base directory for this skill" mà harness in đầu lượt).
 │   ├── hooks/revit-test-guard.ps1   chặn dotnet test trần
 │   ├── revit-test-environment.md    bẫy môi trường — đọc trước khi test Revit
 │   └── retro/                       kinh nghiệm mỗi lần chạy flow (bước doc bắt buộc ghi)
+│       └── LESSONS.md               index cộng dồn: mỗi lượt flow một dòng — có lỗ là thấy thiếu retro
 ├── CLAUDE.md                        + loopCommand & pointer về .sonnyflow/ (con trỏ, không nội dung)
 └── .claude/settings.json            + hook entry & claudeMdExcludes (con trỏ, không nội dung)
 ```
@@ -58,8 +59,12 @@ dẫn từ "Base directory for this skill" mà harness in đầu lượt).
 
 7. **`.sonnyflow/revit-test-environment.md`** — chưa có thì tạo khung đúng các heading của bản Sonny
    (bản tham chiếu đầy đủ): *Chạy test thế nào* (verdict 0/1/2, "đủ bộ" gồm những project nào) ·
-   *Trust "Always Load"* · *Bốn quy tắc vàng* · *Fixture tự sinh* · *Máy này có gì/thiếu gì* ·
+   *Trust "Always Load"* · *Luật khi viết test/builder* (danh sách mở) · *Fixture tự sinh* · *Máy này có gì/thiếu gì* ·
    *Automation*. Nội dung máy-cụ-thể để trống kèm ghi chú "điền khi trả giá xong".
 
-8. **`docs/bugs/README.md`** — chưa có thì tạo khung index (Mã · Mô tả một dòng · Feature · Status)
+8. **`.sonnyflow/retro/LESSONS.md`** — chưa có thì tạo với đúng hai dòng: tiêu đề
+   `# LESSONS — mỗi lượt flow một dòng, trỏ tới retro đầy đủ` và một dòng ví dụ bị comment. Bước doc
+   append vào đây; file có lỗ (feature có retro mà không có dòng, hoặc ngược lại) là dấu hiệu bước 6d bị bỏ.
+
+9. **`docs/bugs/README.md`** — chưa có thì tạo khung index (Mã · Mô tả một dòng · Feature · Status)
    kèm hai câu luật từ `rules/gates.md` mục Bugs. (Bug là sản phẩm nên ở `docs/`, không ở `.sonnyflow/`.)

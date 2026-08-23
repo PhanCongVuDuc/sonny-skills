@@ -1,8 +1,9 @@
 # sonny-flow
 
 Quy trình làm feature có **gate bằng file thật**: mỗi bước chỉ qua khi có thứ kiểm được bằng máy hoặc
-bằng mắt người — không lấy câu "xong rồi" của AI làm căn cứ. Trạng thái sống trong chính
-`docs/features/{Feature}.md`; thứ còn lại sau cùng là **tài liệu kèm diagram**.
+bằng mắt người — không lấy câu "xong rồi" của AI làm căn cứ. Trạng thái và tiến độ sống trong chính
+`docs/features/{Feature}.md` — section `## Flow-state` tick từng bước, "xong chưa" trả lời bằng cách
+nhìn ô chứ không bằng trí nhớ; thứ còn lại sau cùng là **tài liệu kèm diagram**.
 
 ```
 FEATURE   0 orient → 1 grill → 2 spec     → 3 plan ─NGƯỜI DUYỆT→ 4 implement → 5 verify → 6 doc
@@ -26,13 +27,13 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 
 | Gate | Điều kiện qua | Ai phán |
 |---|---|---|
-| G0 orient | trả lời 4 câu: layer · ai gọi vào · pattern noi theo · test phủ gì | máy |
+| G0 orient | trả lời 5 câu: layer · ai gọi vào · pattern noi theo · test phủ gì · service dùng chung đủ API chưa | máy |
 | G1 grill | `## Decisions` hết dòng CHƯA CHỐT | **người**, mỗi vòng |
 | G2 spec | `## Contract` đủ Input/Output/Invariants/**failure modes** (refactor: lưới test xanh) | máy |
 | G3 plan | checklist `- [ ]`, mỗi task nêu file + test | **người duyệt** |
 | G4 implement | không còn `- [ ]`; test rút từ Contract, không rút từ code vừa viết | máy |
 | G5 verify | lệnh test của project **pass** — cấm nới test, build sạch ≠ pass | máy |
-| G6 doc | xoá 3 section tạm; `sequenceDiagram` + mỗi silent skip một node; **retro bắt buộc** (`.sonnyflow/retro/`); lệch doc/code thì báo, không tự sửa | máy |
+| G6 doc | 6 ô con trong `## Flow-state` tick hết: đối chiếu code · diagram (mỗi silent skip một node) · soi ADR · **retro + dòng LESSONS.md** · graph đủ mọi lệnh · xoá section tạm cuối cùng; lệch doc/code thì báo, không tự sửa | máy |
 
 ## Tình huống nào → đọc rule nào
 

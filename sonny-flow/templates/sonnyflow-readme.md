@@ -10,6 +10,7 @@ Do `/sonny-flow:setup` tạo và sửa. **Tài liệu sản phẩm KHÔNG nằm 
 | `hooks/revit-test-guard.ps1` | Hook PreToolUse chặn `dotnet test` trần vào project Revit |
 | `revit-test-environment.md` | **Đọc trước khi chạy/viết test Revit** — các bẫy đã trả giá + luật verdict |
 | `retro/<Feature>-retro.md` | Kinh nghiệm sau mỗi lần chạy flow — backlog để nâng cấp skill sonny-flow |
+| `retro/LESSONS.md` | Index cộng dồn: mỗi lượt flow một dòng trỏ tới retro — có lỗ là thấy ngay lượt nào quên |
 
 Ba thứ của flow bắt buộc nằm ngoài (chỗ hệ thống quy định, chỉ là con trỏ về đây):
 `loopCommand:` + pointer trong `CLAUDE.md` (context nạp mỗi phiên) · entry hook + `claudeMdExcludes`

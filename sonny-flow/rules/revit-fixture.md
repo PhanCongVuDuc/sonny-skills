@@ -3,6 +3,28 @@
 Đọc rule này khi một task cần **fixture `.rvt` mới** cho integration test. Pattern đã chạy thật ở
 AutoJoin (`AutoJoinFixtureBuilder` + `AutoJoinIntegrationTest`, repo Sonny) — lấy đó làm mẫu.
 
+## Xin dữ liệu thật của chủ dự án TRƯỚC khi tự dựng
+
+Với feature đọc dữ liệu ngoài (CAD, IFC, Excel…): **hỏi xin một file thật trước.** Fixture tự soạn chỉ
+chứa những trường hợp người viết đã nghĩ ra — nó xác nhận hiểu biết của người viết, không thăm dò code.
+Đo thật trên FramingFromCad (2026-08-23): DXF tự soạn 22 nét không kích hoạt nổi một quirk nào của thuật
+toán; DWG thật 168 nét kích hoạt cả ba (nhóm ≥3 nét, nét bịt đầu ghép nhau, thứ tự tiết diện ăn dầm của
+nhau). Chỉ tự dựng khi không xin được file thật, hoặc khi cần hình học chính-xác-từng-mm cho một case mà
+file thật không có (như AutoJoin cần khối đặc chồng nhau). Tốt nhất là cả hai: file thật cho hành vi
+thật, file tối giản cho đường code file thật không đi qua.
+
+Nhận một file dữ liệu mới thì **đo, đừng thiết kế kỳ vọng**: viết probe test đọc-only chạy chính các
+helper của feature trên file đó, lấy số ra làm kỳ vọng test (kiểu `FixtureFacts`), và builder tự kiểm
+lại các số đó trước khi save.
+
+## Mở file nền ra xem TRƯỚC khi hỏi về family
+
+Muốn biết một `.rvt` chứa family/type/parameter gì: viết probe test đọc-only kế thừa base mở-document
+của project, dump ra file text, chạy qua `loopCommand` (~1 phút). **`grep` trên `.rvt`/`.rfa` là bằng
+chứng vô giá trị** — định dạng nén, 0 hit không nghĩa là "không có". Và ghi chú môi trường kiểu "máy này
+thiếu X trên đĩa" không nói gì về thứ đã nạp sẵn trong file — chỉ hỏi người khi probe cho thấy thật sự
+thiếu.
+
 ## Luật cứng — hỏi trước, làm sau
 
 **Mọi việc đụng đến family (tạo, load, sửa) phải hỏi chủ dự án và được xác nhận trước khi làm** — kể cả

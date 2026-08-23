@@ -25,7 +25,7 @@ cho phép mình.
    cụ thể nếu có (ví dụ: assert đúng 80 dimension, đúng 45 cột). Đó là lưới an toàn thật.
    Kèm theo: **liệt kê chỗ test tham chiếu trực tiếp type sắp move** — construct bằng tay, gọi cặp method
    lẻ, resolve concrete type từ DI. Grep các project test theo tên type. Repo có file kiểm kê sẵn thì đọc
-   và cập nhật nó (`CLAUDE.md` trỏ tới; với Sonny là `docs/architecture/test-safety-net.md`). Ghi từng chỗ
+   và cập nhật nó (`CLAUDE.md` trỏ tới; với Sonny là `.sonnyflow/test-safety-net.md`). Ghi từng chỗ
    vào ADR như rủi ro biết trước, phân loại luôn: gãy *compile* ở đó là wiring — được retarget với
    assertion nguyên vẹn và phải khai trong ADR; phải đổi *assertion* mới là dừng hỏi người.
 3. **Không có test nào → viết characterization test trước khi move.**

@@ -49,6 +49,13 @@ Repack đã chạy thật trên Sonny (`RepackForRevitReload` trong test csproj,
 
 Đổi lại: một vòng sửa-code-chạy-test còn ~30 giây thay vì ~2 phút tắt/mở Revit.
 
+## Test chạy trong Revit: viết `void`, đừng viết `async Task`
+
+NUnit chạy test `async` dưới synchronization context riêng của nó — continuation sau `await` đầu tiên
+rời khỏi Revit API thread, và transaction kế tiếp chết với *"Cannot modify the document... changes are
+temporarily disabled"*. Viết test `void`, block bằng `.GetAwaiter().GetResult()`, và dùng task runner
+chạy inline (fake trong `TestDoubles.cs`). Đã trả giá trên FramingFromCad (2026-08-23).
+
 ## Verdict — ba mã, không có mã thứ tư
 
 | Exit | Nghĩa | Làm gì |
@@ -56,6 +63,11 @@ Repack đã chạy thật trên Sonny (`RepackForRevitReload` trong test csproj,
 | `0` | GREEN, ít nhất một test đã chạy thật | đi tiếp |
 | `1` | RED hoặc build hỏng — đọc output để phân biệt | sửa |
 | `2` | không thấy test nào để chạy | **KHÔNG phải pass.** Chạy lại một lần; lặp lại = môi trường, dừng |
+
+Một dạng exit-1 thực chất là môi trường: **mọi test Failed trong ~20ms, không test nào có Error
+Message** — chế độ attach không có Revit nào để bám (hoặc Revit vừa được khởi động, chưa attach kịp).
+Chạy lại một lần trước khi chẩn đoán code. Tương tự: sau khi rebuild add-in, lần `-Final`/cold-start đầu
+có thể cháy timeout vì dialog trust "Always Load" quay lại (hash DLL đổi) — chạy lại là xanh.
 
 ## Luật dừng — cứng
 

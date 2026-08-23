@@ -5,6 +5,8 @@ argument-hint: <Feature>
 
 **Bước 5/6 — verify.** Cổng duy nhất quyết định "code có đúng không".
 
+Vào bước: mở feature doc, nhìn `## Flow-state` — dòng 4 đã tick (`## Plan` hết ô trống).
+
 ## Chế độ Inner loop — khi CLAUDE.md của project khai `loopCommand`
 
 G5 chạy đúng lệnh đó và đọc verdict theo [`rules/revit-loop.md`](../rules/revit-loop.md):
@@ -31,7 +33,8 @@ mới, đóng sau khi xong) — chế độ dev giữ-Revit-mở nhanh nhưng kh
 
 ## Gate G5 — ba giá trị, không có giá trị thứ tư
 
-**pass** → đi tiếp `/sonny-flow:doc <Feature>`.
+**pass** → tick dòng 5 trong `## Flow-state` của feature doc, ghi kèm lệnh + kết quả
+(vd `— unit 140/140 · loop.ps1 -Final 28/28`), rồi đi tiếp `/sonny-flow:doc <Feature>`.
 
 **fail** → dừng. Báo test nào fail và thông báo lỗi thật, nguyên văn. Quay lại `/sonny-flow:implement`.
 Cấm: sửa test cho pass, thêm `Ignore`/`Explicit`/`Skip`, nới assertion, bỏ case. Sửa code hoặc sửa spec —

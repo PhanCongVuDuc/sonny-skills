@@ -23,8 +23,9 @@ Biến thể của flow cho thay đổi **không được đổi hành vi**. Dù
 Refactor trải qua nhiều feature, nên **không** có một feature doc nào chứa nó. Nhà của nó là **bản nháp
 ADR**: `docs/adr/NNNN-<slug>.md`.
 
-Tạo file đó ở bước 1 với `## Decisions`, thêm `## Plan` ở bước 3. Bước 6 xoá cả hai, để lại đúng bản ghi
-quyết định. Cùng khuôn với feature doc: section tạm nằm trong artifact vĩnh viễn, và **còn `- [ ]` là chưa
+Tạo file đó ở bước 1 với **`## Flow-state`** (template ở [`rules/gates.md`](../rules/gates.md), dòng 2 là
+`baseline`, dòng 6 là `sync-docs`) và `## Decisions`; thêm `## Plan` ở bước 3. Bước 6 xoá cả ba, để lại
+đúng bản ghi quyết định. Trạng thái đọc từ `## Flow-state` — ô trống đầu tiên là bước phải chạy. Cùng khuôn với feature doc: section tạm nằm trong artifact vĩnh viễn, và **còn `- [ ]` là chưa
 xong**.
 
 Refactor này xứng đáng một ADR vì nó đủ ba điều kiện: khó đảo · người sau sẽ hỏi *"sao class này lại nằm
@@ -90,7 +91,7 @@ thì đọc `CLAUDE.md` của project, đừng đoán.
 
 ## Bước 6 — sync-docs, thay cho doc
 
-Dùng skill [`sync-docs`](../skills/sync-docs/SKILL.md).
+Nội dung đầy đủ ở [`sync-docs`](sync-docs.md).
 
 `/sonny-flow:doc` chỉ lo **một** feature doc. Refactor thì bán kính rộng hơn: doc của feature khác cũng
 nhắc tên vừa đổi, `docs/architecture/*` không phải feature doc nên không lệnh nào phụ trách, và `CLAUDE.md`

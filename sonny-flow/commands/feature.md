@@ -1,16 +1,19 @@
 ---
-description: Start or resume the whole feature flow. Reads the feature doc to work out which step the feature is on, then runs forward from there — stopping at every grilling round, at the human gate after the plan, or at the first gate that does not pass.
+description: Start or resume the whole feature flow. Reads the feature doc's Flow-state checklist to work out which step the feature is on, then runs forward from there — stopping at every grilling round, at the human gate after the plan, or at the first gate that does not pass.
 argument-hint: <Feature> [mô tả ngắn, chỉ cần cho lần đầu]
 ---
 
 Chạy cả flow. Dùng khi **không** muốn gõ từng bước.
 
-Không giữ trạng thái ở đâu khác: **`docs/features/{Feature}.md` chính là trạng thái.** Đọc nó rồi chạy tiếp
-từ đúng chỗ đang dở — nên lệnh này vừa để bắt đầu, vừa để tiếp tục sau khi ngắt giữa đường.
+Không giữ trạng thái ở đâu khác: **`docs/features/{Feature}.md` chính là trạng thái.** Đọc nó rồi chạy
+tiếp từ đúng chỗ đang dở — nên lệnh này vừa để bắt đầu, vừa để tiếp tục sau khi ngắt giữa đường.
 
 ## Xác định đang ở bước nào
 
-Đọc `docs/features/{Feature}.md` rồi chọn theo bảng, **từ trên xuống, khớp dòng đầu tiên thì dừng**:
+Mở `docs/features/{Feature}.md` và đọc **`## Flow-state`** — ô `- [ ]` đầu tiên còn trống chính là bước
+phải chạy (dòng 6 nhìn vào ô con 6a–6f). Đó là nguồn trạng thái chính; bảng dưới chỉ dùng khi file
+**chưa có `## Flow-state`** (doc cũ — khi đó chép template từ [`rules/gates.md`](../rules/gates.md) vào
+đầu file, tick sẵn theo bằng chứng của bảng):
 
 | Trạng thái file | Đang ở | Chạy từ |
 |---|---|---|
@@ -28,12 +31,13 @@ Nói ra mình xác định đang ở bước nào **trước khi** làm gì, đ�
 
 ## Chạy forward
 
-Lần lượt các bước còn lại. Nội dung từng bước lấy đúng từ command tương ứng — đừng làm khác:
+Lần lượt các bước còn lại. Nội dung từng bước lấy **đúng từ command tương ứng** — nạp file đó lên và làm
+theo, đừng làm từ trí nhớ:
 
 [`orient`](orient.md) → [`grill`](grill.md) → [`spec`](spec.md) → [`plan`](plan.md) →
 [`implement`](implement.md) → [`verify`](verify.md) → [`doc`](doc.md)
 
-Điều kiện gate: [`rules/gates.md`](../rules/gates.md).
+Điều kiện gate: [`rules/gates.md`](../rules/gates.md). Xong bước nào tick ô đó trong `## Flow-state`.
 
 ## Ba chỗ dừng
 
@@ -46,7 +50,7 @@ lại lệnh này *chính là* sự duyệt.
 
 **Gate không qua.** Dừng tại chỗ, báo gate nào và vì sao. Không đi tiếp bước sau:
 
-- **G0** — chưa trả lời được 4 câu → nói câu nào chưa biết, đừng viết bù vào
+- **G0** — chưa trả lời được 5 câu → nói câu nào chưa biết, đừng viết bù vào
 - **G1** — `## Decisions` còn CHƯA CHỐT → đó là còn vòng grill, không phải lỗi
 - **G2** — `## Contract` thiếu phần → nói thiếu phần nào
 - **G4** — còn `- [ ]` không làm được → nói task nào, vì sao
@@ -56,5 +60,5 @@ lại lệnh này *chính là* sự duyệt.
 
 ## Kết thúc lượt
 
-Báo bốn thứ: đã chạy tới bước nào · kết quả test (**pass** / **fail** / **không kiểm chứng được**) · chỗ
-lệch giữa doc và code kèm câu hỏi · lệnh tiếp theo nên gõ.
+Báo bốn thứ: đã chạy tới bước nào (theo `## Flow-state`) · kết quả test (**pass** / **fail** / **không
+kiểm chứng được**) · chỗ lệch giữa doc và code kèm câu hỏi · lệnh tiếp theo nên gõ.
