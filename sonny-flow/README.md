@@ -32,7 +32,7 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 | G3 plan | checklist `- [ ]`, mỗi task nêu file + test | **người duyệt** |
 | G4 implement | không còn `- [ ]`; test rút từ Contract, không rút từ code vừa viết | máy |
 | G5 verify | lệnh test của project **pass** — cấm nới test, build sạch ≠ pass | máy |
-| G6 doc | xoá 3 section tạm; `sequenceDiagram` + mỗi silent skip một node; **retro bắt buộc**; lệch doc/code thì báo, không tự sửa | máy |
+| G6 doc | xoá 3 section tạm; `sequenceDiagram` + mỗi silent skip một node; **retro bắt buộc** (`.sonnyflow/retro/`); lệch doc/code thì báo, không tự sửa | máy |
 
 ## Tình huống nào → đọc rule nào
 
@@ -51,9 +51,10 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 /sonny-flow:setup            ← trong Claude Code của project
 ```
 
-`setup` idempotent, kiểm-thiếu-thì-tạo: `loopCommand` + pointer trong `CLAUDE.md` ·
-`scripts/loop.ps1` + `scripts/Watch-AlwaysLoad.ps1` · khung `docs/architecture/revit-test-environment.md` ·
-hook chặn `dotnet test` trần · `claudeMdExcludes` cho `docs/features/**`. Xong in checklist đã-có/vừa-tạo.
+`setup` idempotent — **mọi thứ nó tạo nằm trong `.sonnyflow/` của project**: `loop.ps1` +
+`watch-always-load.ps1` + `hooks/revit-test-guard.ps1` + `revit-test-environment.md` + `retro/`.
+Ngoài folder đó chỉ có con trỏ: `loopCommand` trong `CLAUDE.md`, hook entry + `claudeMdExcludes`
+trong `.claude/settings.json`. Xong in checklist đã-có/vừa-tạo.
 
 Project cần sẵn: **graphify** + **codegraph** đã index (bước 0/6), plugin **mattpocock-skills** (bước 1
 gọi lại `grilling`), `docs/` + `docs/adr/` + `CONTEXT.md`, và một lệnh test trong `CLAUDE.md`.

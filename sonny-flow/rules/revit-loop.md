@@ -5,7 +5,7 @@
 Bật khi `CLAUDE.md` của project khai:
 
 ```
-loopCommand: powershell -ExecutionPolicy Bypass -File scripts\loop.ps1
+loopCommand: powershell -ExecutionPolicy Bypass -File .sonnyflow\loop.ps1
 ```
 
 Có khai → sau gate G3 (người duyệt plan), `implement` + `verify` chạy tự trị theo luật dưới, không hỏi

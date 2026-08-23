@@ -24,16 +24,10 @@ kết thúc phải chạy đủ bộ liên quan** — test hẹp xanh mà bộ r
 
 ## "Đủ bộ" = mọi project test mà CLAUDE.md liệt kê
 
-Không chỉ project quen tay. Với Sonny hiện tại là **hai** project, chạy theo thứ tự rẻ-trước:
-
-1. `Sonny.Application.UnitTests` — `dotnet test ... -c "Debug R25"`: vài giây, không cần Revit, fail sớm.
-2. `Sonny.Application.Tests` — `dotnet test ... -c "Debug R23"`: launch Revit thật.
-
-Riêng gate Revit, **pass chỉ có nghĩa khi Revit load binary mới**: Revit load DLL của add-in từ thư mục
-Addins vào AppDomain *trước* test assembly, và ricaun giữ Revit mở giữa các lần chạy. Quy trình đúng:
-đóng Revit test host (`CloseMainWindow()`, chờ ~20s — đừng kill) → build **có deploy** → chạy test.
-Skip deploy (`-p:DeployRevitAddin=false`) chỉ hợp lệ khi Addins vừa được deploy từ đúng commit đang
-test. Lệch version thì hoặc gate xanh vô nghĩa (chạy code cũ) hoặc `TypeLoadException` cho type mới.
+Không chỉ project quen tay. Danh sách project, thứ tự chạy (rẻ-trước), và các bẫy môi trường của
+riêng project nằm trong **`.sonnyflow/revit-test-environment.md`** của project — chi tiết project
+không nằm trong skill này. Gate chốt của project có `loopCommand` là **`loop.ps1 -Final`** (Revit
+mới, đóng sau khi xong) — chế độ dev giữ-Revit-mở nhanh nhưng không phải bằng chứng chốt.
 
 ## Gate G5 — ba giá trị, không có giá trị thứ tư
 

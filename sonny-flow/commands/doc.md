@@ -38,7 +38,7 @@ như bug mà là cố ý** — nói rõ là cố ý, không thì người sau s�
 
 ## 3. Retro — output bắt buộc, không phải tuỳ hứng
 
-Tạo/cập nhật `docs/retro/{Feature}-sonny-flow-retro.md` với đúng ba mục: **(a)** chỗ nào flow chạy mượt,
+Tạo/cập nhật `.sonnyflow/retro/{Feature}-retro.md` với đúng ba mục: **(a)** chỗ nào flow chạy mượt,
 **(b)** chỗ nào phải tự xoay ngoài kịch bản — kèm đề xuất sửa skill cụ thể (file nào, thêm câu gì),
 **(c)** bài học kỹ thuật trả giá bằng nhiều vòng chạy. File này là backlog nâng cấp skill; không có nó
 thì bài học chết theo phiên chat. Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế.
