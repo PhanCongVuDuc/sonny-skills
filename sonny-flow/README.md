@@ -8,6 +8,8 @@ nhìn ô chứ không bằng trí nhớ; thứ còn lại sau cùng là **tài l
 ```
 FEATURE   0 orient → 1 grill → 2 spec     → 3 plan ─NGƯỜI DUYỆT→ 4 implement → 5 verify → 6 doc
 REFACTOR  0 orient → 1 grill → 2 baseline → 3 plan ─NGƯỜI DUYỆT→ 4 implement → 5 verify → 6 sync-docs
+BUG       B1 kiểm kê → B2 đọc gói (/watch video) → B3 NGƯỜI chốt hiện tượng → B4 trùng?+tạo file+orient
+          → B5 chẩn đoán (mở Revit bằng probe test) → B6 ghi docs/bugs/ rồi DỪNG
 BUG FIX   = chạy lại FEATURE trên feature đó (điểm vào: file trong docs/bugs/, link từ ## Related)
 ```
 
@@ -17,6 +19,7 @@ BUG FIX   = chạy lại FEATURE trên feature đó (điểm vào: file trong do
 /sonny-flow:setup                   lắp plugin vào project (một lần, idempotent) — xem bảng dưới
 /sonny-flow:feature <F>             chạy cả flow; đọc file để biết đang ở bước nào, chạy tiếp từ đó
 /sonny-flow:refactor <mô tả>        biến thể không-đổi-hành-vi; trạng thái ở bản nháp ADR
+/sonny-flow:bug <gói | mã bug>      người dùng báo bug: đọc video/rvt/mô tả → chẩn đoán → docs/bugs/
 ```
 
 Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính là sự duyệt**. Từng bước rời:

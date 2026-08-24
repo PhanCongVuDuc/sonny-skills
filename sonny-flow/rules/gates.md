@@ -34,7 +34,7 @@ bước đọc. Bốn luật:
 2. **Ô của bước trước còn trống → dừng, báo.** Đừng làm bù im lặng.
 3. **Xong bước thì tick ô của mình ngay**, kèm ghi chú ngắn sau dấu `—` (số task, kết quả test).
 4. "Xong chưa" trả lời bằng cách **nhìn ô**, không bằng trí nhớ. Bước 6 chỉ được tick khi **mọi ô con**
-   đã tick, và ô 6f là việc cuối cùng của cả flow.
+   đã tick, và ô 6g là việc cuối cùng của cả flow.
 
 ```markdown
 ## Flow-state
@@ -45,7 +45,7 @@ bước đọc. Bốn luật:
 - [ ] 3 plan — plan đã in ra, chờ người duyệt
 - [ ] 4 implement — Plan hết ô trống
 - [ ] 5 verify — <lệnh test> → <kết quả>
-- [ ] 6 doc — chỉ tick khi 6a–6f đã tick hết:
+- [ ] 6 doc — chỉ tick khi 6a–6g đã tick hết:
   - [ ] 6a đối chiếu từng dòng Contract với code — lệch thì báo, không tự sửa
   - [ ] 6b Flow + Behaviour + What a test should prove — mọi silent skip có node trong diagram
   - [ ] 6c soi từng dòng Decisions: đề xuất ADR, hoặc ghi "không đủ ba điều kiện"
@@ -53,7 +53,10 @@ bước đọc. Bốn luật:
         rồi TRÌNH danh sách chờ xét cho người; người confirm bài nào thì chép sang nhà của nó và gạch
         ngang mục đó. Tồn dư hàng đợi không chặn gate — không ghi hoặc confirm-mà-không-chép mới chặn
   - [ ] 6e làm mới graph — đủ MỌI lệnh docs/README.md khai, không chỉ lệnh đầu
-  - [ ] 6f xoá Flow-state/Decisions/Spec/Plan — việc CUỐI CÙNG, sau khi mọi ô trên đã tick
+  - [ ] 6f đóng sổ bug — lượt này fix bug nào trong docs/bugs/ thì đổi Status thành `fixed`, cập nhật
+        index, gỡ link khỏi `## Related`, tick B7 trong Flow-state của file bug. Không fix bug nào thì
+        ghi "không có"
+  - [ ] 6g xoá Flow-state/Decisions/Spec/Plan — việc CUỐI CÙNG, sau khi mọi ô trên đã tick
 ```
 
 Flow refactor dùng cùng cơ chế trong **bản nháp ADR**: dòng 2 là `baseline`, dòng 6 là `sync-docs` với ô
@@ -109,10 +112,30 @@ feature doc bị ảnh hưởng. Bug KHÔNG nằm trong feature doc — feature 
 là một task có spec, không phải việc tiện tay), **cấm bỏ quên** (không có file bug = bug chết theo phiên
 chat), **cấm xoá file bug**.
 
+`Status` có sáu giá trị: `triaging` · `open` · `open — giữ có chủ ý` · `fixed` · `not-a-bug` ·
+`duplicate`. **Tất cả nằm cùng một folder, kể cả `not-a-bug`** — chi phí thật của một defect report là
+*lần thứ hai có người báo lại nó*, và lúc đó thứ cứu ta là một chỗ duy nhất để tra; "hành vi Revit,
+không phải lỗi ta" đáng được tra tới y như bug thật.
+
 Fix bug = chạy lại chính flow này trên feature đó (`/sonny-flow:feature <F>` — doc đã có `## Behaviour`
 nên rơi vào nhánh "việc mới trên feature cũ"), với ba ràng buộc: spec chuyển bug thành failure mode
 trong `## Contract` · implement viết test **tái hiện bug RED trước** rồi mới sửa · xong thì đổi Status
 file bug thành `fixed` (giữ file làm lịch sử), cập nhật index, gỡ dòng link khỏi `## Related`.
+
+## Biến thể `/sonny-flow:bug` — bug do người dùng báo từ ngoài
+
+Bug tự phát hiện thì đã biết hiện tượng. Bug **người dùng báo** thì hiện tượng nằm trong video, file
+Revit và lời kể của họ — phễu đọc những thứ đó rồi chẩn đoán tới `file:line` là
+[`commands/bug.md`](../commands/bug.md): `B1 kiểm kê → B2 đọc gói (/watch) → B3 GATE hiện tượng → B4
+quét trùng + tạo file + orient → B5 chẩn đoán (được mở Revit bằng probe test) → B6 kết luận`.
+
+Ba chỗ khác flow feature:
+
+| | Ở `bug` |
+|---|---|
+| **File giữ trạng thái** | `docs/bugs/<mã>-<slug>.md`, sinh ở **B4** (sau bước quét trùng — tạo sớm hơn là tự sinh rác mà luật cấm xoá). `## Flow-state` của nó **giữ vĩnh viễn**, không xoá như section tạm của feature doc |
+| **Gate người** | Một cái duy nhất, ở **B3**: chốt *người dùng làm X · thấy Y · mong đợi Z* trước khi tiêu công vào chẩn đoán. Video cho thấy cái đã xảy ra, không nói cái lẽ ra phải xảy ra |
+| **Điểm ra** | **Chẩn đoán, không phải fix.** Được sửa code thăm dò để hiểu, nhưng cuối B5 phải `git stash push -m "probe/<mã>"` và trả code sản phẩm về nguyên trạng |
 
 ## Khi không kiểm được
 

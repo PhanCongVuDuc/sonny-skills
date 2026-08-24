@@ -1,7 +1,7 @@
 {
   "name": "sonny-flow",
-  "version": "0.7.3",
-  "description": "Quy trinh lam mot feature co gate bang file that: orient -> grill -> spec+contract -> plan -> implement+test -> verify -> doc kem diagram Mermaid. Trang thai va tien do nam trong ## Flow-state cua chinh feature doc. Can graphify, codegraph va plugin mattpocock-skills.",
+  "version": "0.8.0",
+  "description": "Quy trinh lam mot feature co gate bang file that: orient -> grill -> spec+contract -> plan -> implement+test -> verify -> doc kem diagram Mermaid. Kem lenh bug: doc video/rvt/mo ta nguoi dung bao, chan doan roi ghi docs/bugs/. Trang thai va tien do nam trong ## Flow-state cua chinh feature doc. Can graphify, codegraph va plugin mattpocock-skills.",
   "author": {
     "name": "Duc Phan"
   },

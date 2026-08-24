@@ -6,8 +6,8 @@ argument-hint: <Feature>
 **Bước 6/6 — doc.** Bước duy nhất tạo ra thứ còn lại sau khi task kết thúc.
 
 Bước này có sáu output và lịch sử cho thấy ba cái cuối bị bỏ đúng lúc tài liệu *trông như* xong — nên
-toàn bộ bước chạy theo **sáu ô con 6a–6f trong `## Flow-state`** của feature doc (template ở
-[`rules/gates.md`](../rules/gates.md)): làm ô nào tick ô đó, và **dòng 6 chỉ được tick khi cả sáu ô con
+toàn bộ bước chạy theo **bảy ô con 6a–6g trong `## Flow-state`** của feature doc (template ở
+[`rules/gates.md`](../rules/gates.md)): làm ô nào tick ô đó, và **dòng 6 chỉ được tick khi cả bảy ô con
 đã tick**. Doc cũ chưa có `## Flow-state` thì chép template vào trước, tick các dòng 0–5 theo bằng chứng.
 
 Vào bước: dòng 5 (verify pass) đã tick. Chưa tick → dừng: doc hoá hành vi chưa kiểm là biến bug thành
@@ -92,10 +92,20 @@ làm lúc phát hiện thì đây là chốt chặn cuối.
 Chạy **đủ mọi lệnh** mà project khai trong `docs/README.md` (vd `graphify update .` **và**
 `graphify export wiki`) — không chỉ lệnh đầu.
 
-## 6f — Xoá section tạm
+## 6f — Đóng sổ bug
 
-Việc cuối cùng, chỉ khi 6a–6e đã tick: xoá `## Flow-state`, `## Decisions`, `## Spec`, `## Plan`.
+Lượt này có fix một bug đã ghi trong `docs/bugs/` không? Có thì đóng sổ **ở đây**, vì đây là chỗ duy nhất
+đã biết chắc fix xong và test đã xanh: đổi `Status` thành `fixed` (giữ file làm lịch sử, **cấm xoá**),
+cập nhật bảng index `docs/bugs/README.md`, gỡ dòng link khỏi `## Related` của feature doc, và tick **B7**
+trong `## Flow-state` của chính file bug. Không fix bug nào thì ghi "không có" — ô này vẫn phải tick.
+
+Việc này không giao cho [`/sonny-flow:bug`](bug.md): lệnh đó ra *chẩn đoán*, nên nếu nó cũng tự đánh dấu
+`fixed` thì sổ nợ tự tuyên bố đã trả — và sổ nợ như thế thì không đáng tin.
+
+## 6g — Xoá section tạm
+
+Việc cuối cùng, chỉ khi 6a–6f đã tick: xoá `## Flow-state`, `## Decisions`, `## Spec`, `## Plan`.
 
 ## Gate G6
 
-Sáu ô con đã tick theo đúng thứ tự trên; mọi chỗ lệch doc/code đã được báo ra chứ không bị viết đè.
+Bảy ô con đã tick theo đúng thứ tự trên; mọi chỗ lệch doc/code đã được báo ra chứ không bị viết đè.

@@ -11,7 +11,7 @@ tiếp từ đúng chỗ đang dở — nên lệnh này vừa để bắt đầ
 ## Xác định đang ở bước nào
 
 Mở `docs/features/{Feature}.md` và đọc **`## Flow-state`** — ô `- [ ]` đầu tiên còn trống chính là bước
-phải chạy (dòng 6 nhìn vào ô con 6a–6f). Đó là nguồn trạng thái chính; bảng dưới chỉ dùng khi file
+phải chạy (dòng 6 nhìn vào ô con 6a–6g). Đó là nguồn trạng thái chính; bảng dưới chỉ dùng khi file
 **chưa có `## Flow-state`** (doc cũ — khi đó chép template từ [`rules/gates.md`](../rules/gates.md) vào
 đầu file, tick sẵn theo bằng chứng của bảng):
 
