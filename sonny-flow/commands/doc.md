@@ -64,6 +64,12 @@ Tạo/cập nhật `.sonnyflow/retro/{Feature}-retro.md` với đúng ba mục: 
 Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế. File này là backlog nâng cấp skill —
 không có nó thì bài học chết theo phiên chat.
 
+**Mỗi bài học gắn một nhãn nhà**, bằng câu kiểm định: *"đổi sang project khác dùng sonny-flow, bài học
+này còn đúng không?"* — còn → `→ plugin` (đề xuất chép vào `rules/` — đụng repo khác nên chờ người gật);
+hết → `→ .sonnyflow` (chép vào file môi trường của project ngay). Kèm trạng thái **đã chép / chờ duyệt**
+— bài học nằm trong retro là bài học chưa chắc ai đọc lại; nó chỉ sống khi được chép sang đúng nhà, và
+nhãn là dấu tick cho việc chép đó. Chi tiết ba nhà: `docs/adr/0001` của sonny-flow.
+
 Bug phát hiện trong lượt mà chưa fix → file trong `docs/bugs/` + dòng index + link trong `## Related`
 (luật ở [`rules/gates.md`](../rules/gates.md)) — nếu chưa làm lúc phát hiện thì đây là chốt chặn cuối.
 

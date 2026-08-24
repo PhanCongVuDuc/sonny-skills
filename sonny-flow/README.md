@@ -35,12 +35,24 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 | G5 verify | lệnh test của project **pass** — cấm nới test, build sạch ≠ pass | máy |
 | G6 doc | 6 ô con trong `## Flow-state` tick hết: đối chiếu code · diagram (mỗi silent skip một node) · soi ADR · **retro + dòng LESSONS.md** · graph đủ mọi lệnh · xoá section tạm cuối cùng; lệch doc/code thì báo, không tự sửa | máy |
 
+## Kiến thức nằm ở đâu — ba nhà
+
+| Nhà | Chứa gì | Câu kiểm định |
+|---|---|---|
+| `rules/` của plugin này | **RULES** — cách làm đúng | đổi sang project khác dùng sonny-flow **vẫn đúng** |
+| `.sonnyflow/` của project | **FACTS** — sự thật hiện tại của project/máy (env doc, test-safety-net) | đổi project là **sai** |
+| `.sonnyflow/retro/` | **RETRO** — inbox bài học thô; mỗi bài gắn nhãn `→ plugin` / `→ .sonnyflow` + đã chép chưa | chưa phân loại |
+
+Một bài học một nhà duy nhất — nhà kia chỉ được đặt con trỏ. Vì sao thiết kế thế:
+[`docs/adr/0001`](docs/adr/0001-knowledge-lives-in-three-homes.md).
+
 ## Tình huống nào → đọc rule nào
 
 | Tình huống | Rule |
 |---|---|
-| Chạy/viết test trong Revit, project có `loopCommand:` trong CLAUDE.md | [`rules/revit-loop.md`](rules/revit-loop.md) — reload trước restart sau, verdict 0/1/2, 3-RED-thì-dừng |
-| Task cần fixture `.rvt` mới | [`rules/revit-fixture.md`](rules/revit-fixture.md) — builder-tự-vẽ, bẫy môi trường, **family phải hỏi người trước** |
+| Chạy test trong Revit, project có `loopCommand:` trong CLAUDE.md | [`rules/revit-loop.md`](rules/revit-loop.md) — reload trước restart sau, verdict 0/1/2, 3-RED-thì-dừng |
+| **Viết** test/builder chạy trong Revit | [`rules/revit-test.md`](rules/revit-test.md) — callback, OnSetup, `void` không `async`, category ẩn, journal |
+| Task cần fixture `.rvt` mới | [`rules/revit-fixture.md`](rules/revit-fixture.md) — xin file thật trước, builder-tự-vẽ, **family phải hỏi người trước** |
 | Phát hiện bug ngoài scope | [`rules/gates.md`](rules/gates.md) mục Bugs — ghi vào `docs/bugs/`, link từ feature doc, cấm fix im lặng |
 | Bất kỳ gate nào | [`rules/gates.md`](rules/gates.md) |
 

@@ -48,22 +48,16 @@ xin phép tự tạo từ template.
 6. **Đường dẫn nguồn lấy bằng `[CallerFilePath]`** — assembly bị shadow-copy nên đi ngược từ
    `Assembly.Location` không tìm được project.
 
-## Bẫy môi trường — mỗi cái từng đốt nhiều vòng chạy
+## Bẫy khi dựng fixture
 
-- **Cấm đưa cho Revit callback định nghĩa trong test assembly** (`IFailuresPreprocessor`,
-  `IFamilyLoadOptions`): commit trả `RolledBack` / `LoadFamily` trả false, không một dòng lỗi. Dùng
-  `Commit()` trần; load family in-memory; preprocessor lấy từ assembly sản phẩm.
-- **Document mở ở `OnSetup`**, không mở-rồi-commit trong cùng test method (event API chưa kết thúc →
-  mọi commit bị hủy ngầm).
-- **Getter `DocumentFilePath` bị base đọc 2 lần** — có side effect thì phải cache.
-- **View mới trong file nền gốc kết cấu ẩn category kiến trúc** → collector view-scoped trả rỗng lặng
-  lẽ. `SetCategoryHidden(false)` tường minh cho mọi category fixture dùng.
+Luật viết test/builder nói chung (callback, OnSetup, `void` không `async`, category ẩn, journal…) nằm ở
+[`revit-test.md`](revit-test.md) — đọc trước khi viết dòng builder nào. Riêng cho fixture:
+
 - **Hai kẻ cắt chồng vùng cắt trên một element → Revit lặng lẽ gỡ join sau tại commit.** Dựng case join
   thì mỗi kẻ cắt một vùng tách biệt.
-- Kẹt không rõ vì sao → đọc **journal Revit** (`%LOCALAPPDATA%\Autodesk\Revit\...\Journals`): dialog
-  đang chặn, lỗi regeneration, undo loop — đều nằm ở đó.
 
 ## Nghiệm thu
 
-Fixture mới phải kèm: dòng trong `test-safety-net.md` (test bind vào tag nào, view nào), mục "cách vẽ
-lại" trong feature doc, và toàn bộ suite xanh qua `loopCommand`.
+Fixture mới phải kèm: dòng trong file kiểm kê test của project (Sonny: `.sonnyflow/test-safety-net.md` —
+test bind vào tag nào, view nào), mục "cách vẽ lại" trong feature doc, và toàn bộ suite xanh qua
+`loopCommand`.

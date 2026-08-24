@@ -49,7 +49,7 @@ bước đọc. Bốn luật:
   - [ ] 6a đối chiếu từng dòng Contract với code — lệch thì báo, không tự sửa
   - [ ] 6b Flow + Behaviour + What a test should prove — mọi silent skip có node trong diagram
   - [ ] 6c soi từng dòng Decisions: đề xuất ADR, hoặc ghi "không đủ ba điều kiện"
-  - [ ] 6d retro: .sonnyflow/retro/{Feature}-retro.md (đủ 3 mục a/b/c) + một dòng vào retro/LESSONS.md
+  - [ ] 6d retro: .sonnyflow/retro/{Feature}-retro.md (đủ 3 mục a/b/c; mỗi bài học gắn nhãn nhà → plugin / → .sonnyflow + đã chép chưa) + một dòng vào retro/LESSONS.md
   - [ ] 6e làm mới graph — đủ MỌI lệnh docs/README.md khai, không chỉ lệnh đầu
   - [ ] 6f xoá Flow-state/Decisions/Spec/Plan — việc CUỐI CÙNG, sau khi mọi ô trên đã tick
 ```

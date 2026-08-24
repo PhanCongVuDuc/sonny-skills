@@ -49,12 +49,7 @@ Repack đã chạy thật trên Sonny (`RepackForRevitReload` trong test csproj,
 
 Đổi lại: một vòng sửa-code-chạy-test còn ~30 giây thay vì ~2 phút tắt/mở Revit.
 
-## Test chạy trong Revit: viết `void`, đừng viết `async Task`
-
-NUnit chạy test `async` dưới synchronization context riêng của nó — continuation sau `await` đầu tiên
-rời khỏi Revit API thread, và transaction kế tiếp chết với *"Cannot modify the document... changes are
-temporarily disabled"*. Viết test `void`, block bằng `.GetAwaiter().GetResult()`, và dùng task runner
-chạy inline (fake trong `TestDoubles.cs`). Đã trả giá trên FramingFromCad (2026-08-23).
+Luật khi **viết** test/builder (callback, OnSetup, `void` không `async`…): [`revit-test.md`](revit-test.md).
 
 ## Verdict — ba mã, không có mã thứ tư
 

@@ -1,6 +1,6 @@
 {
   "name": "sonny-flow",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Quy trinh lam mot feature co gate bang file that: orient -> grill -> spec+contract -> plan -> implement+test -> verify -> doc kem diagram Mermaid. Trang thai va tien do nam trong ## Flow-state cua chinh feature doc. Can graphify, codegraph va plugin mattpocock-skills.",
   "author": {
     "name": "Duc Phan"
