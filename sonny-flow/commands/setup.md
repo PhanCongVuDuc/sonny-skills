@@ -21,9 +21,13 @@ dẫn từ "Base directory for this skill" mà harness in đầu lượt).
 │   ├── loop.ps1                     loopCommand — build + trust + test + verdict 0/1/2
 │   ├── watch-always-load.ps1        tự click dialog trust
 │   ├── hooks/revit-test-guard.ps1   chặn dotnet test trần
-│   ├── revit-test-environment.md    bẫy môi trường — đọc trước khi test Revit
-│   └── retro/                       kinh nghiệm mỗi lần chạy flow (bước doc bắt buộc ghi)
-│       └── LESSONS.md               index cộng dồn: mỗi lượt flow một dòng — có lỗ là thấy thiếu retro
+│   ├── lessons/                     KINH NGHIỆM ĐÃ DUYỆT — luật phải theo, bước 0 đọc trước mọi thứ
+│   │   ├── test-environment.md      bẫy môi trường test của project này
+│   │   └── test-safety-net.md       test nào bám chi tiết implementation (bước baseline dùng)
+│   └── retro/                       HÀNG ĐỢI — phát hiện, chờ chủ dự án xét
+│       ├── README.md                bảng hàng đợi + luật ba status
+│       ├── LESSONS.md               index theo lượt flow — có lỗ là thấy lượt nào bỏ retro
+│       └── <Feature>-retro.md       bài học thô của một lượt, mỗi mục một status
 ├── CLAUDE.md                        + loopCommand & pointer về .sonnyflow/ (con trỏ, không nội dung)
 └── .claude/settings.json            + hook entry & claudeMdExcludes (con trỏ, không nội dung)
 ```
@@ -52,19 +56,27 @@ dẫn từ "Base directory for this skill" mà harness in đầu lượt).
 
 5. **`CLAUDE.md`** — bảo đảm có, đặt cạnh phần lệnh test:
    - `loopCommand: powershell -ExecutionPolicy Bypass -File .sonnyflow\loop.ps1`
-   - một câu: mọi cơ khí sonny-flow nằm ở `.sonnyflow/` — **đọc `revit-test-environment.md` trong đó
-     trước khi chạy/viết test Revit**; knowledge graph không index `.ps1` lẫn dotfolder, phải tự mở.
+   - một câu: mọi cơ khí sonny-flow nằm ở `.sonnyflow/` — **đọc `lessons/` trong đó trước khi chạy/viết
+     test Revit**, và `retro/README.md` để biết bài học nào đang chờ xét; knowledge graph không index
+     `.ps1` lẫn dotfolder, nên **con trỏ này là đường về duy nhất**, mất nó là mất cả folder.
 
 6. **`.claude/settings.json`** — bảo đảm `claudeMdExcludes` chứa `"docs/features/**"`.
 
-7. **`.sonnyflow/revit-test-environment.md`** — chưa có thì tạo khung đúng các heading của bản Sonny
+7. **`.sonnyflow/lessons/test-environment.md`** — chưa có thì tạo khung đúng các heading của bản Sonny
    (bản tham chiếu đầy đủ): *Chạy test thế nào* (verdict 0/1/2, "đủ bộ" gồm những project nào) ·
-   *Trust "Always Load"* · *Luật khi viết test/builder* (danh sách mở) · *Fixture tự sinh* · *Máy này có gì/thiếu gì* ·
-   *Automation*. Nội dung máy-cụ-thể để trống kèm ghi chú "điền khi trả giá xong".
+   *Trust "Always Load"* · *Luật riêng của project khi viết test* · *Fixture tự sinh* ·
+   *Máy này có gì/thiếu gì* · *Automation*. Nội dung máy-cụ-thể để trống kèm ghi chú "điền khi trả giá
+   xong". **Luật đúng cho mọi project KHÔNG ghi ở đây** — nó thuộc `rules/` của plugin (ADR 0001);
+   file này chỉ trỏ lên đó.
 
-8. **`.sonnyflow/retro/LESSONS.md`** — chưa có thì tạo với đúng hai dòng: tiêu đề
+8. **`.sonnyflow/retro/README.md`** — chưa có thì tạo: giải thích retro là **hàng đợi** chờ chủ dự án
+   xét (không phải kho luật), bảng ba status (`chờ xét` · `đã nhận → <file>` · `không nhận — <lý do>`),
+   luật **gạch ngang chứ không xoá trắng**, và bảng hàng đợi hiện tại (lượt flow · chờ xét · đã nhận ·
+   không nhận). Bước 0 quét bảng này; bước 6d cập nhật nó.
+
+9. **`.sonnyflow/retro/LESSONS.md`** — chưa có thì tạo với đúng hai dòng: tiêu đề
    `# LESSONS — mỗi lượt flow một dòng, trỏ tới retro đầy đủ` và một dòng ví dụ bị comment. Bước doc
    append vào đây; file có lỗ (feature có retro mà không có dòng, hoặc ngược lại) là dấu hiệu bước 6d bị bỏ.
 
-9. **`docs/bugs/README.md`** — chưa có thì tạo khung index (Mã · Mô tả một dòng · Feature · Status)
+10. **`docs/bugs/README.md`** — chưa có thì tạo khung index (Mã · Mô tả một dòng · Feature · Status)
    kèm hai câu luật từ `rules/gates.md` mục Bugs. (Bug là sản phẩm nên ở `docs/`, không ở `.sonnyflow/`.)

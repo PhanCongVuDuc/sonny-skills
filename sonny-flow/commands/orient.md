@@ -9,21 +9,33 @@ argument-hint: <Feature> [mô tả ngắn việc cần làm]
 Đây là bước **đọc**: không ghi gì vào `docs/features/` (nên chưa có `## Flow-state` để tick — grill sẽ
 tạo nó và tick hộ dòng 0).
 
-## Ba nguồn, đúng thứ tự này
+## Bốn nguồn, đúng thứ tự này
 
 Thứ tự không tuỳ ý — mỗi nguồn trả lời loại câu hỏi mà nguồn trước không trả lời được. Không bỏ nguồn
-đầu để nhảy vào code: silent behaviour chỉ nằm trong `docs/`, đọc code nhanh sẽ không thấy một
+đầu để nhảy vào code: silent behaviour chỉ nằm trong tài liệu, đọc code nhanh sẽ không thấy một
 `catch { }` là *có chủ ý* hay là bug.
 
-**1. `docs/` của project — ý định.** Đọc `docs/README.md` trước để biết thứ tự đọc mà project quy định,
+**1. `.sonnyflow/lessons/` — kinh nghiệm ĐÃ ĐƯỢC DUYỆT của project. Đọc trước mọi thứ khác.**
+
+Đây là luật riêng của project, chủ dự án đã confirm — vi phạm nó là đốt lại những vòng chạy người ta đã
+trả giá. Hai file thường có: kinh nghiệm môi trường test (`test-environment.md`) và bảng kiểm kê test bám
+chi tiết implementation (`test-safety-net.md`). `.sonnyflow/README.md` liệt kê folder có gì.
+
+**Cả graphify lẫn codegraph đều không index dotfolder** — không tự mở thì không đường nào tìm ra, và
+`CLAUDE.md` của project là con trỏ duy nhất về đây.
+
+Kèm: quét **`.sonnyflow/retro/README.md`** — hàng đợi bài học *chờ xét*. Việc này chống hai lỗi: phát
+hiện lại thứ đã có trong hàng đợi, và đề xuất lại thứ chủ dự án đã gạt (`không nhận`).
+
+Cách đọc: dòng *"máy này thiếu X"* là ảnh chụp một phạm vi hẹp — **đừng suy rộng thành "X không có ở đâu
+cả"**. Muốn biết một file model/CAD chứa gì thì mở nó ra bằng probe (xem
+[`rules/revit-fixture.md`](../rules/revit-fixture.md)), đừng suy từ ghi chú.
+
+**2. `docs/` của project — ý định.** Đọc `docs/README.md` trước để biết thứ tự đọc mà project quy định,
 rồi doc kiến trúc, rồi feature doc liên quan. Nguồn duy nhất có: silent behaviour, order dependency,
 unit boundary, invariant, và những chỗ trông như bug mà là cố ý.
 
-Cách đọc file môi trường (`revit-test-environment.md`…): dòng *"máy này thiếu X"* là ảnh chụp một phạm
-vi hẹp — **đừng suy rộng thành "X không có ở đâu cả"**. Muốn biết một file model/CAD chứa gì thì mở nó
-ra bằng probe (xem [`rules/revit-fixture.md`](../rules/revit-fixture.md)), đừng suy từ ghi chú.
-
-**2. graphify — cấu trúc và bối cảnh.**
+**3. graphify — cấu trúc và bối cảnh.**
 
 ```
 graphify query "<câu hỏi tiếng Anh>"
@@ -34,7 +46,7 @@ graphify affected "<Symbol>" --depth 2
 Index cả `.md` và `.xaml`. Dùng cho: kiến trúc, binding XAML, khoá resource localization, định hướng khi
 chưa biết bắt đầu từ đâu.
 
-**3. codegraph — source thật.**
+**4. codegraph — source thật.**
 
 ```
 codegraph node "<Type.Member>"
@@ -43,7 +55,7 @@ codegraph impact "<Symbol>"
 ```
 
 **Đưa nó một túi tên symbol, không đưa câu hỏi tiếng Anh** — hỏi văn xuôi là nó trả file sai. Lấy tên từ
-bước 2 hoặc prompt hook trước. Cái nó trả là source thật có số dòng, đọc lại từ disk mỗi lần gọi — coi
+bước 3 hoặc prompt hook trước. Cái nó trả là source thật có số dòng, đọc lại từ disk mỗi lần gọi — coi
 như đã đọc, đừng `Read` lại.
 
 ## Khi hai graph bất đồng
@@ -59,7 +71,7 @@ như đã đọc, đừng `Read` lại.
 | Hai bên trỏ cùng chỗ | Xong, đừng kiểm thêm |
 | Doc mâu thuẫn code | **Không tự chọn** — đó là phát hiện, nêu ra cho người quyết |
 
-## Gate G0 — năm câu phải trả lời được
+## Gate G0 — sáu câu phải trả lời được
 
 Chưa trả lời được thì tìm tiếp — **không đoán**, và nói thẳng "chưa biết" nếu vẫn không ra:
 
@@ -74,6 +86,11 @@ Chưa trả lời được thì tìm tiếp — **không đoán**, và nói th�
 5. **Service dùng chung có đủ API chưa?** Feature cần thao tác gì trên transaction / progress / message…
    và interface hiện tại có sẵn chưa — thiếu thì thành một dòng `## Decisions` ngay từ grill, đừng để
    đến implement mới phát hiện phải mở rộng abstraction giữa chừng.
+
+6. **Project đã có kinh nghiệm nào về vùng code / loại task này chưa?** Kể tên dòng cụ thể trong
+   `.sonnyflow/lessons/` phải tuân theo, và bài nào trong `retro/` còn `chờ xét` mà liên quan. Không có
+   thì nói là không có — nhưng phải **mở ra xem rồi mới nói**, đây là câu chống việc bỏ qua kinh nghiệm
+   đã trả giá.
 
 Kèm: mọi chỗ **doc mâu thuẫn code** phát hiện được.
 

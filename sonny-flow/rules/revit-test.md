@@ -6,7 +6,7 @@ Chuyện *chạy* test là [`revit-loop.md`](revit-loop.md); chuyện *dựng fi
 
 Danh sách mở — trả giá xong bài nào thêm bài đó, mỗi bài: **hiện tượng → nguyên nhân → cách đúng**.
 Bài học đúng cho mọi project Revit nằm ở đây; bài học chỉ đúng cho một project nằm trong
-`.sonnyflow/revit-test-environment.md` của project đó.
+`.sonnyflow/lessons/test-environment.md` của project đó.
 
 - **Cấm đưa cho Revit callback định nghĩa trong test assembly** (`IFailuresPreprocessor`,
   `IFamilyLoadOptions`). Hiện tượng: MỌI commit trả `RolledBack` không một failure message,

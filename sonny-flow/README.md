@@ -27,7 +27,7 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 
 | Gate | Điều kiện qua | Ai phán |
 |---|---|---|
-| G0 orient | trả lời 5 câu: layer · ai gọi vào · pattern noi theo · test phủ gì · service dùng chung đủ API chưa | máy |
+| G0 orient | trả lời 6 câu: layer · ai gọi vào · pattern noi theo · test phủ gì · service dùng chung đủ API chưa · **project đã có kinh nghiệm nào về vùng này chưa** | máy |
 | G1 grill | `## Decisions` hết dòng CHƯA CHỐT | **người**, mỗi vòng |
 | G2 spec | `## Contract` đủ Input/Output/Invariants/**failure modes** (refactor: lưới test xanh) | máy |
 | G3 plan | checklist `- [ ]`, mỗi task nêu file + test | **người duyệt** |
@@ -37,13 +37,16 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 
 ## Kiến thức nằm ở đâu — ba nhà
 
-| Nhà | Chứa gì | Câu kiểm định |
-|---|---|---|
-| `rules/` của plugin này | **RULES** — cách làm đúng | đổi sang project khác dùng sonny-flow **vẫn đúng** |
-| `.sonnyflow/` của project | **FACTS** — sự thật hiện tại của project/máy (env doc, test-safety-net) | đổi project là **sai** |
-| `.sonnyflow/retro/` | **RETRO** — inbox bài học thô; mỗi bài gắn nhãn `→ plugin` / `→ .sonnyflow` + đã chép chưa | chưa phân loại |
+| Nhà | Chứa gì | Điều kiện vào | Ai đọc, ở bước nào |
+|---|---|---|---|
+| `rules/` của plugin này | **RULES** — cách làm đúng, mọi project | đổi project khác **vẫn đúng** | mọi bước, qua con trỏ trong command |
+| `.sonnyflow/lessons/` của project | **LESSONS** — luật riêng của project, **đã được chủ dự án confirm** | chủ dự án gật | **bước 0 (orient), nguồn đọc thứ nhất** — câu G0 số 6; bước 4 khi viết test |
+| `.sonnyflow/retro/` | **RETRO** — hàng đợi thứ agent *phát hiện*, chưa ai xét | không điều kiện — agent ghi tự do | bước 0 quét hàng đợi; bước 6d ghi + trình cho người xét |
 
-Một bài học một nhà duy nhất — nhà kia chỉ được đặt con trỏ. Vì sao thiết kế thế:
+**Vòng đời một bài học:** lượt flow phát hiện → `retro/` (`chờ xét`) → chủ dự án confirm → `lessons/`
+(`đã nhận`, gạch ngang mục retro nhưng **không xoá** để giữ bối cảnh) hoặc bị gạt (`không nhận — lý do`).
+Tồn dư trong hàng đợi là **bình thường**, không chặn gate. Một bài học một nhà duy nhất — nhà kia chỉ
+được đặt con trỏ. Vì sao thiết kế thế:
 [`docs/adr/0001`](docs/adr/0001-knowledge-lives-in-three-homes.md).
 
 ## Tình huống nào → đọc rule nào

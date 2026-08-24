@@ -27,7 +27,7 @@ kết thúc phải chạy đủ bộ liên quan** — test hẹp xanh mà bộ r
 ## "Đủ bộ" = mọi project test mà CLAUDE.md liệt kê
 
 Không chỉ project quen tay. Danh sách project, thứ tự chạy (rẻ-trước), và các bẫy môi trường của
-riêng project nằm trong **`.sonnyflow/revit-test-environment.md`** của project — chi tiết project
+riêng project nằm trong **`.sonnyflow/lessons/test-environment.md`** của project — chi tiết project
 không nằm trong skill này. Gate chốt của project có `loopCommand` là **`loop.ps1 -Final`** (Revit
 mới, đóng sau khi xong) — chế độ dev giữ-Revit-mở nhanh nhưng không phải bằng chứng chốt.
 

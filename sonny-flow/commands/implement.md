@@ -39,6 +39,12 @@ Luật đầy đủ: [`rules/revit-loop.md`](../rules/revit-loop.md). Khác vớ
 - **Môi trường agent tự lo** theo rule: tự khởi động / restart process host (Revit…), tự chẩn đoán khi
   RED khó hiểu theo escalation ladder. Không hỏi người về môi trường.
 
+## Kinh nghiệm của project — đọc trước khi viết test
+
+`.sonnyflow/lessons/` chứa luật riêng của project mà chủ dự án đã confirm (môi trường test, test nào bám
+chi tiết implementation). Orient đã trả lời câu G0 số 6 về nó — làm theo, đừng phát hiện lại. Đụng đến
+việc move/rename/xoá type thì đọc file kiểm kê test **trước**, và cập nhật nó **trong cùng change**.
+
 ## Task cần fixture mới
 
 Đọc [`rules/revit-fixture.md`](../rules/revit-fixture.md) **trước khi viết dòng builder nào** — xin file

@@ -55,23 +55,37 @@ bị loại vì lý do cụ thể — thì đề xuất đẩy lên `docs/adr/`;
 kế đi ra ADR, không nhét vào doc hành vi: doc bị viết đè mỗi lần feature đổi, ADR thì không bao giờ sửa,
 chỉ superseded.
 
-## 6d — Retro
+## 6d — Retro: ghi vào hàng đợi, rồi trình cho người xét
 
-Tạo/cập nhật `.sonnyflow/retro/{Feature}-retro.md` với đúng ba mục: **(a)** chỗ nào flow chạy mượt ·
-**(b)** chỗ nào phải tự xoay ngoài kịch bản — kèm đề xuất sửa skill cụ thể (file nào, thêm câu gì) ·
-**(c)** bài học kỹ thuật trả giá bằng nhiều vòng chạy. Rồi thêm **một dòng** vào
-`.sonnyflow/retro/LESSONS.md`: `- {ngày} [{Feature}]({Feature}-retro.md) — <bài học đắt nhất, một câu>`.
-Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế. File này là backlog nâng cấp skill —
-không có nó thì bài học chết theo phiên chat.
+**Retro là hàng đợi, không phải kho luật.** Agent ghi thứ nó *phát hiện*; thứ trở thành *luật phải theo*
+chỉ khi chủ dự án confirm. Vòng đời và ba status: `.sonnyflow/retro/README.md` của project (setup tạo);
+vì sao thiết kế thế: [`docs/adr/0001`](../docs/adr/0001-knowledge-lives-in-three-homes.md).
 
-**Mỗi bài học gắn một nhãn nhà**, bằng câu kiểm định: *"đổi sang project khác dùng sonny-flow, bài học
-này còn đúng không?"* — còn → `→ plugin` (đề xuất chép vào `rules/` — đụng repo khác nên chờ người gật);
-hết → `→ .sonnyflow` (chép vào file môi trường của project ngay). Kèm trạng thái **đã chép / chờ duyệt**
-— bài học nằm trong retro là bài học chưa chắc ai đọc lại; nó chỉ sống khi được chép sang đúng nhà, và
-nhãn là dấu tick cho việc chép đó. Chi tiết ba nhà: `docs/adr/0001` của sonny-flow.
+**Bước 1 — ghi.** Tạo/cập nhật `.sonnyflow/retro/{Feature}-retro.md` với đúng ba mục: **(a)** chỗ nào
+flow chạy mượt · **(b)** chỗ nào phải tự xoay ngoài kịch bản — kèm đề xuất cụ thể (file nào, thêm câu
+gì) · **(c)** bài học kỹ thuật trả giá bằng nhiều vòng chạy. Mỗi mục mặc định status **`chờ xét`**.
+Không có gì đáng ghi thì file vẫn phải tồn tại với một dòng nói thế. Rồi một dòng vào
+`.sonnyflow/retro/LESSONS.md`: `- {ngày} [{Feature}]({Feature}-retro.md) — <bài học đắt nhất, một câu>`,
+và cập nhật bảng hàng đợi trong `retro/README.md`.
+
+**Bước 2 — trình.** Liệt kê ra cho chủ dự án các bài `chờ xét` của lượt này, mỗi bài kèm **nhà đề xuất**
+theo câu kiểm định *"đổi sang project khác dùng sonny-flow, bài học này còn đúng không?"* — còn →
+`rules/` của plugin; hết → `.sonnyflow/lessons/` của project. Đây là **cổng có người gác**: agent không
+tự đưa bài học thành luật.
+
+**Bước 3 — chép cái được confirm.** Chủ dự án gật bài nào thì chép bài đó sang nhà của nó, rồi trong
+retro **gạch ngang** mục đó và ghi `> **đã nhận** ({ngày}) → <đường dẫn>`. Bị gạt thì ghi
+`> **không nhận** — <lý do>`. Gạch ngang chứ **không xoá trắng**: hàng đợi vẫn sạch, nhưng *bối cảnh phát
+hiện* thì giữ lại — `lessons/` ghi luật gọn, retro ghi chuyện gì đã xảy ra để ra luật đó, và đó là cách
+duy nhất để lần sau biết bài này **đã có nhà** (2026-08-23 một bài học bị thêm vào hai chỗ trong một
+ngày vì thiếu dấu vết này).
+
+**Tồn dư trong hàng đợi KHÔNG chặn gate.** Chủ dự án không xét hết là bình thường — ô 6d tick khi đã
+*ghi + trình*, không đòi hàng đợi rỗng. Cái chặn gate là **không ghi**, hoặc **confirm rồi mà không chép**.
 
 Bug phát hiện trong lượt mà chưa fix → file trong `docs/bugs/` + dòng index + link trong `## Related`
-(luật ở [`rules/gates.md`](../rules/gates.md)) — nếu chưa làm lúc phát hiện thì đây là chốt chặn cuối.
+(luật ở [`rules/gates.md`](../rules/gates.md)) — không cần xin phép để *ghi*, chỉ *fix* mới cần. Nếu chưa
+làm lúc phát hiện thì đây là chốt chặn cuối.
 
 ## 6e — Làm mới graph
 

@@ -8,7 +8,7 @@ Không có schema JSON, không có thư mục sản phẩm trung gian. Căn cứ
 
 | Gate | Sau bước | Lệnh | Điều kiện | Ai phán |
 |---|---|---|---|---|
-| **G0** | orient | `/sonny-flow:orient` | Trả lời được 5 câu: chạm layer nào · ai gọi vào · pattern nào để noi theo · test hiện tại phủ gì · service dùng chung có đủ API chưa | máy |
+| **G0** | orient | `/sonny-flow:orient` | Trả lời được 6 câu: chạm layer nào · ai gọi vào · pattern nào để noi theo · test hiện tại phủ gì · service dùng chung có đủ API chưa · **project đã có kinh nghiệm nào về vùng này chưa** (`.sonnyflow/lessons/` + hàng đợi `retro/`) | máy |
 | **G1** | grill | `/sonny-flow:grill` | `## Decisions` không còn dòng **CHƯA CHỐT** | **NGƯỜI** (mỗi vòng) |
 | **G2** | spec | `/sonny-flow:spec` | `## Contract` có đủ Input / Output / Invariants / **Named failure modes** | máy |
 | **G3** | plan | `/sonny-flow:plan` | `## Plan` có ít nhất 1 mục `- [ ]`, mỗi mục nêu file + test | **NGƯỜI** |
@@ -49,7 +49,9 @@ bước đọc. Bốn luật:
   - [ ] 6a đối chiếu từng dòng Contract với code — lệch thì báo, không tự sửa
   - [ ] 6b Flow + Behaviour + What a test should prove — mọi silent skip có node trong diagram
   - [ ] 6c soi từng dòng Decisions: đề xuất ADR, hoặc ghi "không đủ ba điều kiện"
-  - [ ] 6d retro: .sonnyflow/retro/{Feature}-retro.md (đủ 3 mục a/b/c; mỗi bài học gắn nhãn nhà → plugin / → .sonnyflow + đã chép chưa) + một dòng vào retro/LESSONS.md
+  - [ ] 6d retro: ghi vào hàng đợi (3 mục a/b/c, status `chờ xét`) + LESSONS.md + bảng retro/README.md,
+        rồi TRÌNH danh sách chờ xét cho người; người confirm bài nào thì chép sang nhà của nó và gạch
+        ngang mục đó. Tồn dư hàng đợi không chặn gate — không ghi hoặc confirm-mà-không-chép mới chặn
   - [ ] 6e làm mới graph — đủ MỌI lệnh docs/README.md khai, không chỉ lệnh đầu
   - [ ] 6f xoá Flow-state/Decisions/Spec/Plan — việc CUỐI CÙNG, sau khi mọi ô trên đã tick
 ```

@@ -58,6 +58,6 @@ Luật viết test/builder nói chung (callback, OnSetup, `void` không `async`,
 
 ## Nghiệm thu
 
-Fixture mới phải kèm: dòng trong file kiểm kê test của project (Sonny: `.sonnyflow/test-safety-net.md` —
+Fixture mới phải kèm: dòng trong file kiểm kê test của project (Sonny: `.sonnyflow/lessons/test-safety-net.md` —
 test bind vào tag nào, view nào), mục "cách vẽ lại" trong feature doc, và toàn bộ suite xanh qua
 `loopCommand`.

@@ -50,7 +50,7 @@ lại lệnh này *chính là* sự duyệt.
 
 **Gate không qua.** Dừng tại chỗ, báo gate nào và vì sao. Không đi tiếp bước sau:
 
-- **G0** — chưa trả lời được 5 câu → nói câu nào chưa biết, đừng viết bù vào
+- **G0** — chưa trả lời được 6 câu → nói câu nào chưa biết, đừng viết bù vào
 - **G1** — `## Decisions` còn CHƯA CHỐT → đó là còn vòng grill, không phải lỗi
 - **G2** — `## Contract` thiếu phần → nói thiếu phần nào
 - **G4** — còn `- [ ]` không làm được → nói task nào, vì sao
