@@ -11,31 +11,17 @@ tạo nó và tick hộ dòng 0).
 
 ## Bốn nguồn, đúng thứ tự này
 
-Thứ tự không tuỳ ý — mỗi nguồn trả lời loại câu hỏi mà nguồn trước không trả lời được. Không bỏ nguồn
-đầu để nhảy vào code: silent behaviour chỉ nằm trong tài liệu, đọc code nhanh sẽ không thấy một
-`catch { }` là *có chủ ý* hay là bug.
+Thứ tự không tuỳ ý — mỗi nguồn trả lời loại câu hỏi mà nguồn trước không trả lời được. Ba nguồn đầu trả
+lời *"code này là gì"*, nguồn thứ tư trả lời *"làm việc ở project này phải theo luật gì"* — nên nó đứng
+cuối: chỉ khi đã biết sẽ chạm vùng nào mới biết dòng nào trong đó có hiệu lực. Không bỏ nguồn đầu để
+nhảy vào code: silent behaviour chỉ nằm trong tài liệu, đọc code nhanh sẽ không thấy một `catch { }` là
+*có chủ ý* hay là bug.
 
-**1. `.sonnyflow/lessons/` — kinh nghiệm ĐÃ ĐƯỢC DUYỆT của project. Đọc trước mọi thứ khác.**
-
-Đây là luật riêng của project, chủ dự án đã confirm — vi phạm nó là đốt lại những vòng chạy người ta đã
-trả giá. Hai file thường có: kinh nghiệm môi trường test (`test-environment.md`) và bảng kiểm kê test bám
-chi tiết implementation (`test-safety-net.md`). `.sonnyflow/README.md` liệt kê folder có gì.
-
-**Cả graphify lẫn codegraph đều không index dotfolder** — không tự mở thì không đường nào tìm ra, và
-`CLAUDE.md` của project là con trỏ duy nhất về đây.
-
-Kèm: quét **`.sonnyflow/retro/README.md`** — hàng đợi bài học *chờ xét*. Việc này chống hai lỗi: phát
-hiện lại thứ đã có trong hàng đợi, và đề xuất lại thứ chủ dự án đã gạt (`không nhận`).
-
-Cách đọc: dòng *"máy này thiếu X"* là ảnh chụp một phạm vi hẹp — **đừng suy rộng thành "X không có ở đâu
-cả"**. Muốn biết một file model/CAD chứa gì thì mở nó ra bằng probe (xem
-[`rules/revit-fixture.md`](../rules/revit-fixture.md)), đừng suy từ ghi chú.
-
-**2. `docs/` của project — ý định.** Đọc `docs/README.md` trước để biết thứ tự đọc mà project quy định,
+**1. `docs/` của project — ý định.** Đọc `docs/README.md` trước để biết thứ tự đọc mà project quy định,
 rồi doc kiến trúc, rồi feature doc liên quan. Nguồn duy nhất có: silent behaviour, order dependency,
 unit boundary, invariant, và những chỗ trông như bug mà là cố ý.
 
-**3. graphify — cấu trúc và bối cảnh.**
+**2. graphify — cấu trúc và bối cảnh.**
 
 ```
 graphify query "<câu hỏi tiếng Anh>"
@@ -46,7 +32,7 @@ graphify affected "<Symbol>" --depth 2
 Index cả `.md` và `.xaml`. Dùng cho: kiến trúc, binding XAML, khoá resource localization, định hướng khi
 chưa biết bắt đầu từ đâu.
 
-**4. codegraph — source thật.**
+**3. codegraph — source thật.**
 
 ```
 codegraph node "<Type.Member>"
@@ -55,8 +41,28 @@ codegraph impact "<Symbol>"
 ```
 
 **Đưa nó một túi tên symbol, không đưa câu hỏi tiếng Anh** — hỏi văn xuôi là nó trả file sai. Lấy tên từ
-bước 3 hoặc prompt hook trước. Cái nó trả là source thật có số dòng, đọc lại từ disk mỗi lần gọi — coi
+bước 2 hoặc prompt hook trước. Cái nó trả là source thật có số dòng, đọc lại từ disk mỗi lần gọi — coi
 như đã đọc, đừng `Read` lại.
+
+**4. `.sonnyflow/lessons/` — kinh nghiệm ĐÃ ĐƯỢC DUYỆT của project. Đọc sau cùng, nhưng bắt buộc.**
+
+Đây là luật riêng của project, chủ dự án đã confirm — vi phạm nó là đốt lại những vòng chạy người ta đã
+trả giá. Hai file thường có: kinh nghiệm môi trường test (`test-environment.md`) và bảng kiểm kê test bám
+chi tiết implementation (`test-safety-net.md`); `.sonnyflow/README.md` liệt kê folder có gì.
+
+Đọc sau cùng vì lúc này đã biết task chạm layer nào, cần fixture không, đụng test nào — nên đọc là **tìm
+đúng dòng có hiệu lực**, không phải quét chung chung. Đổi lại, nó là nguồn duy nhất không nói về code mà
+nói về *cách làm việc ở đây*, nên **không được bỏ**: câu G0 số 6 tồn tại chính vì việc này.
+
+Kèm: quét **`.sonnyflow/retro/README.md`** — hàng đợi bài học *chờ xét*. Việc này chống hai lỗi: phát
+hiện lại thứ đã có trong hàng đợi, và đề xuất lại thứ chủ dự án đã gạt (`không nhận`).
+
+**Cả graphify lẫn codegraph đều không index dotfolder** — không tự mở thì không đường nào tìm ra, và
+`CLAUDE.md` của project là con trỏ duy nhất về đây.
+
+Cách đọc: dòng *"máy này thiếu X"* là ảnh chụp một phạm vi hẹp — **đừng suy rộng thành "X không có ở đâu
+cả"**. Muốn biết một file model/CAD chứa gì thì mở nó ra bằng probe (xem
+[`rules/revit-fixture.md`](../rules/revit-fixture.md)), đừng suy từ ghi chú.
 
 ## Khi hai graph bất đồng
 

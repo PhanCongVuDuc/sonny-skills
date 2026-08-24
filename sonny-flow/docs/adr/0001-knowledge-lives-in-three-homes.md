@@ -47,11 +47,19 @@ gọn*, còn retro ghi *chuyện gì đã xảy ra để ra luật đó* — b�
 lại. Và dấu vết là cách duy nhất để lần sau biết bài này **đã có nhà**: 2026-08-23, cùng một bài học
 (`async` làm mất Revit API context) bị thêm vào hai chỗ trong một ngày vì retro không nói được điều đó.
 
-**Read-path — quan trọng ngang write-path.** Bài học chỉ có giá trị nếu được đọc lại. Nên:
-`lessons/` là **nguồn đọc thứ nhất của bước 0 (orient)**, trước cả `docs/`, và **câu hỏi G0 số 6** biến
-việc đọc nó thành điều kiện qua gate. Bước 0 cũng quét hàng đợi `retro/` để không phát hiện lại thứ đã
-có trong đó, và không đề xuất lại thứ đã bị gạt. Trước 0.7.2 không có bước nào bảo agent đọc `.sonnyflow/`
-— nó chỉ tình cờ được đọc qua con trỏ trong `CLAUDE.md` của project.
+**Read-path — quan trọng ngang write-path.** Bài học chỉ có giá trị nếu được đọc lại. Nên `lessons/` là
+**nguồn đọc thứ tư — cuối cùng — của bước 0 (orient)**, và **câu hỏi G0 số 6** biến việc đọc nó thành
+điều kiện qua gate.
+
+Đứng cuối là có chủ ý, không phải xếp cho có: ba nguồn đầu (`docs/` → graphify → codegraph) trả lời *"code
+này là gì"*, còn `lessons/` trả lời *"làm việc ở đây phải theo luật gì"*. Đọc nó khi chưa biết task chạm
+vùng nào thì chỉ là quét chung chung; đọc sau khi đã biết sẽ đụng test project nào, có cần fixture không,
+thì là **tìm đúng dòng có hiệu lực**. Cái bảo đảm nó được đọc là **gate**, không phải vị trí — nên vị trí
+được tự do xếp cho đúng trình tự nhận thức.
+
+Bước 0 cũng quét hàng đợi `retro/` để không phát hiện lại thứ đã có trong đó, và không đề xuất lại thứ đã
+bị gạt. Trước 0.7.2 không có bước nào bảo agent đọc `.sonnyflow/` — nó chỉ tình cờ được đọc qua con trỏ
+trong `CLAUDE.md` của project.
 
 ## Phương án bị loại
 

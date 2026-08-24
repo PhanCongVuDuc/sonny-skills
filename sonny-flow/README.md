@@ -40,7 +40,7 @@ Gõ lần đầu → chạy tới human gate rồi dừng; **gõ lại chính l�
 | Nhà | Chứa gì | Điều kiện vào | Ai đọc, ở bước nào |
 |---|---|---|---|
 | `rules/` của plugin này | **RULES** — cách làm đúng, mọi project | đổi project khác **vẫn đúng** | mọi bước, qua con trỏ trong command |
-| `.sonnyflow/lessons/` của project | **LESSONS** — luật riêng của project, **đã được chủ dự án confirm** | chủ dự án gật | **bước 0 (orient), nguồn đọc thứ nhất** — câu G0 số 6; bước 4 khi viết test |
+| `.sonnyflow/lessons/` của project | **LESSONS** — luật riêng của project, **đã được chủ dự án confirm** | chủ dự án gật | **bước 0 (orient), nguồn đọc thứ tư** — sau khi đã biết chạm vùng nào; điều kiện của câu G0 số 6. Lại đọc ở bước 4 khi viết test |
 | `.sonnyflow/retro/` | **RETRO** — hàng đợi thứ agent *phát hiện*, chưa ai xét | không điều kiện — agent ghi tự do | bước 0 quét hàng đợi; bước 6d ghi + trình cho người xét |
 
 **Vòng đời một bài học:** lượt flow phát hiện → `retro/` (`chờ xét`) → chủ dự án confirm → `lessons/`
