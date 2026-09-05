@@ -1,6 +1,7 @@
 ---
 description: Step 6 of the refactor flow. Sweep every document made stale by a rename or a move — feature docs, architecture docs, CLAUDE.md, diagrams and source links — using the identifiers removed in the change. Use after any refactor, or standalone whenever symbols were renamed.
 argument-hint: [base ref để so, mặc định là commit trước khi refactor bắt đầu]
+model: opus
 ---
 
 **Bước 6/6 của flow refactor — sync-docs.** Sau một lần rename/move, **bán kính ảnh hưởng lên tài liệu

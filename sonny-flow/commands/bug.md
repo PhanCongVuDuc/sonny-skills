@@ -1,6 +1,7 @@
 ---
 description: Nhận một bug do người dùng báo — video, file Revit, mô tả — đọc hết kể cả video, chẩn đoán tới file:line, ghi vào docs/bugs/ rồi DỪNG. Không sửa code sản phẩm. Cũng là lệnh để chẩn đoán sâu thêm một bug đã ghi.
 argument-hint: <đường dẫn gói | mã bug | đường dẫn docs/bugs/*.md>
+model: opus
 ---
 
 **Phễu trước `docs/bugs/`.** Từ thứ người dùng đưa → một file bug đủ chín để `/sonny-flow:feature` đi
@@ -52,8 +53,8 @@ Không trùng → **tạo `docs/bugs/<PREFIX>-<nnn>-<slug>.md`** với `Status: 
 sẵn B1–B3 kèm bằng chứng. Tạo ở đây chứ không ở B6 vì `gates.md` **cấm xoá file bug** — tạo trước khi
 quét trùng là tự sinh rác không được phép dọn.
 
-Rồi orient theo [`commands/orient.md`](orient.md): `docs/README.md` → doc kiến trúc → feature doc →
-graphify → codegraph → `.sonnyflow/lessons/`.
+Rồi gọi `Skill(sonny-flow:orient)`, `args` là tên feature nghi ngờ. Thứ tự nguồn phải đọc nằm trong chính
+lệnh đó — đừng chép lại danh sách ra đây, hai bản sẽ lệch nhau ngay lần `orient` đổi đầu tiên.
 
 ## B5 — Chẩn đoán. Được mở Revit.
 

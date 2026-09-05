@@ -1,6 +1,7 @@
 ---
 description: Step 4 of the feature flow. Implement tasks from an approved plan, writing the test for each task alongside its code, and tick them off in the feature doc. Takes an optional task number to do exactly one task.
 argument-hint: <Feature> [số task — bỏ trống thì làm hết]
+model: opus
 ---
 
 **Bước 4/6 — implement.** Làm các mục `- [ ]` trong `## Plan` của `docs/features/{Feature}.md`.

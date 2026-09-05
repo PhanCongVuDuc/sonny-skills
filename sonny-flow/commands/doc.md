@@ -1,6 +1,7 @@
 ---
 description: Step 6 of the feature flow. Verify every contract claim and every diagram arrow against the real code, then turn the feature doc from spec-plus-plan into permanent behaviour documentation with Mermaid diagrams. Also the command to run when code changed and a feature doc went stale.
 argument-hint: <Feature>
+model: opus
 ---
 
 **Bước 6/6 — doc.** Bước duy nhất tạo ra thứ còn lại sau khi task kết thúc.

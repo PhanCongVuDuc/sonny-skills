@@ -1,22 +1,24 @@
 ---
 description: The behaviour-preserving variant of the feature flow. Use for moving logic between layers, splitting a class that mixes decision with mechanism, or renaming — anything where the requirement must not change. Records the decision as an ADR and sweeps every stale doc at the end.
 argument-hint: <mô tả ngắn việc refactor>
+model: opus
 ---
 
 Biến thể của flow cho thay đổi **không được đổi hành vi**. Dùng khi: chuyển logic giữa layer, tách class
 đang trộn quyết định với cơ chế, rename, gộp abstraction trùng.
 
-**Khác `/sonny-flow:feature` đúng hai bước.** Năm bước còn lại dùng lại y nguyên.
+**Khác `/sonny-flow:feature` đúng hai bước.** Năm bước còn lại dùng lại y nguyên. Và giống `feature`, mỗi
+bước **gọi bằng Skill tool** — không đọc file markdown của bước rồi tự làm theo:
 
 | Bước | Ở đây làm gì |
 |---|---|
-| 0 | [`orient`](orient.md) — **dùng lại** |
-| 1 | [`grill`](grill.md) — **dùng lại**. Chốt: tách tới mức nào · cái nào **không** đáng tách · thứ tự move |
-| 2 | [`baseline`](baseline.md) ← **khác**. Xem dưới |
-| 3 | [`plan`](plan.md) — **dùng lại**. Chuỗi move nhỏ, mỗi bước tự đứng được |
-| 4 | [`implement`](implement.md) — **dùng lại** + luật *hành vi không đổi* |
-| 5 | [`verify`](verify.md) — **dùng lại y nguyên**. Gate là **test cũ vẫn xanh** |
-| 6 | [`sync-docs`](sync-docs.md) ← **khác**. Xem dưới |
+| 0 | `Skill(sonny-flow:orient)` — **dùng lại** |
+| 1 | `Skill(sonny-flow:grill)` — **dùng lại**. Chốt: tách tới mức nào · cái nào **không** đáng tách · thứ tự move |
+| 2 | `Skill(sonny-flow:baseline)` ← **khác**. Xem dưới |
+| 3 | `Skill(sonny-flow:plan)` — **dùng lại**. Chuỗi move nhỏ, mỗi bước tự đứng được |
+| 4 | `Skill(sonny-flow:implement)` — **dùng lại** + luật *hành vi không đổi* |
+| 5 | `Skill(sonny-flow:verify)` — **dùng lại y nguyên**. Gate là **test cũ vẫn xanh** |
+| 6 | `Skill(sonny-flow:sync-docs)` ← **khác**. Xem dưới |
 
 ## Trạng thái sống ở đâu
 
@@ -91,7 +93,7 @@ thì đọc `CLAUDE.md` của project, đừng đoán.
 
 ## Bước 6 — sync-docs, thay cho doc
 
-Nội dung đầy đủ ở [`sync-docs`](sync-docs.md).
+Gọi `Skill(sonny-flow:sync-docs)`, `args` là base ref để so — nội dung đầy đủ nằm trong chính lệnh đó.
 
 `/sonny-flow:doc` chỉ lo **một** feature doc. Refactor thì bán kính rộng hơn: doc của feature khác cũng
 nhắc tên vừa đổi, `docs/architecture/*` không phải feature doc nên không lệnh nào phụ trách, và `CLAUDE.md`

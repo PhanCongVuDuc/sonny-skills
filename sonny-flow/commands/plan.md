@@ -1,6 +1,7 @@
 ---
 description: Step 3 of the feature flow. Break an approved contract into an ordered task checklist inside the feature doc, one concern per task, each naming the file it touches and the test it will get. Stops for human review.
 argument-hint: <Feature>
+model: opus
 ---
 
 **Bước 3/6 — plan.** Chẻ `## Contract` thành checklist trong `docs/features/{Feature}.md`.

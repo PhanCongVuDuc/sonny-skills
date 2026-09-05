@@ -1,6 +1,7 @@
 ---
 description: Start or resume the whole feature flow. Reads the feature doc's Flow-state checklist to work out which step the feature is on, then runs forward from there — stopping at every grilling round, at the human gate after the plan, or at the first gate that does not pass.
 argument-hint: <Feature> [mô tả ngắn, chỉ cần cho lần đầu]
+model: opus
 ---
 
 Chạy cả flow. Dùng khi **không** muốn gõ từng bước.
@@ -31,11 +32,16 @@ Nói ra mình xác định đang ở bước nào **trước khi** làm gì, đ�
 
 ## Chạy forward
 
-Lần lượt các bước còn lại. Nội dung từng bước lấy **đúng từ command tương ứng** — nạp file đó lên và làm
-theo, đừng làm từ trí nhớ:
+Lần lượt các bước còn lại. Mỗi bước **gọi bằng Skill tool** — không đọc file markdown của bước rồi tự
+làm theo, và càng không làm từ trí nhớ:
 
-[`orient`](orient.md) → [`grill`](grill.md) → [`spec`](spec.md) → [`plan`](plan.md) →
-[`implement`](implement.md) → [`verify`](verify.md) → [`doc`](doc.md)
+`Skill(sonny-flow:orient)` → `Skill(sonny-flow:grill)` → `Skill(sonny-flow:spec)` →
+`Skill(sonny-flow:plan)` → `Skill(sonny-flow:implement)` → `Skill(sonny-flow:verify)` →
+`Skill(sonny-flow:doc)`
+
+Truyền `args` đúng như khi người dùng gõ tay lệnh đó — `args: "<Feature>"`, riêng `implement` thêm số task
+nếu lượt này chỉ làm một task. **Đọc file thay vì gọi thì mất bốn thứ:** `$ARGUMENTS` trong bước đó không
+được thay, và `model` / `effort` / `allowed-tools` khai trong frontmatter của bước đó không có hiệu lực.
 
 Điều kiện gate: [`rules/gates.md`](../rules/gates.md). Xong bước nào tick ô đó trong `## Flow-state`.
 

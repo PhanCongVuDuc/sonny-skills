@@ -1,6 +1,7 @@
 ---
 description: Step 2 of the feature flow. Write the spec and the contract for one feature into its feature doc — what it does, acceptance criteria, invariants, and every named failure mode. Does not plan and does not write code.
 argument-hint: <Feature> [mô tả ngắn việc cần làm]
+model: opus
 ---
 
 **Bước 2/6 — spec + contract.** Ghi hai section vào `docs/features/{Feature}.md`. `## Spec` sẽ bị xoá ở

@@ -1,6 +1,7 @@
 ---
 description: Wire sonny-flow into the current project. Everything it creates lives in one folder — .sonnyflow/ — plus three mandatory pointer lines in CLAUDE.md and .claude/settings.json. Idempotent; rerun any time to repair.
 argument-hint: (không có tham số)
+model: opus
 ---
 
 **Lắp sonny-flow vào project hiện tại.** Nguyên tắc một câu: **mọi thứ setup tạo đều nằm trong

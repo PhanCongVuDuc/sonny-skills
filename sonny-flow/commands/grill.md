@@ -1,6 +1,7 @@
 ---
 description: Step 1 of the feature flow. Interview the user in rounds until every open decision about the feature is settled, recording answers into the feature doc, the glossary and ADRs so the spec never has to guess.
 argument-hint: <Feature> [mô tả ngắn việc cần làm]
+model: opus
 ---
 
 **Bước 1/6 — grill.** Hỏi cho hết chỗ chưa rõ **trước khi** có chữ nào của spec. Thứ đã ghi vào file là
@@ -8,7 +9,7 @@ mặc định, và mặc định do AI đoán thì không ai đọc lại.
 
 ## Vào bước này cần gì
 
-Đã orient. Chưa thì chạy [`orient`](orient.md) tại đây trước — vòng hỏi đầu chỉ sắc khi đã biết code có
+Đã orient. Chưa thì gọi `Skill(sonny-flow:orient)` tại đây trước — vòng hỏi đầu chỉ sắc khi đã biết code có
 những abstraction nào, và hỏi người thứ mình tra được là sai nguyên tắc.
 
 ## Tạo feature doc + Flow-state

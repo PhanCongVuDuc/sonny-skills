@@ -1,6 +1,7 @@
 ---
 description: Step 5 of the feature flow. Run the project's own test command as the gate and report pass, fail, or not-verifiable. Never weakens a test to make it pass.
 argument-hint: <Feature>
+model: opus
 ---
 
 **Bước 5/6 — verify.** Cổng duy nhất quyết định "code có đúng không".

@@ -1,6 +1,7 @@
 ---
 description: Step 2 of the refactor flow. Build the safety net before any code moves — list every feature the refactor touches, find which tests already lock its behaviour, and write characterization tests for the ones that have none. Replaces the spec step, because a refactor has no new requirement.
 argument-hint: <mô tả refactor, hoặc bỏ trống nếu chỉ có một bản nháp ADR>
+model: opus
 ---
 
 **Bước 2/6 của flow refactor — baseline.** Dựng lưới an toàn **trước khi** động vào code.

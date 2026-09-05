@@ -1,6 +1,7 @@
 ---
 description: Step 0 of the feature flow. Build an accurate picture of the code a feature will touch, reading project docs then graphify then codegraph, and report the five things that must be known before any spec is written.
 argument-hint: <Feature> [mô tả ngắn việc cần làm]
+model: opus
 ---
 
 **Bước 0/6 — orient.** Hiểu code trước khi viết chữ nào. Spec viết mà chưa biết những abstraction nào
